@@ -1,0 +1,272 @@
+@page "/"
+@using TicketManagement.Core.Models
+@inject HttpClient Http
+@inject ILogger<Dashboard> Logger
+
+<PageTitle>Dashboard - Ticket Management</PageTitle>
+
+<div class="container-fluid">
+    <h1 class="h3 mb-4">Dashboard</h1>
+
+    @if (isLoading)
+    {
+        <div class="text-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <!-- Statistics Cards -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Total Tickets
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@totalTickets</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Resolved
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@resolvedTickets</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-check-circle fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    In Progress
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@inProgressTickets</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clock fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-danger shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                    Overdue
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@overdueTickets</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-exclamation-triangle fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Recent Tickets -->
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Recent Tickets</h6>
+                    </div>
+                    <div class="card-body">
+                        @if (recentTickets?.Any() == true)
+                        {
+                            <div class="table-responsive">
+                                <table class="table table-bordered" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Ticket #</th>
+                                            <th>Subject</th>
+                                            <th>Status</th>
+                                            <th>Priority</th>
+                                            <th>Created</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var ticket in recentTickets.Take(10))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <a href="/tickets/@ticket.Id" class="text-decoration-none">
+                                                        @ticket.TicketNumber
+                                                    </a>
+                                                </td>
+                                                <td>@ticket.Subject</td>
+                                                <td>
+                                                    <span class="badge @GetStatusBadgeClass(ticket.Status)">
+                                                        @ticket.Status
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge @GetPriorityBadgeClass(ticket.Priority)">
+                                                        @ticket.Priority
+                                                    </span>
+                                                </td>
+                                                <td>@ticket.CreatedAt.ToString("MM/dd/yyyy")</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">No recent tickets found.</p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Status Chart -->
+            <div class="col-lg-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Ticket Status</h6>
+                    </div>
+                    <div class="card-body">
+                        @if (ticketCounts != null)
+                        {
+                            <div class="chart-pie pt-4 pb-2">
+                                <canvas id="statusChart"></canvas>
+                            </div>
+                            <div class="mt-4 text-center small">
+                                @foreach (var count in ticketCounts)
+                                {
+                                    <span class="mr-2">
+                                        <i class="fas fa-circle @GetStatusColorClass(count.Key)"></i> @count.Key
+                                    </span>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private bool isLoading = true;
+    private int totalTickets = 0;
+    private int resolvedTickets = 0;
+    private int inProgressTickets = 0;
+    private int overdueTickets = 0;
+    private List<Ticket>? recentTickets;
+    private Dictionary<TicketStatus, int>? ticketCounts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await LoadDashboardData();
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error loading dashboard data");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task LoadDashboardData()
+    {
+        // Load ticket counts
+        var countsResponse = await Http.GetAsync("api/tickets/counts");
+        if (countsResponse.IsSuccessStatusCode)
+        {
+            ticketCounts = await countsResponse.Content.ReadFromJsonAsync<Dictionary<TicketStatus, int>>();
+            totalTickets = ticketCounts?.Values.Sum() ?? 0;
+            resolvedTickets = ticketCounts?.GetValueOrDefault(TicketStatus.Resolved, 0) ?? 0;
+            inProgressTickets = ticketCounts?.GetValueOrDefault(TicketStatus.InProgress, 0) ?? 0;
+        }
+
+        // Load recent tickets
+        var ticketsResponse = await Http.GetAsync("api/tickets");
+        if (ticketsResponse.IsSuccessStatusCode)
+        {
+            recentTickets = await ticketsResponse.Content.ReadFromJsonAsync<List<Ticket>>();
+        }
+
+        // Load overdue tickets
+        var overdueResponse = await Http.GetAsync("api/tickets/overdue");
+        if (overdueResponse.IsSuccessStatusCode)
+        {
+            var overdue = await overdueResponse.Content.ReadFromJsonAsync<List<Ticket>>();
+            overdueTickets = overdue?.Count ?? 0;
+        }
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "badge-secondary",
+            TicketStatus.InProgress => "badge-primary",
+            TicketStatus.InReview => "badge-info",
+            TicketStatus.Resolved => "badge-success",
+            TicketStatus.Blocked => "badge-warning",
+            TicketStatus.Closed => "badge-dark",
+            _ => "badge-secondary"
+        };
+    }
+
+    private string GetPriorityBadgeClass(TicketPriority priority)
+    {
+        return priority switch
+        {
+            TicketPriority.Low => "badge-success",
+            TicketPriority.Medium => "badge-warning",
+            TicketPriority.High => "badge-danger",
+            TicketPriority.Critical => "badge-dark",
+            _ => "badge-secondary"
+        };
+    }
+
+    private string GetStatusColorClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "text-secondary",
+            TicketStatus.InProgress => "text-primary",
+            TicketStatus.InReview => "text-info",
+            TicketStatus.Resolved => "text-success",
+            TicketStatus.Blocked => "text-warning",
+            TicketStatus.Closed => "text-dark",
+            _ => "text-secondary"
+        };
+    }
+} 

@@ -1,0 +1,538 @@
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+
+<div class="ticket-detail">
+    @if (IsLoading)
+    {
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando ticket...</p>
+        </div>
+    }
+    else if (Ticket == null)
+    {
+        <div class="alert alert-warning">
+            <h5>Ticket no encontrado</h5>
+            <p>El ticket solicitado no existe o no tienes permisos para verlo.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <!-- Información Principal del Ticket -->
+            <div class="col-lg-8">
+                <div class="card ticket-header">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                                <h2 class="ticket-title">#@Ticket.Id - @Ticket.Subject</h2>
+                                <div class="ticket-meta">
+                                    <span class="badge @GetStatusBadgeClass(Ticket.Status) me-2">
+                                        @GetStatusText(Ticket.Status)
+                                    </span>
+                                    <span class="badge @GetPriorityBadgeClass(Ticket.Priority) me-2">
+                                        @GetPriorityText(Ticket.Priority)
+                                    </span>
+                                    <span class="category-tag">@Ticket.Category</span>
+                                </div>
+                            </div>
+                            <div class="ticket-actions">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-outline-primary" @onclick="EditTicket">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    <button class="btn btn-outline-success" @onclick="ReplyToEmail">
+                                        <i class="fas fa-reply"></i> Responder
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row ticket-details">
+                            <div class="col-md-6">
+                                <strong>De:</strong> @Ticket.FromName (@Ticket.FromEmail)<br>
+                                <strong>Fecha:</strong> @Ticket.CreatedDate.ToString("dd/MM/yyyy HH:mm")<br>
+                                @if (!string.IsNullOrEmpty(Ticket.AssignedTo))
+                                {
+                                    <strong>Asignado a:</strong> <span class="assigned-user">@Ticket.AssignedTo</span><br>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                @if (Ticket.EstimatedHours.HasValue)
+                                {
+                                    <strong>Horas Estimadas:</strong> @Ticket.EstimatedHours.Value<br>
+                                }
+                                @if (Ticket.ResolvedDate.HasValue)
+                                {
+                                    <strong>Resuelto:</strong> @Ticket.ResolvedDate.Value.ToString("dd/MM/yyyy HH:mm")<br>
+                                }
+                                <strong>Última actualización:</strong> @Ticket.LastUpdated.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido del Email/Ticket -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h5><i class="fas fa-envelope"></i> Contenido del Email Original</h5>
+                    </div>
+                    <div class="card-body ticket-content">
+                        @if (!string.IsNullOrEmpty(Ticket.Body))
+                        {
+                            <div class="email-body">
+                                @((MarkupString)Ticket.Body)
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="text-muted">Sin contenido disponible</p>
+                        }
+                    </div>
+                </div>
+
+                <!-- Comentarios -->
+                <div class="card mt-3">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5><i class="fas fa-comments"></i> Comentarios (@Comments.Count)</h5>
+                        <button class="btn btn-sm btn-primary" @onclick="ShowAddCommentModal">
+                            <i class="fas fa-plus"></i> Agregar Comentario
+                        </button>
+                    </div>
+                    <div class="card-body">
+                        @if (!Comments.Any())
+                        {
+                            <p class="text-muted">No hay comentarios aún.</p>
+                        }
+                        else
+                        {
+                            <div class="comments-list">
+                                @foreach (var comment in Comments.OrderBy(c => c.CreatedDate))
+                                {
+                                    <div class="comment @(comment.IsSystemComment ? "system-comment" : "user-comment")">
+                                        <div class="comment-header">
+                                            <div class="d-flex justify-content-between">
+                                                <div>
+                                                    <strong>@comment.AuthorName</strong>
+                                                    @if (comment.IsSystemComment)
+                                                    {
+                                                        <span class="badge bg-info ms-2">Sistema</span>
+                                                    }
+                                                </div>
+                                                <small class="text-muted">@comment.CreatedDate.ToString("dd/MM/yyyy HH:mm")</small>
+                                            </div>
+                                        </div>
+                                        <div class="comment-body">
+                                            @comment.Comment
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <!-- Panel Lateral -->
+            <div class="col-lg-4">
+                <!-- Cambio de Estado -->
+                <div class="card">
+                    <div class="card-header">
+                        <h6><i class="fas fa-cogs"></i> Gestión del Ticket</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label">Estado</label>
+                            <select class="form-select" @onchange="OnStatusChange" value="@Ticket.Status">
+                                @foreach (TicketStatus status in Enum.GetValues<TicketStatus>())
+                                {
+                                    <option value="@status">@GetStatusText(status)</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Prioridad</label>
+                            <select class="form-select" @onchange="OnPriorityChange" value="@Ticket.Priority">
+                                @foreach (Priority priority in Enum.GetValues<Priority>())
+                                {
+                                    <option value="@priority">@GetPriorityText(priority)</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Asignar a</label>
+                            <input type="text" class="form-control" @bind="Ticket.AssignedTo" @onblur="SaveAssignment" 
+                                   placeholder="Nombre del asignado">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Horas Estimadas</label>
+                            <input type="number" class="form-control" @bind="Ticket.EstimatedHours" @onblur="SaveEstimation" 
+                                   min="0" step="0.5" placeholder="0.0">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Adicional -->
+                <div class="card mt-3">
+                    <div class="card-header">
+                        <h6><i class="fas fa-info-circle"></i> Información</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-item">
+                            <strong>ID del Email:</strong><br>
+                            <small class="text-muted">@Ticket.EmailId</small>
+                        </div>
+                        
+                        @if (!string.IsNullOrEmpty(Ticket.ConversationId))
+                        {
+                            <div class="info-item mt-2">
+                                <strong>ID de Conversación:</strong><br>
+                                <small class="text-muted">@Ticket.ConversationId</small>
+                            </div>
+                        }
+                        
+                        <div class="info-item mt-2">
+                            <strong>Creado:</strong> @Ticket.CreatedDate.ToString("dd/MM/yyyy HH:mm")<br>
+                            <strong>Actualizado:</strong> @Ticket.LastUpdated.ToString("dd/MM/yyyy HH:mm")
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- Modal para Agregar Comentario -->
+@if (ShowCommentModal)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Agregar Comentario</h5>
+                    <button type="button" class="btn-close" @onclick="CloseCommentModal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Comentario</label>
+                        <textarea class="form-control" rows="4" @bind="NewCommentText" 
+                                  placeholder="Escribe tu comentario..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" @onclick="CloseCommentModal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" @onclick="SaveComment" disabled="@string.IsNullOrWhiteSpace(NewCommentText)">
+                        Guardar Comentario
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<style>
+    .ticket-detail {
+        margin: 20px 0;
+    }
+
+    .ticket-header .ticket-title {
+        color: #2c3e50;
+        margin-bottom: 10px;
+    }
+
+    .ticket-meta .badge {
+        font-size: 0.9em;
+    }
+
+    .category-tag {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.85em;
+        font-weight: 500;
+    }
+
+    .assigned-user {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+
+    .ticket-details {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 15px;
+    }
+
+    .ticket-content .email-body {
+        background-color: #ffffff;
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 20px;
+        max-height: 400px;
+        overflow-y: auto;
+    }
+
+    .comments-list .comment {
+        border: 1px solid #e9ecef;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+    }
+
+    .comments-list .system-comment {
+        background-color: #f8f9fa;
+        border-left: 4px solid #6c757d;
+    }
+
+    .comments-list .user-comment {
+        background-color: #ffffff;
+        border-left: 4px solid #007bff;
+    }
+
+    .comment-header {
+        margin-bottom: 10px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .comment-body {
+        white-space: pre-wrap;
+        line-height: 1.5;
+    }
+
+    .info-item {
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .info-item:last-child {
+        border-bottom: none;
+    }
+
+    .card-header h5, .card-header h6 {
+        margin-bottom: 0;
+    }
+
+    .ticket-actions .btn-group .btn {
+        margin-right: 5px;
+    }
+
+    .modal.show {
+        display: block !important;
+    }
+</style>
+
+@code {
+    [Parameter] public int? TicketId { get; set; }
+    [Parameter] public Ticket? Ticket { get; set; }
+    [Parameter] public bool IsLoading { get; set; } = false;
+    [Parameter] public EventCallback<Ticket> OnTicketUpdated { get; set; }
+    [Parameter] public EventCallback OnBackToList { get; set; }
+
+    private List<TicketComment> Comments { get; set; } = new();
+    private bool ShowCommentModal { get; set; } = false;
+    private string NewCommentText { get; set; } = "";
+
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Ticket != null)
+        {
+            await LoadComments();
+        }
+    }
+
+    private async Task LoadComments()
+    {
+        if (Ticket?.Id != null)
+        {
+            // Aquí cargarías los comentarios desde el servicio
+            // Comments = await TicketService.GetCommentsAsync(Ticket.Id);
+            // Por ahora, simulamos algunos comentarios
+            Comments = new List<TicketComment>();
+        }
+    }
+
+    private async Task OnStatusChange(ChangeEventArgs e)
+    {
+        if (Ticket != null && Enum.TryParse<TicketStatus>(e.Value?.ToString(), out var newStatus))
+        {
+            var oldStatus = Ticket.Status;
+            Ticket.Status = newStatus;
+            Ticket.LastUpdated = DateTime.Now;
+            
+            if (newStatus == TicketStatus.Resolved && !Ticket.ResolvedDate.HasValue)
+            {
+                Ticket.ResolvedDate = DateTime.Now;
+            }
+
+            await OnTicketUpdated.InvokeAsync(Ticket);
+            
+            // Agregar comentario del sistema
+            await AddSystemComment($"Estado cambiado de {GetStatusText(oldStatus)} a {GetStatusText(newStatus)}");
+        }
+    }
+
+    private async Task OnPriorityChange(ChangeEventArgs e)
+    {
+        if (Ticket != null && Enum.TryParse<Priority>(e.Value?.ToString(), out var newPriority))
+        {
+            var oldPriority = Ticket.Priority;
+            Ticket.Priority = newPriority;
+            Ticket.LastUpdated = DateTime.Now;
+
+            await OnTicketUpdated.InvokeAsync(Ticket);
+            
+            // Agregar comentario del sistema
+            await AddSystemComment($"Prioridad cambiada de {GetPriorityText(oldPriority)} a {GetPriorityText(newPriority)}");
+        }
+    }
+
+    private async Task SaveAssignment()
+    {
+        if (Ticket != null)
+        {
+            Ticket.LastUpdated = DateTime.Now;
+            await OnTicketUpdated.InvokeAsync(Ticket);
+            
+            if (!string.IsNullOrEmpty(Ticket.AssignedTo))
+            {
+                await AddSystemComment($"Ticket asignado a {Ticket.AssignedTo}");
+            }
+        }
+    }
+
+    private async Task SaveEstimation()
+    {
+        if (Ticket != null)
+        {
+            Ticket.LastUpdated = DateTime.Now;
+            await OnTicketUpdated.InvokeAsync(Ticket);
+            
+            if (Ticket.EstimatedHours.HasValue)
+            {
+                await AddSystemComment($"Estimación actualizada a {Ticket.EstimatedHours} horas");
+            }
+        }
+    }
+
+    private void ShowAddCommentModal()
+    {
+        NewCommentText = "";
+        ShowCommentModal = true;
+    }
+
+    private void CloseCommentModal()
+    {
+        ShowCommentModal = false;
+        NewCommentText = "";
+    }
+
+    private async Task SaveComment()
+    {
+        if (!string.IsNullOrWhiteSpace(NewCommentText) && Ticket != null)
+        {
+            var comment = new TicketComment
+            {
+                TicketId = Ticket.Id,
+                Comment = NewCommentText.Trim(),
+                AuthorName = "Usuario Actual", // Aquí irías el usuario actual
+                CreatedDate = DateTime.Now,
+                IsSystemComment = false
+            };
+
+            Comments.Add(comment);
+            CloseCommentModal();
+            
+            // Aquí guardarías el comentario en la base de datos
+            // await TicketService.AddCommentAsync(comment);
+        }
+    }
+
+    private async Task AddSystemComment(string message)
+    {
+        var systemComment = new TicketComment
+        {
+            TicketId = Ticket?.Id ?? 0,
+            Comment = message,
+            AuthorName = "Sistema",
+            CreatedDate = DateTime.Now,
+            IsSystemComment = true
+        };
+
+        Comments.Add(systemComment);
+        
+        // Aquí guardarías el comentario del sistema
+        // await TicketService.AddCommentAsync(systemComment);
+    }
+
+    private void EditTicket()
+    {
+        // Implementar edición del ticket
+    }
+
+    private void ReplyToEmail()
+    {
+        // Implementar respuesta por email
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "bg-warning",
+            TicketStatus.InProgress => "bg-info",
+            TicketStatus.InReview => "bg-secondary",
+            TicketStatus.Resolved => "bg-success",
+            TicketStatus.Blocked => "bg-danger",
+            _ => "bg-light"
+        };
+    }
+
+    private string GetPriorityBadgeClass(Priority priority)
+    {
+        return priority switch
+        {
+            Priority.Low => "bg-success",
+            Priority.Medium => "bg-primary",
+            Priority.High => "bg-warning",
+            Priority.Critical => "bg-danger",
+            _ => "bg-light"
+        };
+    }
+
+    private string GetStatusText(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "Backlog",
+            TicketStatus.InProgress => "En Progreso",
+            TicketStatus.InReview => "En Revisión",
+            TicketStatus.Resolved => "Resuelto",
+            TicketStatus.Blocked => "Bloqueado",
+            _ => status.ToString()
+        };
+    }
+
+    private string GetPriorityText(Priority priority)
+    {
+        return priority switch
+        {
+            Priority.Low => "Baja",
+            Priority.Medium => "Media",
+            Priority.High => "Alta",
+            Priority.Critical => "Crítica",
+            _ => priority.ToString()
+        };
+    }
+}

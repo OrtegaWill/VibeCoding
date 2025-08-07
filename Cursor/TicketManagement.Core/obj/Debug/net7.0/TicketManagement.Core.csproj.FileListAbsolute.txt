@@ -1,0 +1,12 @@
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/bin/Debug/net7.0/TicketManagement.Core.deps.json
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/bin/Debug/net7.0/TicketManagement.Core.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/bin/Debug/net7.0/TicketManagement.Core.pdb
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.csproj.AssemblyReference.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.GeneratedMSBuildEditorConfig.editorconfig
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.AssemblyInfoInputs.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.AssemblyInfo.cs
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.csproj.CoreCompileInputs.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/refint/TicketManagement.Core.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/TicketManagement.Core.pdb
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/obj/Debug/net7.0/ref/TicketManagement.Core.dll

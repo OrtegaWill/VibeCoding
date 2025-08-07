@@ -1,0 +1,280 @@
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+
+<div class="ticket-list">
+    @if (IsLoading)
+    {
+        <div class="text-center p-4">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+            <p class="mt-2">Cargando tickets...</p>
+        </div>
+    }
+    else if (!Tickets.Any())
+    {
+        <div class="alert alert-info text-center">
+            <h5>No hay tickets disponibles</h5>
+            <p>No se encontraron tickets con los filtros aplicados.</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>ID</th>
+                        <th>Asunto</th>
+                        <th>Estado</th>
+                        <th>Prioridad</th>
+                        <th>Categoría</th>
+                        <th>De</th>
+                        <th>Asignado a</th>
+                        <th>Fecha</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ticket in Tickets)
+                    {
+                        <tr class="ticket-row @GetRowClass(ticket)">
+                            <td><strong>#@ticket.Id</strong></td>
+                            <td>
+                                <div class="ticket-subject" title="@ticket.Subject">
+                                    @(ticket.Subject.Length > 50 ? ticket.Subject.Substring(0, 50) + "..." : ticket.Subject)
+                                </div>
+                            </td>
+                            <td>
+                                <span class="badge @GetStatusBadgeClass(ticket.Status)">
+                                    @GetStatusText(ticket.Status)
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge @GetPriorityBadgeClass(ticket.Priority)">
+                                    @GetPriorityText(ticket.Priority)
+                                </span>
+                            </td>
+                            <td>
+                                <span class="category-tag">@ticket.Category</span>
+                            </td>
+                            <td>
+                                <div class="from-info">
+                                    <div class="from-name" title="@ticket.FromName">@ticket.FromName</div>
+                                    <small class="from-email text-muted">@ticket.FromEmail</small>
+                                </div>
+                            </td>
+                            <td>
+                                @if (!string.IsNullOrEmpty(ticket.AssignedTo))
+                                {
+                                    <span class="assigned-user">@ticket.AssignedTo</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Sin asignar</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="date-info">
+                                    <div>@ticket.CreatedDate.ToString("dd/MM/yyyy")</div>
+                                    <small class="text-muted">@ticket.CreatedDate.ToString("HH:mm")</small>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-sm btn-outline-primary" @onclick="() => OnViewTicket.InvokeAsync(ticket.Id)" 
+                                            title="Ver ticket">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-success" @onclick="() => ShowStatusModal(ticket)" 
+                                            title="Cambiar estado">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        @if (TotalPages > 1)
+        {
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @(CurrentPage <= 1 ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(CurrentPage - 1)" disabled="@(CurrentPage <= 1)">
+                            Anterior
+                        </button>
+                    </li>
+                    
+                    @for (int i = Math.Max(1, CurrentPage - 2); i <= Math.Min(TotalPages, CurrentPage + 2); i++)
+                    {
+                        <li class="page-item @(i == CurrentPage ? "active" : "")">
+                            <button class="page-link" @onclick="() => ChangePage(i)">@i</button>
+                        </li>
+                    }
+                    
+                    <li class="page-item @(CurrentPage >= TotalPages ? "disabled" : "")">
+                        <button class="page-link" @onclick="() => ChangePage(CurrentPage + 1)" disabled="@(CurrentPage >= TotalPages)">
+                            Siguiente
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        }
+    }
+</div>
+
+<style>
+    .ticket-list {
+        margin: 20px 0;
+    }
+
+    .ticket-row {
+        transition: background-color 0.2s ease;
+    }
+
+    .ticket-row:hover {
+        background-color: rgba(0,123,255,0.05) !important;
+    }
+
+    .ticket-row.high-priority {
+        border-left: 4px solid #dc3545;
+    }
+
+    .ticket-row.critical-priority {
+        border-left: 4px solid #dc3545;
+        background-color: rgba(220,53,69,0.05);
+    }
+
+    .ticket-subject {
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .from-info .from-name {
+        font-weight: 500;
+        max-width: 150px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .from-email {
+        font-size: 0.8em;
+    }
+
+    .category-tag {
+        background-color: #e9ecef;
+        color: #495057;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        font-weight: 500;
+    }
+
+    .assigned-user {
+        background-color: #d1ecf1;
+        color: #0c5460;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+
+    .date-info {
+        font-size: 0.9em;
+    }
+
+    .btn-group .btn {
+        margin-right: 2px;
+    }
+
+    .btn-group .btn i {
+        width: 12px;
+    }
+</style>
+
+@code {
+    [Parameter] public List<Ticket> Tickets { get; set; } = new();
+    [Parameter] public bool IsLoading { get; set; } = false;
+    [Parameter] public int CurrentPage { get; set; } = 1;
+    [Parameter] public int TotalPages { get; set; } = 1;
+    [Parameter] public EventCallback<int> OnPageChanged { get; set; }
+    [Parameter] public EventCallback<int> OnViewTicket { get; set; }
+    [Parameter] public EventCallback<Ticket> OnStatusChange { get; set; }
+
+    private void ChangePage(int newPage)
+    {
+        if (newPage >= 1 && newPage <= TotalPages && newPage != CurrentPage)
+        {
+            OnPageChanged.InvokeAsync(newPage);
+        }
+    }
+
+    private void ShowStatusModal(Ticket ticket)
+    {
+        OnStatusChange.InvokeAsync(ticket);
+    }
+
+    private string GetRowClass(Ticket ticket)
+    {
+        return ticket.Priority switch
+        {
+            Priority.Critical => "critical-priority",
+            Priority.High => "high-priority",
+            _ => ""
+        };
+    }
+
+    private string GetStatusBadgeClass(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "bg-warning",
+            TicketStatus.InProgress => "bg-info",
+            TicketStatus.InReview => "bg-secondary",
+            TicketStatus.Resolved => "bg-success",
+            TicketStatus.Blocked => "bg-danger",
+            _ => "bg-light"
+        };
+    }
+
+    private string GetPriorityBadgeClass(Priority priority)
+    {
+        return priority switch
+        {
+            Priority.Low => "bg-success",
+            Priority.Medium => "bg-primary",
+            Priority.High => "bg-warning",
+            Priority.Critical => "bg-danger",
+            _ => "bg-light"
+        };
+    }
+
+    private string GetStatusText(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "Backlog",
+            TicketStatus.InProgress => "En Progreso",
+            TicketStatus.InReview => "En Revisión",
+            TicketStatus.Resolved => "Resuelto",
+            TicketStatus.Blocked => "Bloqueado",
+            _ => status.ToString()
+        };
+    }
+
+    private string GetPriorityText(Priority priority)
+    {
+        return priority switch
+        {
+            Priority.Low => "Baja",
+            Priority.Medium => "Media",
+            Priority.High => "Alta",
+            Priority.Critical => "Crítica",
+            _ => priority.ToString()
+        };
+    }
+}

@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v7.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v7.0": {
+      "TicketManagement.Web/1.0.0": {
+        "dependencies": {
+          "TicketManagement.Core": "1.0.0"
+        },
+        "runtime": {
+          "TicketManagement.Web.dll": {}
+        }
+      },
+      "TicketManagement.Core/1.0.0": {
+        "runtime": {
+          "TicketManagement.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TicketManagement.Web/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TicketManagement.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

@@ -1,0 +1,17 @@
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.csproj.AssemblyReference.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.AssemblyInfoInputs.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.AssemblyInfo.cs
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.csproj.CoreCompileInputs.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/bin/Debug/net7.0/TicketManagement.Infrastructure.deps.json
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/bin/Debug/net7.0/TicketManagement.Infrastructure.runtimeconfig.json
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/bin/Debug/net7.0/TicketManagement.Infrastructure.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/bin/Debug/net7.0/TicketManagement.Infrastructure.pdb
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/bin/Debug/net7.0/TicketManagement.Core.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/bin/Debug/net7.0/TicketManagement.Core.pdb
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.csproj.CopyComplete
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/refint/TicketManagement.Infrastructure.dll
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.pdb
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/TicketManagement.Infrastructure.genruntimeconfig.cache
+/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Infrastructure/obj/Debug/net7.0/ref/TicketManagement.Infrastructure.dll

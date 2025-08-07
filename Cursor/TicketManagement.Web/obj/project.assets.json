@@ -1,0 +1,93 @@
+{
+  "version": 3,
+  "targets": {
+    "net7.0": {
+      "TicketManagement.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "compile": {
+          "bin/placeholder/TicketManagement.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/TicketManagement.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TicketManagement.Core/1.0.0": {
+      "type": "project",
+      "path": "../TicketManagement.Core/TicketManagement.Core.csproj",
+      "msbuildProject": "../TicketManagement.Core/TicketManagement.Core.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net7.0": [
+      "TicketManagement.Core >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/Users/won/.nuget/packages/": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Web/TicketManagement.Web.csproj",
+      "projectName": "TicketManagement.Web",
+      "projectPath": "/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Web/TicketManagement.Web.csproj",
+      "packagesPath": "/Users/won/.nuget/packages/",
+      "outputPath": "/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Web/obj/",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "/Users/won/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net7.0"
+      ],
+      "sources": {
+        "/usr/local/share/dotnet/sdk/7.0.317/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "projectReferences": {
+            "/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/TicketManagement.Core.csproj": {
+              "projectPath": "/Users/won/Documents/Cognizant/Vibe Coding/Cursor/TicketManagement.Core/TicketManagement.Core.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net7.0": {
+        "targetAlias": "net7.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

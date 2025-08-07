@@ -1,0 +1,114 @@
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+
+<div class="dashboard-stats">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="stat-card bg-primary">
+                <div class="stat-number">@Stats?.TotalTickets</div>
+                <div class="stat-label">Total Tickets</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stat-card bg-warning">
+                <div class="stat-number">@Stats?.BacklogTickets</div>
+                <div class="stat-label">Backlog</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stat-card bg-info">
+                <div class="stat-number">@Stats?.InProgressTickets</div>
+                <div class="stat-label">En Progreso</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stat-card bg-secondary">
+                <div class="stat-number">@Stats?.InReviewTickets</div>
+                <div class="stat-label">En Revisión</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stat-card bg-success">
+                <div class="stat-number">@Stats?.ResolvedTickets</div>
+                <div class="stat-label">Resueltos</div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="stat-card bg-danger">
+                <div class="stat-number">@Stats?.BlockedTickets</div>
+                <div class="stat-label">Bloqueados</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-3">
+        <div class="col-md-3">
+            <div class="stat-card bg-dark">
+                <div class="stat-number">@Stats?.HighPriorityTickets</div>
+                <div class="stat-label">Alta Prioridad</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card bg-light text-dark">
+                <div class="stat-number">@Stats?.UnassignedTickets</div>
+                <div class="stat-label">Sin Asignar</div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="stat-card bg-info">
+                <div class="stat-number">
+                    @if (Stats?.LastImportDate.HasValue == true)
+                    {
+                        @Stats.LastImportDate.Value.ToString("dd/MM/yyyy HH:mm")
+                    }
+                    else
+                    {
+                        <span>N/A</span>
+                    }
+                </div>
+                <div class="stat-label">Última Importación</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dashboard-stats {
+        margin: 20px 0;
+    }
+
+    .stat-card {
+        padding: 20px;
+        border-radius: 8px;
+        color: white;
+        text-align: center;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: transform 0.2s ease;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .stat-label {
+        font-size: 0.9em;
+        font-weight: 500;
+    }
+
+    .bg-light .stat-number,
+    .bg-light .stat-label {
+        color: #333 !important;
+    }
+</style>
+
+@code {
+    [Parameter] public Models.DashboardStats? Stats { get; set; }
+}

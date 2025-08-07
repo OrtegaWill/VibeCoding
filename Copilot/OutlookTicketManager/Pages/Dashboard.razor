@@ -1,0 +1,489 @@
+@page "/dashboard"
+@using OutlookTicketManager.Components.Tickets
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+@inject TicketManagerService TicketService
+@inject IJSRuntime JSRuntime
+@implements IDisposable
+
+<PageTitle>Dashboard - Gestión de Tickets</PageTitle>
+
+<div class="dashboard-container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="dashboard-title">
+            <i class="fas fa-tachometer-alt me-2"></i>
+            Dashboard de Tickets
+        </h1>
+        <div class="dashboard-actions">
+            <button class="btn btn-success me-2" @onclick="ImportEmails" disabled="@IsImporting">
+                @if (IsImporting)
+                {
+                    <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                }
+                <i class="fas fa-download me-1"></i>
+                Importar Emails
+            </button>
+            <button class="btn btn-outline-primary" @onclick="RefreshData">
+                <i class="fas fa-refresh me-1"></i>
+                Actualizar
+            </button>
+        </div>
+    </div>
+
+    <!-- Alertas y Mensajes -->
+    @if (!string.IsNullOrEmpty(AlertMessage))
+    {
+        <div class="alert @GetAlertClass() alert-dismissible fade show" role="alert">
+            @AlertMessage
+            <button type="button" class="btn-close" @onclick="ClearAlert"></button>
+        </div>
+    }
+
+    <!-- Estadísticas del Dashboard -->
+    <DashboardStats Stats="@DashboardStatistics" />
+
+    <!-- Filtros de Tickets -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row align-items-end">
+                <div class="col-md-3">
+                    <label class="form-label">Estado</label>
+                    <select class="form-select" @bind="FilterStatus" @bind:after="OnFilterChanged">
+                        <option value="">Todos los estados</option>
+                        @foreach (TicketStatus status in Enum.GetValues<TicketStatus>())
+                        {
+                            <option value="@status">@GetStatusText(status)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Prioridad</label>
+                    <select class="form-select" @bind="FilterPriority" @bind:after="OnFilterChanged">
+                        <option value="">Todas las prioridades</option>
+                        @foreach (Priority priority in Enum.GetValues<Priority>())
+                        {
+                            <option value="@priority">@GetPriorityText(priority)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Asignado a</label>
+                    <input type="text" class="form-control" @bind="FilterAssignee" @bind:after="OnFilterChanged" placeholder="Buscar por asignado">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Buscar</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" @bind="SearchText" @bind:after="OnFilterChanged" placeholder="Buscar en asunto o contenido">
+                        <button class="btn btn-outline-secondary" type="button" @onclick="ClearFilters">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vista de Tickets -->
+    @if (ShowTicketDetail && SelectedTicket != null)
+    {
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>Detalle del Ticket</h5>
+                        <button class="btn btn-sm btn-outline-secondary" @onclick="CloseTicketDetail">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Volver a la lista
+                        </button>
+                    </div>
+                    <div class="card-body p-0">
+                        <TicketDetail Ticket="@SelectedTicket" 
+                                    IsLoading="@IsLoadingTicketDetail"
+                                    OnTicketUpdated="@OnTicketUpdated" 
+                                    OnBackToList="@CloseTicketDetail" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <!-- Lista de Tickets -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5>
+                    <i class="fas fa-list me-2"></i>
+                    Tickets (@TotalTicketCount)
+                </h5>
+                <div class="view-options">
+                    <div class="btn-group" role="group">
+                        <button class="btn @(ViewMode == "list" ? "btn-primary" : "btn-outline-primary") btn-sm" 
+                                @onclick="@(() => SetViewMode("list"))">
+                            <i class="fas fa-list"></i>
+                        </button>
+                        <button class="btn @(ViewMode == "kanban" ? "btn-primary" : "btn-outline-primary") btn-sm" 
+                                @onclick="@(() => SetViewMode("kanban"))">
+                            <i class="fas fa-columns"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @if (ViewMode == "list")
+                {
+                    <TicketList Tickets="@FilteredTickets" 
+                              IsLoading="@IsLoadingTickets"
+                              CurrentPage="@CurrentPage"
+                              TotalPages="@TotalPages"
+                              OnPageChanged="@OnPageChanged"
+                              OnViewTicket="@OnViewTicket"
+                              OnStatusChange="@OnTicketStatusChange" />
+                }
+                else
+                {
+                    <!-- Vista Kanban placeholder -->
+                    <div class="text-center py-5">
+                        <i class="fas fa-columns fa-3x text-muted mb-3"></i>
+                        <h5>Vista Kanban</h5>
+                        <p class="text-muted">La vista Kanban estará disponible próximamente</p>
+                        <button class="btn btn-primary" @onclick='() => SetViewMode("list")'>>
+                            Ver en Lista
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .dashboard-container {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .dashboard-title {
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    .dashboard-actions .btn {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .card {
+        border: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        border-radius: 12px;
+    }
+
+    .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+        font-weight: 600;
+        border-radius: 12px 12px 0 0 !important;
+    }
+
+    .view-options .btn-group .btn {
+        padding: 6px 12px;
+    }
+
+    .alert {
+        border: none;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .spinner-border-sm {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    @@media (max-width: 768px) {
+        .dashboard-container {
+            padding: 10px;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .dashboard-actions .btn {
+            width: 100%;
+        }
+    }
+</style>
+
+@code {
+    // Estados de la vista
+    private bool IsLoadingTickets { get; set; } = false;
+    private bool IsLoadingTicketDetail { get; set; } = false;
+    private bool IsImporting { get; set; } = false;
+    private bool ShowTicketDetail { get; set; } = false;
+    private string ViewMode { get; set; } = "list";
+
+    // Datos
+    private List<Ticket> AllTickets { get; set; } = new();
+    private List<Ticket> FilteredTickets { get; set; } = new();
+    private Ticket? SelectedTicket { get; set; }
+    private Models.DashboardStats DashboardStatistics { get; set; } = new();
+
+    // Filtros y paginación
+    private string FilterStatus { get; set; } = "";
+    private string FilterPriority { get; set; } = "";
+    private string FilterAssignee { get; set; } = "";
+    private string SearchText { get; set; } = "";
+    private int CurrentPage { get; set; } = 1;
+    private int PageSize { get; set; } = 20;
+    private int TotalPages { get; set; } = 1;
+    private int TotalTicketCount { get; set; } = 0;
+
+    // Alertas
+    private string AlertMessage { get; set; } = "";
+    private string AlertType { get; set; } = "info";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshData();
+    }
+
+    private async Task RefreshData()
+    {
+        IsLoadingTickets = true;
+        try
+        {
+            // Cargar estadísticas del dashboard
+            DashboardStatistics = await TicketService.GetDashboardStatsAsync();
+            
+            // Cargar todos los tickets
+            AllTickets = await TicketService.GetAllTicketsAsync();
+            
+            // Aplicar filtros
+            ApplyFilters();
+            
+            ShowAlert("Datos actualizados correctamente", "success");
+        }
+        catch (Exception ex)
+        {
+            ShowAlert($"Error al cargar datos: {ex.Message}", "danger");
+        }
+        finally
+        {
+            IsLoadingTickets = false;
+        }
+    }
+
+    private async Task ImportEmails()
+    {
+        IsImporting = true;
+        try
+        {
+            var importedCount = await TicketService.ImportEmailsAsync();
+            
+            if (importedCount > 0)
+            {
+                ShowAlert($"Se importaron {importedCount} emails correctamente", "success");
+                await RefreshData();
+            }
+            else
+            {
+                ShowAlert("No se encontraron nuevos emails para importar", "info");
+            }
+        }
+        catch (Exception ex)
+        {
+            ShowAlert($"Error al importar emails: {ex.Message}", "danger");
+        }
+        finally
+        {
+            IsImporting = false;
+        }
+    }
+
+    private void ApplyFilters()
+    {
+        var filtered = AllTickets.AsQueryable();
+
+        if (!string.IsNullOrEmpty(FilterStatus) && Enum.TryParse<TicketStatus>(FilterStatus, out var status))
+        {
+            filtered = filtered.Where(t => t.Status == status);
+        }
+
+        if (!string.IsNullOrEmpty(FilterPriority) && Enum.TryParse<Priority>(FilterPriority, out var priority))
+        {
+            filtered = filtered.Where(t => t.Priority == priority);
+        }
+
+        if (!string.IsNullOrEmpty(FilterAssignee))
+        {
+            filtered = filtered.Where(t => !string.IsNullOrEmpty(t.AssignedTo) && 
+                                         t.AssignedTo.Contains(FilterAssignee, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!string.IsNullOrEmpty(SearchText))
+        {
+            filtered = filtered.Where(t => t.Subject.Contains(SearchText, StringComparison.OrdinalIgnoreCase) ||
+                                         (!string.IsNullOrEmpty(t.Body) && t.Body.Contains(SearchText, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        var filteredList = filtered.ToList();
+        TotalTicketCount = filteredList.Count;
+        TotalPages = (int)Math.Ceiling((double)TotalTicketCount / PageSize);
+
+        // Aplicar paginación
+        FilteredTickets = filteredList
+            .Skip((CurrentPage - 1) * PageSize)
+            .Take(PageSize)
+            .ToList();
+    }
+
+    private async Task OnFilterChanged()
+    {
+        CurrentPage = 1;
+        ApplyFilters();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void ClearFilters()
+    {
+        FilterStatus = "";
+        FilterPriority = "";
+        FilterAssignee = "";
+        SearchText = "";
+        CurrentPage = 1;
+        ApplyFilters();
+    }
+
+    private async Task OnPageChanged(int newPage)
+    {
+        CurrentPage = newPage;
+        ApplyFilters();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnViewTicket(int ticketId)
+    {
+        IsLoadingTicketDetail = true;
+        try
+        {
+            SelectedTicket = await TicketService.GetTicketByIdAsync(ticketId);
+            ShowTicketDetail = true;
+        }
+        catch (Exception ex)
+        {
+            ShowAlert($"Error al cargar el ticket: {ex.Message}", "danger");
+        }
+        finally
+        {
+            IsLoadingTicketDetail = false;
+        }
+    }
+
+    private async Task OnTicketUpdated(Ticket updatedTicket)
+    {
+        try
+        {
+            await TicketService.UpdateTicketAsync(updatedTicket);
+            
+            // Actualizar el ticket en la lista
+            var index = AllTickets.FindIndex(t => t.Id == updatedTicket.Id);
+            if (index >= 0)
+            {
+                AllTickets[index] = updatedTicket;
+            }
+            
+            ApplyFilters();
+            ShowAlert("Ticket actualizado correctamente", "success");
+        }
+        catch (Exception ex)
+        {
+            ShowAlert($"Error al actualizar el ticket: {ex.Message}", "danger");
+        }
+    }
+
+    private void OnTicketStatusChange(Ticket ticket)
+    {
+        // Esta función se llamará desde la lista cuando se quiera cambiar el estado
+        SelectedTicket = ticket;
+        ShowTicketDetail = true;
+    }
+
+    private void CloseTicketDetail()
+    {
+        ShowTicketDetail = false;
+        SelectedTicket = null;
+    }
+
+    private void SetViewMode(string mode)
+    {
+        ViewMode = mode;
+    }
+
+    private void ShowAlert(string message, string type)
+    {
+        AlertMessage = message;
+        AlertType = type;
+        
+        // Auto-ocultar después de 5 segundos
+        _ = Task.Run(async () =>
+        {
+            await Task.Delay(5000);
+            await InvokeAsync(() =>
+            {
+                ClearAlert();
+                StateHasChanged();
+            });
+        });
+    }
+
+    private void ClearAlert()
+    {
+        AlertMessage = "";
+        AlertType = "info";
+    }
+
+    private string GetAlertClass()
+    {
+        return AlertType switch
+        {
+            "success" => "alert-success",
+            "danger" => "alert-danger",
+            "warning" => "alert-warning",
+            _ => "alert-info"
+        };
+    }
+
+    private string GetStatusText(TicketStatus status)
+    {
+        return status switch
+        {
+            TicketStatus.Backlog => "Backlog",
+            TicketStatus.InProgress => "En Progreso",
+            TicketStatus.InReview => "En Revisión",
+            TicketStatus.Resolved => "Resuelto",
+            TicketStatus.Blocked => "Bloqueado",
+            _ => status.ToString()
+        };
+    }
+
+    private string GetPriorityText(Priority priority)
+    {
+        return priority switch
+        {
+            Priority.Low => "Baja",
+            Priority.Medium => "Media",
+            Priority.High => "Alta",
+            Priority.Critical => "Crítica",
+            _ => priority.ToString()
+        };
+    }
+
+    public void Dispose()
+    {
+        // Limpieza de recursos si es necesario
+    }
+}
