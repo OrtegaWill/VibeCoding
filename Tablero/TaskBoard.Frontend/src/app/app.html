@@ -1,0 +1,37 @@
+<div class="app-container">
+  <!-- Navigation Header -->
+  <nav class="navbar">
+    <div class="nav-brand">
+      <h1>TaskBoard</h1>
+      <span class="brand-subtitle">Gestión de Sprints</span>
+    </div>
+    
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a routerLink="/dashboard" routerLinkActive="active" class="nav-link">
+          📊 Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/kanban" routerLinkActive="active" class="nav-link">
+          📋 Kanban
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/backlog" routerLinkActive="active" class="nav-link">
+          📝 Backlog
+        </a>
+      </li>
+      <li class="nav-item">
+        <a routerLink="/sprints" routerLinkActive="active" class="nav-link">
+          🏃‍♂️ Sprints
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

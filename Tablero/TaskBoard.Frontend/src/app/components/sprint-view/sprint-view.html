@@ -1,0 +1,373 @@
+<div class="sprint-view-container">
+  <!-- Header con selector de sprint -->
+  <div class="sprint-header">
+    <div class="header-content">
+      <div class="sprint-selector">
+        <label for="sprintSelect">Sprint:</label>
+        <select id="sprintSelect" 
+                [(ngModel)]="selectedSprintId" 
+                (change)="onSprintChange()" 
+                class="sprint-select">
+          <option *ngFor="let sprint of sprints" [value]="sprint.id">
+            {{sprint.name}} ({{sprint.status}})
+          </option>
+        </select>
+      </div>
+      
+      <div class="header-actions" *ngIf="sprint">
+        <button class="btn btn-secondary" (click)="showEditSprintModal = true">
+          ✏️ Editar Sprint
+        </button>
+        <button class="btn btn-primary" (click)="showCreateTaskModal = true">
+          ➕ Nueva Tarea
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sprint Info Dashboard -->
+  <div class="sprint-dashboard" *ngIf="sprint">
+    <div class="sprint-info-card">
+      <div class="sprint-details">
+        <h1 class="sprint-name">{{sprint.name}}</h1>
+        <p class="sprint-description" *ngIf="sprint.goal">{{sprint.goal}}</p>
+        <div class="sprint-meta">
+          <span class="sprint-status" [class]="getSprintStatusClass(sprint.status)">
+            {{sprint.status}}
+          </span>
+          <span class="sprint-dates" *ngIf="sprint.startDate && sprint.endDate">
+            {{sprint.startDate | date:'dd/MM/yyyy'}} - {{sprint.endDate | date:'dd/MM/yyyy'}}
+          </span>
+        </div>
+      </div>
+      
+      <div class="sprint-actions">
+        <button *ngIf="sprint.status === SprintStatus.Planned" 
+                class="btn btn-success" 
+                (click)="startSprint()">
+          🚀 Iniciar Sprint
+        </button>
+        <button *ngIf="sprint.status === SprintStatus.Active" 
+                class="btn btn-warning" 
+                (click)="completeSprint()">
+          ✅ Completar Sprint
+        </button>
+      </div>
+    </div>
+
+    <!-- Métricas del sprint -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-value">{{sprintTasks.length}}</div>
+        <div class="metric-label">Total Tareas</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">{{getTasksByStatus(TaskStatus.Done).length}}</div>
+        <div class="metric-label">Completadas</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">{{sprintProgress}}%</div>
+        <div class="metric-label">Progreso</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-value">{{completedStoryPoints}}/{{totalStoryPoints}}</div>
+        <div class="metric-label">Story Points</div>
+      </div>
+    </div>
+
+    <!-- Barra de progreso -->
+    <div class="progress-section">
+      <div class="progress-header">
+        <h3>Progreso del Sprint</h3>
+        <span class="progress-percentage">{{sprintProgress}}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="sprintProgress"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" *ngIf="sprint">
+    <div class="content-tabs">
+      <!-- Tablero Kanban Simplificado -->
+      <div class="kanban-section">
+        <h2>Tareas del Sprint</h2>
+        <div class="kanban-board">
+          <!-- To Do Column -->
+          <div class="kanban-column">
+            <div class="column-header">
+              <h3>Por Hacer</h3>
+              <span class="task-count">{{getTasksByStatus(TaskStatus.Todo).length}}</span>
+            </div>
+            <div class="task-list">
+              <div *ngFor="let task of getTasksByStatus(TaskStatus.Todo)" 
+                   class="task-card"
+                   [class]="getPriorityClass(task.priority)">
+                <div class="task-header">
+                  <h4>{{task.title}}</h4>
+                  <div class="task-actions">
+                    <button class="btn-icon" (click)="updateTaskStatus(task, TaskStatus.InProgress)">▶️</button>
+                    <button class="btn-icon" (click)="deleteTask(task)">🗑️</button>
+                  </div>
+                </div>
+                <p *ngIf="task.description" class="task-description">{{task.description}}</p>
+                <div class="task-meta">
+                  <span class="priority-badge" [class]="getPriorityClass(task.priority)">
+                    {{task.priority}}
+                  </span>
+                  <span class="assignee" *ngIf="task.assignedTo">{{task.assignedTo}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- In Progress Column -->
+          <div class="kanban-column">
+            <div class="column-header">
+              <h3>En Progreso</h3>
+              <span class="task-count">{{getTasksByStatus(TaskStatus.InProgress).length}}</span>
+            </div>
+            <div class="task-list">
+              <div *ngFor="let task of getTasksByStatus(TaskStatus.InProgress)" 
+                   class="task-card in-progress"
+                   [class]="getPriorityClass(task.priority)">
+                <div class="task-header">
+                  <h4>{{task.title}}</h4>
+                  <div class="task-actions">
+                    <button class="btn-icon" (click)="updateTaskStatus(task, TaskStatus.Todo)">⏪</button>
+                    <button class="btn-icon" (click)="updateTaskStatus(task, TaskStatus.Review)">⏩</button>
+                    <button class="btn-icon" (click)="deleteTask(task)">🗑️</button>
+                  </div>
+                </div>
+                <p *ngIf="task.description" class="task-description">{{task.description}}</p>
+                <div class="task-meta">
+                  <span class="priority-badge" [class]="getPriorityClass(task.priority)">
+                    {{task.priority}}
+                  </span>
+                  <span class="assignee" *ngIf="task.assignedTo">{{task.assignedTo}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Review Column -->
+          <div class="kanban-column">
+            <div class="column-header">
+              <h3>En Revisión</h3>
+              <span class="task-count">{{getTasksByStatus(TaskStatus.Review).length}}</span>
+            </div>
+            <div class="task-list">
+              <div *ngFor="let task of getTasksByStatus(TaskStatus.Review)" 
+                   class="task-card in-review"
+                   [class]="getPriorityClass(task.priority)">
+                <div class="task-header">
+                  <h4>{{task.title}}</h4>
+                  <div class="task-actions">
+                    <button class="btn-icon" (click)="updateTaskStatus(task, TaskStatus.InProgress)">⏪</button>
+                    <button class="btn-icon" (click)="updateTaskStatus(task, TaskStatus.Done)">✅</button>
+                    <button class="btn-icon" (click)="deleteTask(task)">🗑️</button>
+                  </div>
+                </div>
+                <p *ngIf="task.description" class="task-description">{{task.description}}</p>
+                <div class="task-meta">
+                  <span class="priority-badge" [class]="getPriorityClass(task.priority)">
+                    {{task.priority}}
+                  </span>
+                  <span class="assignee" *ngIf="task.assignedTo">{{task.assignedTo}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Done Column -->
+          <div class="kanban-column">
+            <div class="column-header">
+              <h3>Completadas</h3>
+              <span class="task-count">{{getTasksByStatus(TaskStatus.Done).length}}</span>
+            </div>
+            <div class="task-list">
+              <div *ngFor="let task of getTasksByStatus(TaskStatus.Done)" 
+                   class="task-card completed"
+                   [class]="getPriorityClass(task.priority)">
+                <div class="task-header">
+                  <h4>{{task.title}}</h4>
+                  <div class="task-actions">
+                    <button class="btn-icon" (click)="updateTaskStatus(task, TaskStatus.Review)">⏪</button>
+                    <button class="btn-icon" (click)="deleteTask(task)">🗑️</button>
+                  </div>
+                </div>
+                <p *ngIf="task.description" class="task-description">{{task.description}}</p>
+                <div class="task-meta">
+                  <span class="priority-badge" [class]="getPriorityClass(task.priority)">
+                    {{task.priority}}
+                  </span>
+                  <span class="assignee" *ngIf="task.assignedTo">{{task.assignedTo}}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sección de comentarios -->
+    <div class="comments-section">
+      <div class="comments-header">
+        <h3>Comentarios del Sprint</h3>
+        <button class="btn btn-ghost" (click)="showCommentSection = !showCommentSection">
+          {{showCommentSection ? '👁️ Ocultar' : '💬 Mostrar'}} Comentarios
+        </button>
+      </div>
+
+      <div class="comments-content" *ngIf="showCommentSection">
+        <!-- Formulario para nuevo comentario -->
+        <div class="comment-form">
+          <textarea [(ngModel)]="newComment.content" 
+                    placeholder="Agregar un comentario al sprint..."
+                    class="comment-input"></textarea>
+          <button class="btn btn-primary" 
+                  (click)="addComment()"
+                  [disabled]="!newComment.content">
+            💬 Comentar
+          </button>
+        </div>
+
+        <!-- Lista de comentarios -->
+        <div class="comments-list">
+          <div *ngIf="sprintComments.length === 0" class="no-comments">
+            <p>No hay comentarios en este sprint aún.</p>
+          </div>
+          
+          <div *ngFor="let comment of sprintComments" class="comment-item">
+            <div class="comment-header">
+              <span class="comment-author">{{comment.author}}</span>
+              <span class="comment-date">{{comment.createdAt | date:'dd/MM/yyyy HH:mm'}}</span>
+            </div>
+            <div class="comment-content">{{comment.content}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Estado vacío cuando no hay sprint seleccionado -->
+  <div class="empty-state" *ngIf="!sprint && sprints.length === 0">
+    <div class="empty-icon">🚀</div>
+    <h3>No hay sprints disponibles</h3>
+    <p>Crea tu primer sprint desde el Dashboard para comenzar.</p>
+  </div>
+</div>
+
+<!-- Modal para crear tarea -->
+<div class="modal-overlay" *ngIf="showCreateTaskModal" (click)="showCreateTaskModal = false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Nueva Tarea en {{sprint?.name}}</h2>
+      <button class="btn-close" (click)="showCreateTaskModal = false">×</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="createTask()">
+        <div class="form-group">
+          <label>Título *</label>
+          <input type="text" [(ngModel)]="newTask.title" name="title" required class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Descripción</label>
+          <textarea [(ngModel)]="newTask.description" name="description" rows="3" class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Prioridad</label>
+            <select [(ngModel)]="newTask.priority" name="priority" class="form-select">
+              <option [value]="TaskPriority.Low">Baja</option>
+              <option [value]="TaskPriority.Medium">Media</option>
+              <option [value]="TaskPriority.High">Alta</option>
+              <option [value]="TaskPriority.Critical">Crítica</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Estado inicial</label>
+            <select [(ngModel)]="newTask.status" name="status" class="form-select">
+              <option [value]="TaskStatus.Todo">Por Hacer</option>
+              <option [value]="TaskStatus.InProgress">En Progreso</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Asignado a</label>
+          <input type="text" [(ngModel)]="newTask.assignedTo" name="assignedTo" class="form-input" placeholder="Usuario">
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="showCreateTaskModal = false">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary" [disabled]="!newTask.title">
+            Crear Tarea
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar sprint -->
+<div class="modal-overlay" *ngIf="showEditSprintModal" (click)="showEditSprintModal = false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Editar Sprint</h2>
+      <button class="btn-close" (click)="showEditSprintModal = false">×</button>
+    </div>
+
+    <div class="modal-body" *ngIf="sprint">
+      <form (ngSubmit)="updateSprint()">
+        <div class="form-group">
+          <label>Nombre del Sprint *</label>
+          <input type="text" [(ngModel)]="sprint.name" name="name" required class="form-input">
+        </div>
+
+        <div class="form-group">
+          <label>Objetivo del Sprint</label>
+          <textarea [(ngModel)]="sprint.goal" name="goal" rows="3" class="form-textarea"></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Fecha de Inicio</label>
+            <input type="date" [(ngModel)]="sprint.startDate" name="startDate" class="form-input">
+          </div>
+
+          <div class="form-group">
+            <label>Fecha de Fin</label>
+            <input type="date" [(ngModel)]="sprint.endDate" name="endDate" class="form-input">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Estado</label>
+          <select [(ngModel)]="sprint.status" name="status" class="form-select">
+            <option [value]="SprintStatus.Planned">Planificado</option>
+            <option [value]="SprintStatus.Active">Activo</option>
+            <option [value]="SprintStatus.Completed">Completado</option>
+            <option [value]="SprintStatus.Cancelled">Cancelado</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" class="btn btn-secondary" (click)="showEditSprintModal = false">
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary">
+            Actualizar Sprint
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

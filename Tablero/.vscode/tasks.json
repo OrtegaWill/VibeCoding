@@ -1,0 +1,30 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run TaskBoard API",
+			"type": "shell",
+			"command": "dotnet",
+			"args": ["run"],
+			"options": {
+				"cwd": "${workspaceFolder}/TaskBoard.API/TaskBoard.API"
+			},
+			"isBackground": true,
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Run TaskBoard Frontend",
+			"type": "shell",
+			"command": "npx",
+			"args": ["ng", "serve"],
+			"options": {
+				"cwd": "${workspaceFolder}/TaskBoard.Frontend"
+			},
+			"isBackground": true,
+			"group": "build"
+		}
+	]
+}

@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskBoard.API", "TaskBoard.API", "{4DD2D566-E69A-6C7E-39DC-B11E36E22957}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskBoard.API", "TaskBoard.API\TaskBoard.API\TaskBoard.API.csproj", "{13FCAB75-D199-BECC-1E1C-5E7BC70AAD9F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13FCAB75-D199-BECC-1E1C-5E7BC70AAD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13FCAB75-D199-BECC-1E1C-5E7BC70AAD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13FCAB75-D199-BECC-1E1C-5E7BC70AAD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13FCAB75-D199-BECC-1E1C-5E7BC70AAD9F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13FCAB75-D199-BECC-1E1C-5E7BC70AAD9F} = {4DD2D566-E69A-6C7E-39DC-B11E36E22957}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8FF2C97C-725B-40F9-AD9F-DC06499723E0}
+	EndGlobalSection
+EndGlobal
