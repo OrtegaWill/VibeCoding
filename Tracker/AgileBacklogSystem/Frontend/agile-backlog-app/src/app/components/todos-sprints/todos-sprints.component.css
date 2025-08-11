@@ -1,0 +1,175 @@
+.spacer {
+  flex: 1 1 auto;
+}
+
+.sprints-container {
+  padding: 20px;
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 64px;
+  width: 64px;
+  height: 64px;
+  color: #999;
+  margin-bottom: 16px;
+}
+
+.sprints-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tab-content {
+  padding: 20px 0;
+}
+
+.tab-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+  color: #666;
+}
+
+.tab-empty-state mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 16px;
+}
+
+.sprints-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.sprint-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.sprint-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.active-sprint {
+  border-left: 4px solid #4caf50;
+}
+
+.planned-sprint {
+  border-left: 4px solid #ff9800;
+}
+
+.completed-sprint {
+  border-left: 4px solid #2196f3;
+}
+
+.sprint-description {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.sprint-dates {
+  margin-bottom: 16px;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.date-item mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.overdue {
+  color: #f44336;
+}
+
+.overdue-text {
+  color: #f44336;
+  font-weight: 500;
+}
+
+.sprint-stats {
+  display: flex;
+  justify-content: space-around;
+  margin: 16px 0;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+.progress-container {
+  margin-top: 12px;
+}
+
+mat-chip {
+  font-size: 11px;
+  color: white;
+  font-weight: 500;
+}
+
+/* Tab customization */
+::ng-deep .mat-mdc-tab-group {
+  --mat-tab-header-active-label-text-color: #1976d2;
+  --mat-tab-header-inactive-label-text-color: #666;
+}
+
+::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Badge customization */
+::ng-deep .mat-badge-content {
+  font-size: 11px;
+  font-weight: 500;
+}

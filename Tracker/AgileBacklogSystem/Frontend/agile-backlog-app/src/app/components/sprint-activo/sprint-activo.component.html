@@ -1,0 +1,177 @@
+<mat-toolbar color="primary">
+  <span>Sprint Activo</span>
+  <span class="spacer"></span>
+  <button mat-button *ngIf="sprintActivo" (click)="onFinalizarSprint()">
+    <mat-icon>stop</mat-icon>
+    Finalizar Sprint
+  </button>
+</mat-toolbar>
+
+<div class="sprint-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando sprint activo...</p>
+  </div>
+
+  <div *ngIf="!loading && !sprintActivo" class="empty-state">
+    <mat-icon class="empty-icon">play_circle_outline</mat-icon>
+    <h2>No hay sprint activo</h2>
+    <p>Para comenzar un sprint, ve a la vista de "Todos los Sprints" y activa uno</p>
+  </div>
+
+  <div *ngIf="!loading && sprintActivo" class="sprint-active">
+    <!-- Sprint Header -->
+    <mat-card class="sprint-header-card">
+      <mat-card-header>
+        <div mat-card-avatar>
+          <mat-icon [class.overdue]="isSprintOverdue()">schedule</mat-icon>
+        </div>
+        <mat-card-title>{{ sprintActivo.nombre }}</mat-card-title>
+        <mat-card-subtitle>
+          Sprint activo • {{ getDaysRemaining() }} días restantes
+          <span *ngIf="isSprintOverdue()" class="overdue-text">(Vencido)</span>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p>{{ sprintActivo.descripcion || 'Sin descripción' }}</p>
+        <div class="sprint-dates">
+          <div class="date-item">
+            <mat-icon>play_arrow</mat-icon>
+            <span>Inicio: {{ sprintActivo.fechaInicio | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="date-item">
+            <mat-icon>stop</mat-icon>
+            <span>Fin: {{ sprintActivo.fechaFin | date:'dd/MM/yyyy' }}</span>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Sprint Statistics -->
+    <div class="stats-grid">
+      <mat-card class="stat-card">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-value">{{ totalTareas }}</div>
+            <div class="stat-label">Total Tareas</div>
+          </div>
+          <mat-icon class="stat-icon">assignment</mat-icon>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card completed">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-value">{{ tareasCompletadas }}</div>
+            <div class="stat-label">Completadas</div>
+          </div>
+          <mat-icon class="stat-icon">check_circle</mat-icon>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card in-progress">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-value">{{ tareasEnProgreso }}</div>
+            <div class="stat-label">En Progreso</div>
+          </div>
+          <mat-icon class="stat-icon">pending</mat-icon>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="stat-card pending">
+        <mat-card-content>
+          <div class="stat-content">
+            <div class="stat-value">{{ tareasPendientes }}</div>
+            <div class="stat-label">Pendientes</div>
+          </div>
+          <mat-icon class="stat-icon">schedule</mat-icon>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Progress Section -->
+    <mat-card class="progress-card">
+      <mat-card-header>
+        <mat-card-title>Progreso del Sprint</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="progress-info">
+          <span>{{ progreso.toFixed(1) }}% completado</span>
+          <span>{{ horasCompletadas }}h de {{ horasEstimadasTotal }}h</span>
+        </div>
+        <mat-progress-bar 
+          mode="determinate" 
+          [value]="progreso"
+          [color]="progreso >= 100 ? 'accent' : 'primary'">
+        </mat-progress-bar>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Tasks List -->
+    <mat-card class="tasks-card">
+      <mat-card-header>
+        <mat-card-title>Tareas del Sprint</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="tareasSprintActivo.length === 0" class="no-tasks">
+          <mat-icon>inbox</mat-icon>
+          <p>No hay tareas asignadas a este sprint</p>
+        </div>
+
+        <div *ngIf="tareasSprintActivo.length > 0" class="tasks-list">
+          <div 
+            *ngFor="let tarea of tareasSprintActivo; trackBy: trackByTareaId"
+            class="task-item"
+            (click)="onTareaClick(tarea)"
+            [class.priority-alta]="tarea.prioridad === 'Alta'"
+            [class.priority-media]="tarea.prioridad === 'Media'"
+            [class.priority-baja]="tarea.prioridad === 'Baja'">
+            
+            <div class="task-content">
+              <div class="task-header">
+                <h4>{{ tarea.nombre }}</h4>
+                <mat-chip-set>
+                  <mat-chip [style.background-color]="getStatusColor(tarea.estado || '')">
+                    {{ tarea.estado }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+              
+              <p class="task-description">{{ tarea.descripcion }}</p>
+              
+              <div class="task-details">
+                <div class="detail-item">
+                  <mat-icon>category</mat-icon>
+                  <span>{{ tarea.tipoTarea }}</span>
+                </div>
+                
+                <div class="detail-item" *ngIf="tarea.responsable">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ tarea.responsable }}</span>
+                </div>
+                
+                <div class="detail-item">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ tarea.horasEstimadas }}h</span>
+                </div>
+
+                <div class="detail-item" *ngIf="tarea.fechaVencimiento">
+                  <mat-icon>event</mat-icon>
+                  <span>{{ tarea.fechaVencimiento | date:'dd/MM/yyyy' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="task-priority">
+              <mat-icon [style.color]="getPriorityColor(tarea.prioridad || '')">
+                {{ tarea.prioridad === 'Alta' ? 'priority_high' : 
+                   tarea.prioridad === 'Media' ? 'remove' : 'expand_more' }}
+              </mat-icon>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

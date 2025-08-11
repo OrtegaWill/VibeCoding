@@ -2,7 +2,7 @@
   <div class="page-header">
     <h1 class="page-title">Backlog</h1>
     <div class="header-actions">
-      <button class="btn btn-primary" (click)="showCreateModal = true">
+      <button class="btn btn-primary" (click)="openCreateModal()">
         + Nueva Tarea
       </button>
     </div>
@@ -117,7 +117,7 @@
       <div class="empty-icon">📋</div>
       <h3>No se encontraron tareas</h3>
       <p>¡Comienza creando tu primera tarea de backlog!</p>
-      <button class="btn btn-primary" (click)="showCreateModal = true">
+      <button class="btn btn-primary" (click)="openCreateModal()">
         + Nueva Tarea
       </button>
     </div>

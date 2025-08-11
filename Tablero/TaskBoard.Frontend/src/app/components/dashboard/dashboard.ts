@@ -13,6 +13,11 @@ import { TaskItem, Sprint, TaskStatus, SprintStatus, TaskPriority } from '../../
   templateUrl: './dashboard.html'
 })
 export class DashboardComponent implements OnInit {
+  // Enums for template access
+  TaskStatus = TaskStatus;
+  SprintStatus = SprintStatus;
+  TaskPriority = TaskPriority;
+
   // Datos para métricas
   totalTasks = 0;
   tasksInProgress = 0;
@@ -36,7 +41,8 @@ export class DashboardComponent implements OnInit {
     description: '',
     status: TaskStatus.Todo,
     priority: TaskPriority.Medium,
-    sprintId: null
+    sprintId: null,
+    assignedTo: ''
   };
 
   newSprint: Partial<Sprint> = {
@@ -108,6 +114,36 @@ export class DashboardComponent implements OnInit {
     return Math.round((completedTasks / sprintTasks.length) * 100);
   }
 
+  getRecentActivity(): any[] {
+    // Generar actividad reciente simulada basada en tareas y sprints
+    const activities: any[] = [];
+    
+    // Actividades de tareas recientes
+    this.recentTasks.slice(0, 3).forEach(task => {
+      activities.push({
+        type: 'Tarea Creada',
+        description: `Nueva tarea: ${task.title}`,
+        timestamp: task.createdAt || new Date(),
+        user: task.assignedTo || 'Sistema'
+      });
+    });
+    
+    // Actividades de sprints recientes
+    this.recentSprints.slice(0, 2).forEach(sprint => {
+      activities.push({
+        type: 'Sprint',
+        description: `Sprint ${sprint.status === 'Active' ? 'iniciado' : 'creado'}: ${sprint.name}`,
+        timestamp: sprint.createdAt || new Date(),
+        user: 'Product Owner'
+      });
+    });
+    
+    // Ordenar por fecha más reciente
+    return activities.sort((a, b) => 
+      new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    );
+  }
+
   async createTask() {
     if (!this.newTask.title) return;
 
@@ -134,7 +170,8 @@ export class DashboardComponent implements OnInit {
         description: '',
         priority: TaskPriority.Medium,
         status: TaskStatus.Backlog,
-        sprintId: undefined
+        sprintId: undefined,
+        assignedTo: ''
       };
       
       this.showCreateTaskModal = false;

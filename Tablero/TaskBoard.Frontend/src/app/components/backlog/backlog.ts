@@ -172,26 +172,47 @@ export class BacklogComponent implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
+  openCreateModal() {
+    // Reset form
+    this.newTask = {
+      title: '',
+      description: '',
+      priority: TaskPriority.Medium,
+      status: TaskStatus.Backlog,
+      assignedTo: ''
+    };
+    
+    console.log('Opening modal with newTask:', this.newTask);
+    this.showCreateModal = true;
+  }
+
   async createTask() {
-    if (!this.newTask.title?.trim()) {
+    console.log('createTask called with:', this.newTask);
+    console.log('Title value:', this.newTask.title);
+    console.log('Title type:', typeof this.newTask.title);
+    
+    // Validación mejorada
+    if (!this.newTask.title || this.newTask.title.trim() === '') {
+      console.log('Validation failed: title is empty or undefined');
       alert('El título es requerido');
       return;
     }
 
     try {
-      const taskToCreate: TaskItem = {
-        title: this.newTask.title,
-        description: this.newTask.description || '',
-        priority: this.newTask.priority || TaskPriority.Medium,
-        status: TaskStatus.Backlog,
-        assignedTo: this.newTask.assignedTo || '',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        sprintId: null,
-        comments: []
+      const taskToCreate: any = {
+        title: this.newTask.title.trim(),
+        description: this.newTask.description?.trim() || '',
+        priority: this.convertPriorityToNumber(this.newTask.priority || TaskPriority.Medium),
+        status: 0, // Backlog status
+        assignedTo: this.newTask.assignedTo?.trim() || '',
+        sprintId: null
       };
 
+      console.log('Sending task to API:', taskToCreate);
+
       const createdTask = await firstValueFrom(this.apiService.createTask(taskToCreate));
+      console.log('Task created successfully:', createdTask);
+      
       this.backlogTasks.push(createdTask);
       this.applyFilters();
       
@@ -209,9 +230,21 @@ export class BacklogComponent implements OnInit, OnDestroy {
       // Broadcast via SignalR
       this.signalrService.broadcastTaskUpdate('default', createdTask);
       
+      alert('Tarea creada exitosamente');
+      
     } catch (error) {
       console.error('Error creating task:', error);
-      alert('Error al crear la tarea');
+      alert('Error al crear la tarea. Por favor, verifica que todos los campos estén correctos.');
+    }
+  }
+
+  private convertPriorityToNumber(priority: TaskPriority): number {
+    switch (priority) {
+      case TaskPriority.Low: return 0;
+      case TaskPriority.Medium: return 1;
+      case TaskPriority.High: return 2;
+      case TaskPriority.Critical: return 3;
+      default: return 1;
     }
   }
 

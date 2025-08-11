@@ -1,0 +1,37 @@
+/* Custom Angular Material Theme - CSS Version */
+
+/* Import Angular Material CSS */
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+
+/* Custom styles */
+.mat-toolbar {
+  background-color: #1976d2 !important;
+  color: white !important;
+}
+
+.status-nuevo {
+  background-color: #e3f2fd !important;
+  color: #1976d2 !important;
+}
+
+.status-en-progreso {
+  background-color: #fff3e0 !important;
+  color: #f57c00 !important;
+}
+
+.status-terminado {
+  background-color: #e8f5e8 !important;
+  color: #388e3c !important;
+}
+
+.priority-alta {
+  border-left: 4px solid #f44336 !important;
+}
+
+.priority-media {
+  border-left: 4px solid #ff9800 !important;
+}
+
+.priority-baja {
+  border-left: 4px solid #4caf50 !important;
+}

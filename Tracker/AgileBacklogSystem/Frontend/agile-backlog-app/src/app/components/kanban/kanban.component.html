@@ -1,0 +1,97 @@
+<mat-toolbar color="primary">
+  <span>Tablero Kanban</span>
+  <span class="spacer"></span>
+  <button mat-button>
+    <mat-icon>refresh</mat-icon>
+    Actualizar
+  </button>
+</mat-toolbar>
+
+<div class="kanban-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando tablero kanban...</p>
+  </div>
+
+  <div *ngIf="!loading && kanbanColumns.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">view_column</mat-icon>
+    <h2>No hay tareas para mostrar</h2>
+    <p>Las tareas aparecerán aquí cuando tengan un sprint asignado</p>
+  </div>
+
+  <div *ngIf="!loading && kanbanColumns.length > 0" class="kanban-board" cdkDropListGroup>
+    <div 
+      *ngFor="let column of kanbanColumns; trackBy: trackByColumnName" 
+      class="kanban-column">
+      
+      <div class="column-header">
+        <h3>{{ column.estado }}</h3>
+        <mat-chip-set>
+          <mat-chip>{{ column.tareas.length }}</mat-chip>
+        </mat-chip-set>
+      </div>
+
+      <div 
+        class="column-content"
+        cdkDropList
+        [cdkDropListData]="column.tareas"
+        (cdkDropListDropped)="drop($event, column)">
+        
+        <div 
+          *ngFor="let tarea of column.tareas; trackBy: trackByTareaId"
+          class="kanban-card"
+          cdkDrag
+          [class.priority-alta]="tarea.prioridad === 'Alta'"
+          [class.priority-media]="tarea.prioridad === 'Media'"
+          [class.priority-baja]="tarea.prioridad === 'Baja'">
+          
+          <mat-card>
+            <mat-card-header>
+              <div mat-card-avatar>
+                <mat-icon [style.color]="getPriorityColor(tarea.prioridad || '')">
+                  {{ tarea.prioridad === 'Alta' ? 'priority_high' : 
+                     tarea.prioridad === 'Media' ? 'remove' : 'expand_more' }}
+                </mat-icon>
+              </div>
+              <mat-card-title class="card-title">{{ tarea.nombre }}</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+              <p class="card-description">{{ tarea.descripcion }}</p>
+              
+              <div class="card-details">
+                <div class="detail-row">
+                  <mat-icon>category</mat-icon>
+                  <span>{{ tarea.tipoTarea }}</span>
+                </div>
+                
+                <div class="detail-row" *ngIf="tarea.responsable">
+                  <mat-icon>person</mat-icon>
+                  <span>{{ tarea.responsable }}</span>
+                </div>
+                
+                <div class="detail-row">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ tarea.horasEstimadas }}h</span>
+                </div>
+              </div>
+
+              <div class="card-footer">
+                <mat-chip-set>
+                  <mat-chip class="priority-chip" [style.background-color]="getPriorityColor(tarea.prioridad || '')">
+                    {{ tarea.prioridad }}
+                  </mat-chip>
+                </mat-chip-set>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+
+        <div *ngIf="column.tareas.length === 0" class="empty-column">
+          <mat-icon>inbox</mat-icon>
+          <p>No hay tareas</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,42 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Import Angular Material theme */
+@import 'custom-theme.css';
+
+html, body { 
+  height: 100%; 
+}
+
+body { 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+/* Utility classes */
+.full-width {
+  width: 100%;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.mb-2 {
+  margin-bottom: 16px;
+}
+
+.mr-2 {
+  margin-right: 16px;
+}
+
+.ml-2 {
+  margin-left: 16px;
+}
+
+.mt-2 {
+  margin-top: 16px;
+}
+
+.p-2 {
+  padding: 16px;
+}

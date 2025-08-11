@@ -404,6 +404,18 @@
   z-index: 1000;
 }
 
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+  margin: 20px;
+}
+
 .modal {
   background: white;
   border-radius: 12px;
@@ -420,11 +432,17 @@
   align-items: center;
   padding: 1.5rem;
   border-bottom: 1px solid #e1e8ed;
+  background: white;
 }
 
 .modal-header h2 {
   margin: 0;
   color: #2c3e50;
+}
+
+.modal-form {
+  background: white;
+  padding: 1.5rem;
 }
 
 .btn-close {
@@ -471,6 +489,12 @@
   border-radius: 8px;
   font-size: 0.95rem;
   transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 100px;
 }
 
 .form-input:focus,
@@ -513,6 +537,16 @@
 @media (max-width: 768px) {
   .backlog-container {
     padding: 1rem;
+  }
+
+  .modal-content {
+    max-width: 95%;
+    margin: 10px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 
   .backlog-header {

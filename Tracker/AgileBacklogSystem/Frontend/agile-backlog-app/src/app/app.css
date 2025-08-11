@@ -1,0 +1,97 @@
+.sidenav-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 280px;
+}
+
+.sidenav .mat-toolbar {
+  background-color: inherit;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.main-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.toolbar-title {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.main-content {
+  height: calc(100vh - 64px);
+  overflow-y: auto;
+}
+
+.active-nav-item {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Estilos atractivos para los iconos del menú */
+.mat-nav-list .mat-list-item .mat-icon {
+  transition: all 0.3s ease;
+  border-radius: 50%;
+  padding: 8px;
+  margin-right: 16px;
+}
+
+/* Colores específicos para cada icono del menú principal */
+.mat-nav-list .mat-list-item:nth-child(1) .mat-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.mat-nav-list .mat-list-item:nth-child(2) .mat-icon {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.mat-nav-list .mat-list-item:nth-child(3) .mat-icon {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.mat-nav-list .mat-list-item:nth-child(4) .mat-icon {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  color: white;
+}
+
+/* Iconos de configuración y ayuda */
+.mat-nav-list .mat-list-item:nth-last-child(2) .mat-icon,
+.mat-nav-list .mat-list-item:last-child .mat-icon {
+  background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  color: white;
+}
+
+.mat-nav-list .mat-list-item:hover .mat-icon {
+  transform: scale(1.1);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.mat-nav-list .mat-list-item {
+  margin-bottom: 4px;
+  border-radius: 8px;
+  transition: background-color 0.3s ease;
+}
+
+.mat-nav-list .mat-list-item:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .main-content {
+    height: calc(100vh - 56px);
+  }
+  
+  .toolbar-title {
+    font-size: 16px;
+  }
+}

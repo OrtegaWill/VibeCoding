@@ -1,0 +1,69 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Sidebar -->
+  <mat-sidenav #drawer class="sidenav" 
+               fixedInViewport="true"
+               [opened]="sidenavOpened"
+               mode="over">
+    <mat-toolbar color="primary">
+      <span>Navegación</span>
+      <span class="spacer"></span>
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-toolbar>
+    
+    <mat-nav-list>
+      <a mat-list-item 
+         *ngFor="let item of navigationItems" 
+         [routerLink]="item.route"
+         routerLinkActive="active-nav-item"
+         (click)="sidenavOpened = false">
+        <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+        <span matListItemTitle>{{ item.label }}</span>
+        <span matListItemLine>{{ item.description }}</span>
+      </a>
+      
+      <mat-divider></mat-divider>
+      
+      <a mat-list-item href="#" (click)="$event.preventDefault()">
+        <mat-icon matListItemIcon>tune</mat-icon>
+        <span matListItemTitle>Configuración</span>
+        <span matListItemLine>Ajustes del sistema</span>
+      </a>
+      
+      <a mat-list-item href="#" (click)="$event.preventDefault()">
+        <mat-icon matListItemIcon>help_center</mat-icon>
+        <span matListItemTitle>Ayuda</span>
+        <span matListItemLine>Documentación y soporte</span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <!-- Main content -->
+  <mat-sidenav-content>
+    <!-- Top Navigation Bar -->
+    <mat-toolbar color="primary" class="main-toolbar">
+      <button mat-icon-button (click)="toggleSidenav()" class="menu-button">
+        <mat-icon>menu</mat-icon>
+      </button>
+      
+      <span class="toolbar-title">{{ title }}</span>
+      
+      <span class="spacer"></span>
+      
+      <button mat-icon-button>
+        <mat-icon>notifications</mat-icon>
+      </button>
+      
+      <button mat-icon-button>
+        <mat-icon>account_circle</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <!-- Router Content -->
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+

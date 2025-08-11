@@ -1,0 +1,265 @@
+<!-- ============================================ -->
+<!--           HEADER MODERNO MINIMALISTA        -->
+<!-- ============================================ -->
+<header class="modern-header">
+  <div class="header-content">
+    <div class="header-left">
+      <div class="header-title-section">
+        <mat-icon class="header-icon">task</mat-icon>
+        <h1 class="header-title">Backlog</h1>
+        <span class="task-count">{{sortedTareas.length}} tareas</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" class="create-btn" (click)="onCreateTarea()">
+        <mat-icon>add</mat-icon>
+        Nueva Tarea
+      </button>
+      <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-btn">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="onImportExcel()">
+          <mat-icon>upload</mat-icon>
+          <span>Importar Excel</span>
+        </button>
+        <button mat-menu-item (click)="onExportExcel()">
+          <mat-icon>download</mat-icon>
+          <span>Exportar Excel</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================ -->
+<!--              CONTENIDO PRINCIPAL             -->
+<!-- ============================================ -->
+<main class="main-content">
+  
+  <!-- Estado de Carga -->
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p class="loading-text">Cargando tareas...</p>
+  </div>
+
+  <!-- Estado Vacío -->
+  <div *ngIf="!loading && sortedTareas.length === 0" class="empty-container">
+    <mat-icon class="empty-icon">inbox</mat-icon>
+    <h2 class="empty-title">No hay tareas</h2>
+    <p class="empty-description">
+      Aún no tienes tareas en tu backlog. Comienza creando una nueva tarea o importando desde Excel.
+    </p>
+  </div>
+
+  <!-- Tabla Minimalista -->
+  <div *ngIf="!loading && sortedTareas.length > 0" class="table-container">
+    <div class="table-wrapper">
+      <table class="modern-table">
+        
+        <!-- ============================================ -->
+        <!--                 TABLE HEAD                   -->
+        <!-- ============================================ -->
+        <thead class="table-head">
+          <tr>
+            <th class="sortable-header id-header" (click)="sortBy('id')">
+              <div class="header-content">
+                <mat-icon class="header-icon">tag</mat-icon>
+                <span>ID</span>
+                <mat-icon *ngIf="sortColumn === 'id'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="sortable-header user-header" (click)="sortBy('responsable')">
+              <div class="header-content">
+                <mat-icon class="header-icon">person</mat-icon>
+                <span>Responsable</span>
+                <mat-icon *ngIf="sortColumn === 'responsable'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="sortable-header description-header" (click)="sortBy('descripcion')">
+              <div class="header-content">
+                <mat-icon class="header-icon">description</mat-icon>
+                <span>Descripción</span>
+                <mat-icon *ngIf="sortColumn === 'descripcion'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="sortable-header status-header" (click)="sortBy('estado')">
+              <div class="header-content">
+                <mat-icon class="header-icon">flag</mat-icon>
+                <span>Estado</span>
+                <mat-icon *ngIf="sortColumn === 'estado'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="sortable-header priority-header" (click)="sortBy('prioridad')">
+              <div class="header-content">
+                <mat-icon class="header-icon">priority_high</mat-icon>
+                <span>Prioridad</span>
+                <mat-icon *ngIf="sortColumn === 'prioridad'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="sortable-header category-header" (click)="sortBy('categoriaId')">
+              <div class="header-content">
+                <mat-icon class="header-icon">category</mat-icon>
+                <span>Categoría</span>
+                <mat-icon *ngIf="sortColumn === 'categoriaId'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="sortable-header progress-header" (click)="sortBy('progreso')">
+              <div class="header-content">
+                <mat-icon class="header-icon">donut_small</mat-icon>
+                <span>Progreso</span>
+                <mat-icon *ngIf="sortColumn === 'progreso'" class="sort-icon">
+                  {{sortDirection === 'asc' ? 'keyboard_arrow_up' : 'keyboard_arrow_down'}}
+                </mat-icon>
+              </div>
+            </th>
+            
+            <th class="actions-header">
+              <mat-icon class="header-icon">settings</mat-icon>
+              <span>Acciones</span>
+            </th>
+          </tr>
+        </thead>
+
+        <!-- ============================================ -->
+        <!--                 TABLE BODY                   -->
+        <!-- ============================================ -->
+        <tbody class="table-body">
+          <tr *ngFor="let tarea of sortedTareas; trackBy: trackByTareaId" 
+              class="table-row" 
+              [class.priority-critical]="tarea.prioridad?.toLowerCase() === 'crítica'"
+              [class.priority-high]="tarea.prioridad?.toLowerCase() === 'alta'"
+              [class.priority-medium]="tarea.prioridad?.toLowerCase() === 'media'"
+              [class.priority-low]="tarea.prioridad?.toLowerCase() === 'baja'"
+              (click)="onTareaClick(tarea)">
+            
+            <!-- Celda ID -->
+            <td class="id-cell">
+              <div class="id-container">
+                <div class="task-status-icon" [style.background-color]="getStatusColor(tarea.estado || '')">
+                  <mat-icon>{{getStatusIcon(tarea.estado || '')}}</mat-icon>
+                </div>
+                <span class="task-id">#{{tarea.id}}</span>
+              </div>
+            </td>
+
+            <!-- Celda Usuario -->
+            <td class="user-cell">
+              <div class="user-container">
+                <div class="user-avatar">
+                  <span *ngIf="getInitials(tarea.responsable || '') !== '?'">{{getInitials(tarea.responsable || '')}}</span>
+                  <mat-icon *ngIf="getInitials(tarea.responsable || '') === '?'">person</mat-icon>
+                </div>
+                <div class="user-details">
+                  <span class="user-name">{{getFullName(tarea.responsable || '')}}</span>
+                  <span class="user-group">Equipo de Desarrollo</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Celda Descripción -->
+            <td class="description-cell">
+              <div class="description-container">
+                <p class="task-title">{{tarea.descripcion}}</p>
+                <p *ngIf="tarea.problema" class="task-problem">{{tarea.problema}}</p>
+              </div>
+            </td>
+
+            <!-- Celda Estado -->
+            <td class="status-cell">
+              <div class="status-container">
+                <span class="status-badge" [style.background-color]="getStatusColor(tarea.estado || '')">
+                  {{tarea.estado || 'Sin estado'}}
+                </span>
+                <span *ngIf="tarea.fechaCreacion" class="status-date">
+                  {{tarea.fechaCreacion | date:'dd/MM/yyyy'}}
+                </span>
+              </div>
+            </td>
+
+            <!-- Celda Prioridad -->
+            <td class="priority-cell">
+              <div class="priority-badge" [style.background-color]="getPriorityBadgeColor(tarea.prioridad || '')">
+                <mat-icon class="priority-icon">{{getPriorityIcon(tarea.prioridad || '')}}</mat-icon>
+                <span class="priority-text">{{tarea.prioridad || 'Sin prioridad'}}</span>
+              </div>
+            </td>
+
+            <!-- Celda Categoría -->
+            <td class="category-cell">
+              <div class="category-container">
+                <span class="category-name">{{getCategoriaName(tarea.categoriaId) || 'Sin categoría'}}</span>
+                <span class="category-origin">Desarrollo</span>
+              </div>
+            </td>
+
+            <!-- Celda Progreso -->
+            <td class="progress-cell">
+              <div class="progress-container">
+                <div class="progress-circle">
+                  <svg viewBox="0 0 36 36">
+                    <path class="progress-bg"
+                          d="M18 2.0845
+                             a 15.9155 15.9155 0 0 1 0 31.831
+                             a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          stroke-width="2"/>
+                    <path class="progress-bar"
+                          [attr.stroke-dasharray]="(tarea.avance || 0) + ', 100'"
+                          [attr.stroke]="getProgressColor(tarea.avance || 0)"
+                          d="M18 2.0845
+                             a 15.9155 15.9155 0 0 1 0 31.831
+                             a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          stroke-width="2"/>
+                  </svg>
+                  <span class="progress-text">{{tarea.avance || 0}}%</span>
+                </div>
+              </div>
+            </td>
+
+            <!-- Celda Acciones -->
+            <td class="actions-cell">
+              <div class="actions-container">
+                <button mat-icon-button class="action-btn edit-btn" 
+                        (click)="onTareaClick(tarea); $event.stopPropagation()"
+                        matTooltip="Editar tarea">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button class="action-btn view-btn" 
+                        (click)="onTareaClick(tarea); $event.stopPropagation()"
+                        matTooltip="Ver detalles">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button mat-icon-button class="action-btn delete-action" 
+                        (click)="$event.stopPropagation()"
+                        matTooltip="Eliminar tarea">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>

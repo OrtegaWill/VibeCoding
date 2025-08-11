@@ -1,0 +1,284 @@
+<mat-toolbar color="primary">
+  <span>Gestión de Sprints</span>
+  <span class="spacer"></span>
+  <button mat-raised-button color="accent" (click)="onCreateSprint()">
+    <mat-icon>add</mat-icon>
+    Nuevo Sprint
+  </button>
+</mat-toolbar>
+
+<div class="sprints-container">
+  <div *ngIf="loading" class="loading-container">
+    <mat-spinner></mat-spinner>
+    <p>Cargando sprints...</p>
+  </div>
+
+  <div *ngIf="!loading && sprints.length === 0" class="empty-state">
+    <mat-icon class="empty-icon">sprint</mat-icon>
+    <h2>No hay sprints creados</h2>
+    <p>Comienza creando tu primer sprint para organizar las tareas</p>
+    <button mat-raised-button color="primary" (click)="onCreateSprint()">
+      <mat-icon>add</mat-icon>
+      Crear Primer Sprint
+    </button>
+  </div>
+
+  <div *ngIf="!loading && sprints.length > 0" class="sprints-content">
+    <mat-tab-group>
+      <!-- Sprints Activos -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [matBadge]="sprintsActivos.length" matBadgeOverlap="false">
+            Activos
+          </span>
+        </ng-template>
+        <div class="tab-content">
+          <div *ngIf="sprintsActivos.length === 0" class="tab-empty-state">
+            <mat-icon>play_circle_outline</mat-icon>
+            <p>No hay sprints activos</p>
+          </div>
+          <div *ngIf="sprintsActivos.length > 0" class="sprints-grid">
+            <mat-card 
+              *ngFor="let sprint of sprintsActivos; trackBy: trackBySprintId"
+              class="sprint-card active-sprint">
+              
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <mat-icon [class.overdue]="isSprintOverdue(sprint)">schedule</mat-icon>
+                </div>
+                <mat-card-title>{{ sprint.nombre }}</mat-card-title>
+                <mat-card-subtitle>
+                  <mat-chip [style.background-color]="getSprintStatusColor(sprint.estado)">
+                    {{ sprint.estado }}
+                  </mat-chip>
+                </mat-card-subtitle>
+              </mat-card-header>
+
+              <mat-card-content>
+                <p class="sprint-description">{{ sprint.descripcion || 'Sin descripción' }}</p>
+                
+                <div class="sprint-dates">
+                  <div class="date-item">
+                    <mat-icon>event</mat-icon>
+                    <span>{{ sprint.fechaInicio | date:'dd/MM' }} - {{ sprint.fechaFin | date:'dd/MM/yyyy' }}</span>
+                  </div>
+                  <div class="date-item" [class.overdue-text]="isSprintOverdue(sprint)">
+                    <mat-icon>access_time</mat-icon>
+                    <span *ngIf="!isSprintOverdue(sprint)">{{ getDaysRemaining(sprint) }} días restantes</span>
+                    <span *ngIf="isSprintOverdue(sprint)">Vencido</span>
+                  </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="sprint-stats">
+                  <div class="stat-item">
+                    <span class="stat-value">{{ sprint.totalTareas }}</span>
+                    <span class="stat-label">Tareas</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value">{{ sprint.tareasCompletadas }}</span>
+                    <span class="stat-label">Completadas</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value">{{ getSprintProgress(sprint).toFixed(0) }}%</span>
+                    <span class="stat-label">Progreso</span>
+                  </div>
+                </div>
+
+                <div class="progress-container">
+                  <mat-progress-bar 
+                    mode="determinate" 
+                    [value]="getSprintProgress(sprint)"
+                    color="accent">
+                  </mat-progress-bar>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button (click)="onViewSprintDetails(sprint)">
+                  <mat-icon>visibility</mat-icon>
+                  Ver
+                </button>
+                <button mat-button (click)="onCompleteSprint(sprint)">
+                  <mat-icon>check</mat-icon>
+                  Completar
+                </button>
+                <button mat-button [matMenuTriggerFor]="activeMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #activeMenu="matMenu">
+                  <button mat-menu-item (click)="onEditSprint(sprint)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                </mat-menu>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Sprints Planificados -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [matBadge]="sprintsPlanificados.length" matBadgeOverlap="false">
+            Planificados
+          </span>
+        </ng-template>
+        <div class="tab-content">
+          <div *ngIf="sprintsPlanificados.length === 0" class="tab-empty-state">
+            <mat-icon>schedule</mat-icon>
+            <p>No hay sprints planificados</p>
+          </div>
+          <div *ngIf="sprintsPlanificados.length > 0" class="sprints-grid">
+            <mat-card 
+              *ngFor="let sprint of sprintsPlanificados; trackBy: trackBySprintId"
+              class="sprint-card planned-sprint">
+              
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <mat-icon>schedule</mat-icon>
+                </div>
+                <mat-card-title>{{ sprint.nombre }}</mat-card-title>
+                <mat-card-subtitle>
+                  <mat-chip [style.background-color]="getSprintStatusColor(sprint.estado)">
+                    {{ sprint.estado }}
+                  </mat-chip>
+                </mat-card-subtitle>
+              </mat-card-header>
+
+              <mat-card-content>
+                <p class="sprint-description">{{ sprint.descripcion || 'Sin descripción' }}</p>
+                
+                <div class="sprint-dates">
+                  <div class="date-item">
+                    <mat-icon>event</mat-icon>
+                    <span>{{ sprint.fechaInicio | date:'dd/MM' }} - {{ sprint.fechaFin | date:'dd/MM/yyyy' }}</span>
+                  </div>
+                  <div class="date-item">
+                    <mat-icon>hourglass_empty</mat-icon>
+                    <span>{{ getDaysUntilStart(sprint) }} días para iniciar</span>
+                  </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="sprint-stats">
+                  <div class="stat-item">
+                    <span class="stat-value">{{ sprint.totalTareas }}</span>
+                    <span class="stat-label">Tareas</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value">{{ sprint.responsableNombre || 'N/A' }}</span>
+                    <span class="stat-label">Responsable</span>
+                  </div>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button (click)="onViewSprintDetails(sprint)">
+                  <mat-icon>visibility</mat-icon>
+                  Ver
+                </button>
+                <button mat-button (click)="onStartSprint(sprint)" color="primary">
+                  <mat-icon>play_arrow</mat-icon>
+                  Iniciar
+                </button>
+                <button mat-button [matMenuTriggerFor]="plannedMenu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #plannedMenu="matMenu">
+                  <button mat-menu-item (click)="onEditSprint(sprint)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Editar</span>
+                  </button>
+                  <button mat-menu-item (click)="onDeleteSprint(sprint)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Eliminar</span>
+                  </button>
+                </mat-menu>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- Sprints Completados -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <span [matBadge]="sprintsCompletados.length" matBadgeOverlap="false">
+            Completados
+          </span>
+        </ng-template>
+        <div class="tab-content">
+          <div *ngIf="sprintsCompletados.length === 0" class="tab-empty-state">
+            <mat-icon>check_circle_outline</mat-icon>
+            <p>No hay sprints completados</p>
+          </div>
+          <div *ngIf="sprintsCompletados.length > 0" class="sprints-grid">
+            <mat-card 
+              *ngFor="let sprint of sprintsCompletados; trackBy: trackBySprintId"
+              class="sprint-card completed-sprint">
+              
+              <mat-card-header>
+                <div mat-card-avatar>
+                  <mat-icon>check_circle</mat-icon>
+                </div>
+                <mat-card-title>{{ sprint.nombre }}</mat-card-title>
+                <mat-card-subtitle>
+                  <mat-chip [style.background-color]="getSprintStatusColor(sprint.estado)">
+                    {{ sprint.estado }}
+                  </mat-chip>
+                </mat-card-subtitle>
+              </mat-card-header>
+
+              <mat-card-content>
+                <p class="sprint-description">{{ sprint.descripcion || 'Sin descripción' }}</p>
+                
+                <div class="sprint-dates">
+                  <div class="date-item">
+                    <mat-icon>event</mat-icon>
+                    <span>{{ sprint.fechaInicio | date:'dd/MM' }} - {{ sprint.fechaFin | date:'dd/MM/yyyy' }}</span>
+                  </div>
+                </div>
+
+                <mat-divider></mat-divider>
+
+                <div class="sprint-stats">
+                  <div class="stat-item">
+                    <span class="stat-value">{{ sprint.totalTareas }}</span>
+                    <span class="stat-label">Tareas</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value">{{ sprint.tareasCompletadas }}</span>
+                    <span class="stat-label">Completadas</span>
+                  </div>
+                  <div class="stat-item">
+                    <span class="stat-value">{{ getSprintProgress(sprint).toFixed(0) }}%</span>
+                    <span class="stat-label">Completado</span>
+                  </div>
+                </div>
+
+                <div class="progress-container">
+                  <mat-progress-bar 
+                    mode="determinate" 
+                    [value]="getSprintProgress(sprint)"
+                    color="primary">
+                  </mat-progress-bar>
+                </div>
+              </mat-card-content>
+
+              <mat-card-actions>
+                <button mat-button (click)="onViewSprintDetails(sprint)">
+                  <mat-icon>visibility</mat-icon>
+                  Ver Detalles
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
