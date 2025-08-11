@@ -82,8 +82,8 @@
                             </td>
                             <td>
                                 <div class="btn-group" role="group">
-                                    <button class="btn btn-sm btn-outline-primary" @onclick="() => OnViewTicket.InvokeAsync(ticket.Id)" 
-                                            title="Ver ticket">
+                                    <button class="btn btn-sm btn-outline-primary" @onclick="() => SelectTicket(ticket)" 
+                                            title="Seleccionar ticket">
                                         <i class="fas fa-eye"></i>
                                     </button>
                                     <button class="btn btn-sm btn-outline-success" @onclick="() => ShowStatusModal(ticket)" 
@@ -203,6 +203,7 @@
     [Parameter] public int TotalPages { get; set; } = 1;
     [Parameter] public EventCallback<int> OnPageChanged { get; set; }
     [Parameter] public EventCallback<int> OnViewTicket { get; set; }
+    [Parameter] public EventCallback<Ticket> OnTicketSelected { get; set; }
     [Parameter] public EventCallback<Ticket> OnStatusChange { get; set; }
 
     private void ChangePage(int newPage)
@@ -211,6 +212,11 @@
         {
             OnPageChanged.InvokeAsync(newPage);
         }
+    }
+
+    private void SelectTicket(Ticket ticket)
+    {
+        OnTicketSelected.InvokeAsync(ticket);
     }
 
     private void ShowStatusModal(Ticket ticket)

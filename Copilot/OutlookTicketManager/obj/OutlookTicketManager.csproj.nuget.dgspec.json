@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/won/Documents/Cognizant/Vibe Coding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {}
+    "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {}
   },
   "projects": {
-    "/Users/won/Documents/Cognizant/Vibe Coding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {
+    "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/won/Documents/Cognizant/Vibe Coding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
+        "projectUniqueName": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
         "projectName": "OutlookTicketManager",
-        "projectPath": "/Users/won/Documents/Cognizant/Vibe Coding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
+        "projectPath": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
         "packagesPath": "/Users/won/.nuget/packages/",
-        "outputPath": "/Users/won/Documents/Cognizant/Vibe Coding/Copilot/OutlookTicketManager/obj/",
+        "outputPath": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/won/.nuget/NuGet/NuGet.Config"

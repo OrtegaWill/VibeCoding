@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "nI7HzJ0IAryXQXcSRpe1APMGxhRc6wXFNN9gsYlMCzLewOcphtuiZEbejHv4n0I1jORJrCzxtHaXpUQRUdI4aQ==",
+  "dgSpecHash": "ueuxXodDvNum6pQxLGahQNyikktAOq4pEyNDwocvGrvGw+nAE9ic1HUPCmg3OmuYg5YOiGIOB7tosE5foZlnyw==",
   "success": true,
-  "projectFilePath": "/Users/won/Documents/Cognizant/Vibe Coding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
+  "projectFilePath": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
   "expectedPackageFiles": [
     "/Users/won/.nuget/packages/azure.core/1.37.0/azure.core.1.37.0.nupkg.sha512",
     "/Users/won/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",

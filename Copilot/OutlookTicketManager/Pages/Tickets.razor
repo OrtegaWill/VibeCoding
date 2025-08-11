@@ -1,0 +1,88 @@
+@page "/tickets"
+@using OutlookTicketManager.Components.Tickets
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+@inject TicketManagerService TicketService
+
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="h2">
+            <i class="oi oi-task me-2"></i>
+            Gestión de Tickets
+        </h1>
+        <div>
+            <button class="btn btn-primary" @onclick="RefreshTickets">
+                <i class="oi oi-reload me-1"></i>
+                Actualizar
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            @if (tickets != null)
+            {
+                <TicketList Tickets="tickets" OnTicketSelected="OnTicketSelected" />
+            }
+            else
+            {
+                <div class="text-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Cargando...</span>
+                    </div>
+                    <p class="mt-2">Cargando tickets...</p>
+                </div>
+            }
+        </div>
+    </div>
+
+    @if (selectedTicket != null)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <TicketDetail Ticket="selectedTicket" OnTicketUpdated="OnTicketUpdated" />
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private List<Ticket>? tickets;
+    private Ticket? selectedTicket;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await RefreshTickets();
+    }
+
+    private async Task RefreshTickets()
+    {
+        try
+        {
+            tickets = await TicketService.GetAllTicketsAsync();
+        }
+        catch (Exception ex)
+        {
+            // Log error (in a real app, use proper logging)
+            Console.WriteLine($"Error loading tickets: {ex.Message}");
+            tickets = new List<Ticket>();
+        }
+    }
+
+    private void OnTicketSelected(Ticket ticket)
+    {
+        selectedTicket = ticket;
+    }
+
+    private async Task OnTicketUpdated(Ticket updatedTicket)
+    {
+        // Refresh the tickets list to reflect changes
+        await RefreshTickets();
+        
+        // Update the selected ticket if it's the same one
+        if (selectedTicket?.Id == updatedTicket.Id)
+        {
+            selectedTicket = updatedTicket;
+        }
+    }
+}

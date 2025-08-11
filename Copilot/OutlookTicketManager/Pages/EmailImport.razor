@@ -1,0 +1,122 @@
+@page "/email-import"
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+@inject TicketManagerService TicketService
+
+<h1>
+    <i class="oi oi-inbox me-2"></i>
+    Importar Emails
+</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Configuración de Importación</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="userEmail" class="form-label">Email del Usuario</label>
+                        <input type="email" class="form-control" id="userEmail" @bind="userEmail" 
+                               placeholder="usuario@dominio.com" />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="maxEmails" class="form-label">Número máximo de emails</label>
+                        <input type="number" class="form-control" id="maxEmails" @bind="maxEmails" 
+                               min="1" max="100" />
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="onlyUnread" @bind="onlyUnread" />
+                        <label class="form-check-label" for="onlyUnread">
+                            Solo importar emails no leídos
+                        </label>
+                    </div>
+                    
+                    <button class="btn btn-success" @onclick="ImportEmails" disabled="@isImporting">
+                        @if (isImporting)
+                        {
+                            <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                        }
+                        <i class="oi oi-data-transfer-download me-1"></i>
+                        Importar Emails
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Estado de la Importación</h5>
+                </div>
+                <div class="card-body">
+                    @if (!string.IsNullOrEmpty(statusMessage))
+                    {
+                        <div class="alert @(importSuccess ? "alert-success" : "alert-info")" role="alert">
+                            @statusMessage
+                        </div>
+                    }
+                    
+                    @if (importedCount > 0)
+                    {
+                        <div class="alert alert-success" role="alert">
+                            <strong>¡Éxito!</strong> Se importaron @importedCount tickets.
+                        </div>
+                    }
+                    
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <strong>Nota:</strong> Esta función utiliza servicios simplificados de prueba. 
+                            Para funcionalidad completa, se requiere configurar la integración con Microsoft Graph API.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string userEmail = "2422236@cognizant.com";
+    private int maxEmails = 20;
+    private bool onlyUnread = true;
+    private bool isImporting = false;
+    private string statusMessage = "";
+    private bool importSuccess = false;
+    private int importedCount = 0;
+
+    private async Task ImportEmails()
+    {
+        if (string.IsNullOrWhiteSpace(userEmail))
+        {
+            statusMessage = "Por favor ingresa un email válido";
+            importSuccess = false;
+            return;
+        }
+
+        isImporting = true;
+        statusMessage = "Iniciando importación de emails...";
+        importSuccess = false;
+        importedCount = 0;
+
+        try
+        {
+            var result = await TicketService.ImportEmailsAsTicketsAsync(userEmail, maxEmails, onlyUnread);
+            importedCount = result;
+            statusMessage = $"Importación completada. Se procesaron {result} emails.";
+            importSuccess = true;
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Error durante la importación: {ex.Message}";
+            importSuccess = false;
+        }
+        finally
+        {
+            isImporting = false;
+        }
+    }
+}

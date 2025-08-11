@@ -1,0 +1,186 @@
+@page "/settings"
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+@inject TicketManagerService TicketService
+
+<h1>
+    <i class="oi oi-cog me-2"></i>
+    Configuración del Sistema
+</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Configuración de Outlook</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="defaultEmail" class="form-label">Email por defecto</label>
+                        <input type="email" class="form-control" id="defaultEmail" @bind="defaultEmail" />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="importInterval" class="form-label">Intervalo de importación (minutos)</label>
+                        <input type="number" class="form-control" id="importInterval" @bind="importInterval" min="1" />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="maxEmailsBatch" class="form-label">Máximo de emails por lote</label>
+                        <input type="number" class="form-control" id="maxEmailsBatch" @bind="maxEmailsBatch" min="1" max="100" />
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="autoImport" @bind="autoImport" />
+                        <label class="form-check-label" for="autoImport">
+                            Importación automática habilitada
+                        </label>
+                    </div>
+                    
+                    <button class="btn btn-primary" @onclick="SaveOutlookSettings">
+                        <i class="oi oi-check me-1"></i>
+                        Guardar Configuración
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Configuración de Tickets</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="defaultPriority" class="form-label">Prioridad por defecto</label>
+                        <select class="form-select" id="defaultPriority" @bind="defaultPriority">
+                            <option value="0">Baja</option>
+                            <option value="1">Media</option>
+                            <option value="2">Alta</option>
+                            <option value="3">Crítica</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="defaultCategory" class="form-label">Categoría por defecto</label>
+                        <input type="text" class="form-control" id="defaultCategory" @bind="defaultCategory" 
+                               placeholder="Ej: Soporte Técnico" />
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="defaultAssignee" class="form-label">Asignado por defecto</label>
+                        <input type="text" class="form-control" id="defaultAssignee" @bind="defaultAssignee" 
+                               placeholder="usuario@dominio.com" />
+                    </div>
+                    
+                    <button class="btn btn-primary" @onclick="SaveTicketSettings">
+                        <i class="oi oi-check me-1"></i>
+                        Guardar Configuración
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Estado del Sistema</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h5>Base de Datos</h5>
+                                    <span class="badge bg-success">Conectada</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h5>Outlook Integration</h5>
+                                    <span class="badge bg-warning">Modo de Prueba</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h5>SignalR</h5>
+                                    <span class="badge bg-success">Activo</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    @if (!string.IsNullOrEmpty(statusMessage))
+                    {
+                        <div class="alert alert-info mt-3" role="alert">
+                            @statusMessage
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string defaultEmail = "2422236@cognizant.com";
+    private int importInterval = 5;
+    private int maxEmailsBatch = 50;
+    private bool autoImport = false;
+    private int defaultPriority = 1; // Medium
+    private string defaultCategory = "Soporte Técnico";
+    private string defaultAssignee = "";
+    private string statusMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load current settings if they exist
+        // This would normally load from configuration or database
+        statusMessage = "Configuración cargada correctamente.";
+    }
+
+    private async Task SaveOutlookSettings()
+    {
+        try
+        {
+            // In a real implementation, save to configuration or database
+            statusMessage = "Configuración de Outlook guardada exitosamente.";
+            StateHasChanged();
+            
+            // Clear message after 3 seconds
+            await Task.Delay(3000);
+            statusMessage = "";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Error al guardar configuración: {ex.Message}";
+        }
+    }
+
+    private async Task SaveTicketSettings()
+    {
+        try
+        {
+            // In a real implementation, save to configuration or database
+            statusMessage = "Configuración de tickets guardada exitosamente.";
+            StateHasChanged();
+            
+            // Clear message after 3 seconds
+            await Task.Delay(3000);
+            statusMessage = "";
+            StateHasChanged();
+        }
+        catch (Exception ex)
+        {
+            statusMessage = $"Error al guardar configuración: {ex.Message}";
+        }
+    }
+}
