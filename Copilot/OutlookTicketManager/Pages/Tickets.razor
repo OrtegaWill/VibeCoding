@@ -11,6 +11,10 @@
             Gestión de Tickets
         </h1>
         <div>
+            <button class="btn btn-success me-2" @onclick="ShowCreateModal">
+                <i class="oi oi-plus me-1"></i>
+                Crear Ticket
+            </button>
             <button class="btn btn-primary" @onclick="RefreshTickets">
                 <i class="oi oi-reload me-1"></i>
                 Actualizar
@@ -46,9 +50,15 @@
     }
 </div>
 
+<!-- Modal para crear nuevo ticket -->
+<CreateTicketModal ShowModal="showCreateModal" 
+                   ShowModalChanged="OnShowModalChanged" 
+                   OnTicketCreated="OnTicketCreated" />
+
 @code {
     private List<Ticket>? tickets;
     private Ticket? selectedTicket;
+    private bool showCreateModal = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -72,6 +82,25 @@
     private void OnTicketSelected(Ticket ticket)
     {
         selectedTicket = ticket;
+    }
+
+    private void ShowCreateModal()
+    {
+        showCreateModal = true;
+    }
+
+    private void OnShowModalChanged(bool show)
+    {
+        showCreateModal = show;
+    }
+
+    private async Task OnTicketCreated(Ticket newTicket)
+    {
+        // Refresh the tickets list to include the new ticket
+        await RefreshTickets();
+        
+        // Select the newly created ticket
+        selectedTicket = newTicket;
     }
 
     private async Task OnTicketUpdated(Ticket updatedTicket)

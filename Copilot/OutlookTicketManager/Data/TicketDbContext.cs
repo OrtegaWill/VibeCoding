@@ -43,13 +43,30 @@ namespace OutlookTicketManager.Data
                 entity.Property(t => t.AssignedTo).HasMaxLength(200);
                 entity.Property(t => t.Tags).HasMaxLength(500);
                 
+                // Configuración de nuevos campos
+                entity.Property(t => t.IdPeticion).HasMaxLength(100);
+                entity.Property(t => t.GrupoAsignado).HasMaxLength(100);
+                entity.Property(t => t.GrupoResolutor).HasMaxLength(100);
+                entity.Property(t => t.TipoQueja).HasMaxLength(100);
+                entity.Property(t => t.Origen).HasMaxLength(100);
+                entity.Property(t => t.Apellidos).HasMaxLength(200);
+                entity.Property(t => t.Nombre).HasMaxLength(200);
+                entity.Property(t => t.QuienAtiende).HasMaxLength(200);
+                entity.Property(t => t.VisorAplicativoAfectado).HasMaxLength(200);
+                entity.Property(t => t.Problema).HasMaxLength(200);
+                entity.Property(t => t.Precarga).HasMaxLength(200);
+                entity.Property(t => t.RfcSolicitudCambio).HasMaxLength(100);
+                
                 // Conversión de enums a enteros
                 entity.Property(t => t.Status).HasConversion<int>();
                 entity.Property(t => t.Priority).HasConversion<int>();
+                entity.Property(t => t.Criticidad).HasConversion<int?>();
                 
                 // Precisión para decimales
                 entity.Property(t => t.EstimatedHours).HasColumnType("decimal(5,2)");
                 entity.Property(t => t.ActualHours).HasColumnType("decimal(5,2)");
+                entity.Property(t => t.TiempoResolucionHoras).HasColumnType("decimal(8,2)");
+                entity.Property(t => t.Avance).HasColumnType("decimal(5,2)");
                 
                 // Índices para consultas eficientes
                 entity.HasIndex(t => t.EmailId).IsUnique();
@@ -57,6 +74,9 @@ namespace OutlookTicketManager.Data
                 entity.HasIndex(t => t.Status);
                 entity.HasIndex(t => t.Priority);
                 entity.HasIndex(t => t.CreatedDate);
+                entity.HasIndex(t => t.IdPeticion);
+                entity.HasIndex(t => t.GrupoAsignado);
+                entity.HasIndex(t => t.Criticidad);
             });
 
             // Configuración del modelo TicketComment

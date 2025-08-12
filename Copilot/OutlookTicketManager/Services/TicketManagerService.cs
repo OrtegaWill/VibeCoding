@@ -14,6 +14,8 @@ namespace OutlookTicketManager.Services
         private readonly OutlookServiceSimplified _outlookService;
         private readonly EmailClassifierServiceSimplified _classifierService;
         private readonly NotificationService _notificationService;
+        private readonly CsvImportService _csvImportService;
+        private readonly FileImportService _fileImportService;
         private readonly ILogger<TicketManagerService> _logger;
 
         public TicketManagerService(
@@ -21,12 +23,16 @@ namespace OutlookTicketManager.Services
             OutlookServiceSimplified outlookService,
             EmailClassifierServiceSimplified classifierService,
             NotificationService notificationService,
+            CsvImportService csvImportService,
+            FileImportService fileImportService,
             ILogger<TicketManagerService> logger)
         {
             _context = context;
             _outlookService = outlookService;
             _classifierService = classifierService;
             _notificationService = notificationService;
+            _csvImportService = csvImportService;
+            _fileImportService = fileImportService;
             _logger = logger;
         }
 
@@ -144,20 +150,74 @@ namespace OutlookTicketManager.Services
         }
 
         /// <summary>
-        /// Importa emails y los convierte en tickets (método simplificado)
+        /// Importa tickets desde archivo de datos (CSV o Excel)
+        /// </summary>
+        /// <param name="filePath">Ruta del archivo a importar (opcional, usa archivo por defecto si no se especifica)</param>
+        /// <returns>Número de tickets importados</returns>
+        public async Task<int> ImportDataFileAsync(string? filePath = null)
+        {
+            try
+            {
+                // Si no se especifica archivo, usar el archivo por defecto
+                if (string.IsNullOrEmpty(filePath))
+                {
+                    var defaultCsvPath = Path.Combine(Directory.GetCurrentDirectory(), "Insumo", "RawData.csv");
+                    var defaultExcelPath = Path.Combine(Directory.GetCurrentDirectory(), "Insumo", "RawData.xlsx");
+                    
+                    // Preferir CSV si existe, sino Excel
+                    filePath = File.Exists(defaultCsvPath) ? defaultCsvPath : defaultExcelPath;
+                }
+
+                if (!File.Exists(filePath))
+                {
+                    _logger.LogError("Archivo de datos no encontrado: {FilePath}", filePath);
+                    await _notificationService.SendNotificationAsync("Error de Importación", "Archivo de datos no encontrado");
+                    return 0;
+                }
+
+                _logger.LogInformation("Iniciando importación de datos desde: {FilePath}", filePath);
+
+                var ticketsImported = 0;
+                var extension = Path.GetExtension(filePath).ToLower();
+
+                switch (extension)
+                {
+                    case ".csv":
+                        ticketsImported = await _csvImportService.ImportTicketsFromCsvAsync(filePath);
+                        break;
+                    case ".xlsx":
+                    case ".xls":
+                        ticketsImported = await _fileImportService.ImportTicketsFromFileAsync(filePath);
+                        break;
+                    default:
+                        _logger.LogError("Formato de archivo no soportado: {Extension}", extension);
+                        await _notificationService.SendNotificationAsync("Error de Importación", $"Formato de archivo no soportado ({extension})");
+                        return 0;
+                }
+
+                _logger.LogInformation("Importación de datos completada. Importados {TicketsImported} tickets", ticketsImported);
+                return ticketsImported;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error durante la importación de datos desde: {FilePath}", filePath);
+                await _notificationService.SendNotificationAsync("Error de Importación", "Error durante la importación de datos");
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Importa datos desde archivo y los convierte en tickets (método simplificado)
         /// </summary>
         public async Task<int> ImportEmailsAsync()
         {
             try
             {
-                // Por ahora simular la importación
-                // En una implementación real, aquí se llamaría a ImportEmailsFromOutlookAsync
-                _logger.LogInformation("Iniciando importación de emails...");
+                // Cambiar a importar desde archivo de datos en lugar de emails
+                _logger.LogInformation("Iniciando importación de datos...");
                 
-                // Simular el proceso
-                await Task.Delay(1000);
-                
-                var importedCount = 0; // En una implementación real, esto sería el resultado de la importación
+                // Usar el nuevo método de importación de datos
+                var importedCount = await ImportDataFileAsync();
                 
                 await _notificationService.NotifyEmailImportCompletedAsync(importedCount);
                 
@@ -166,7 +226,7 @@ namespace OutlookTicketManager.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error durante la importación de emails");
+                _logger.LogError(ex, "Error durante la importación de datos");
                 throw;
             }
         }
@@ -223,6 +283,48 @@ namespace OutlookTicketManager.Services
             return await _context.Tickets
                 .Include(t => t.Comments.OrderBy(c => c.CreatedDate))
                 .FirstOrDefaultAsync(t => t.Id == ticketId);
+        }
+
+        /// <summary>
+        /// Crea un nuevo ticket manualmente
+        /// </summary>
+        public async Task<Ticket> CreateTicketAsync(Ticket ticket)
+        {
+            try
+            {
+                // Validaciones básicas
+                if (string.IsNullOrWhiteSpace(ticket.Subject))
+                    throw new ArgumentException("El asunto es requerido");
+                
+                if (string.IsNullOrWhiteSpace(ticket.FromEmail))
+                    throw new ArgumentException("El email del remitente es requerido");
+
+                // Configurar campos automáticos
+                ticket.CreatedDate = DateTime.UtcNow;
+                ticket.UpdatedDate = DateTime.UtcNow;
+                ticket.EmailId = ticket.EmailId ?? Guid.NewGuid().ToString();
+                
+                // Si se asigna a un grupo, establecer fecha de asignación
+                if (!string.IsNullOrEmpty(ticket.GrupoAsignado) && !ticket.FechaAsignacion.HasValue)
+                {
+                    ticket.FechaAsignacion = DateTime.UtcNow;
+                }
+
+                _context.Tickets.Add(ticket);
+                await _context.SaveChangesAsync();
+
+                // Notificar creación del ticket
+                await _notificationService.NotifyTicketCreatedAsync(ticket);
+
+                _logger.LogInformation("Manually created ticket {TicketId}: {Subject}", ticket.Id, ticket.Subject);
+                
+                return ticket;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating ticket manually");
+                throw;
+            }
         }
 
         /// <summary>

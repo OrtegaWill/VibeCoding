@@ -10,6 +10,7 @@ main[b-i5jtvihwwk] {
 
 .sidebar[b-i5jtvihwwk] {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    transition: width 0.3s ease;
 }
 
 .top-row[b-i5jtvihwwk] {
@@ -55,6 +56,13 @@ main[b-i5jtvihwwk] {
         height: 100vh;
         position: sticky;
         top: 0;
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
+
+    .sidebar.collapsed[b-i5jtvihwwk] {
+        width: 70px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
     .top-row[b-i5jtvihwwk] {

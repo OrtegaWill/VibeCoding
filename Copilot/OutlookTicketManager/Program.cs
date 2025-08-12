@@ -22,6 +22,9 @@ builder.Services.AddScoped<OutlookServiceSimplified>();
 builder.Services.AddScoped<EmailClassifierServiceSimplified>();
 builder.Services.AddScoped<TicketManagerService>();
 builder.Services.AddScoped<OutlookTicketManager.Services.NotificationService>();
+builder.Services.AddScoped<CsvImportService>();
+builder.Services.AddScoped<FileImportService>();
+builder.Services.AddSingleton<SidebarStateService>();
 
 // Add SignalR
 builder.Services.AddSignalR();

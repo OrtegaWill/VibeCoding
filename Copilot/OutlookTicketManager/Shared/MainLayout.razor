@@ -1,9 +1,12 @@
-﻿@inherits LayoutComponentBase
+﻿@using OutlookTicketManager.Services
+@inject SidebarStateService SidebarState
+@implements IDisposable
+@inherits LayoutComponentBase
 
 <PageTitle>OutlookTicketManager</PageTitle>
 
 <div class="page">
-    <div class="sidebar">
+    <div class="sidebar @((SidebarState?.IsCollapsed == true) ? "collapsed" : "")">
         <NavMenu />
     </div>
 
@@ -17,3 +20,26 @@
         </article>
     </main>
 </div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (SidebarState != null)
+        {
+            SidebarState.OnChange += OnSidebarStateChanged;
+        }
+    }
+
+    private void OnSidebarStateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        if (SidebarState != null)
+        {
+            SidebarState.OnChange -= OnSidebarStateChanged;
+        }
+    }
+}

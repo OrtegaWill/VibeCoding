@@ -2,7 +2,9 @@
 @using OutlookTicketManager.Components.Tickets
 @using OutlookTicketManager.Models
 @using OutlookTicketManager.Services
+@using Microsoft.AspNetCore.Components.Forms
 @inject TicketManagerService TicketService
+@inject FileImportService FileImportService
 @inject IJSRuntime JSRuntime
 @implements IDisposable
 
@@ -23,6 +25,71 @@
                 <i class="fas fa-download me-1"></i>
                 Importar Emails
             </button>
+            
+            <!-- Importación de archivos estándar (CSV/Excel) -->
+            <div class="file-upload-container me-2">
+                <div class="btn-group" role="group">
+                    <div class="file-input-wrapper">
+                        <InputFile accept=".xlsx,.xls,.csv" OnChange="OnFileSelected" 
+                                   class="file-input" id="fileInput" />
+                        <label for="fileInput" class="btn btn-outline-secondary">
+                            <i class="fas fa-file-excel me-1"></i>
+                            @if (string.IsNullOrEmpty(SelectedFileName))
+                            {
+                                <span>Seleccionar archivo</span>
+                            }
+                            else
+                            {
+                                <text>@SelectedFileName</text>
+                            }
+                        </label>
+                    </div>
+                    @if (!string.IsNullOrEmpty(SelectedFileName))
+                    {
+                        <button class="btn btn-primary" @onclick="ImportFile" disabled="@IsImportingFile">
+                            @if (IsImportingFile)
+                            {
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                            }
+                            <i class="fas fa-upload me-1"></i>
+                            Importar
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Importación de archivos RawData -->
+            <div class="file-upload-container me-2">
+                <div class="btn-group" role="group">
+                    <div class="file-input-wrapper">
+                        <InputFile accept=".csv" OnChange="OnRawDataFileSelected"
+                                   class="file-input" id="rawDataFileInput" />
+                        <label for="rawDataFileInput" class="btn btn-outline-warning">
+                            <i class="fas fa-database me-1"></i>
+                            @if (string.IsNullOrEmpty(SelectedRawDataFileName))
+                            {
+                                <span>RawData CSV</span>
+                            }
+                            else
+                            {
+                                <text>@SelectedRawDataFileName</text>
+                            }
+                        </label>
+                    </div>
+                    @if (!string.IsNullOrEmpty(SelectedRawDataFileName))
+                    {
+                        <button class="btn btn-warning" @onclick="ImportRawDataFile" disabled="@IsImportingRawData">
+                            @if (IsImportingRawData)
+                            {
+                                <div class="spinner-border spinner-border-sm me-2" role="status"></div>
+                            }
+                            <i class="fas fa-upload me-1"></i>
+                            Importar RawData
+                        </button>
+                    }
+                </div>
+            </div>
+            
             <button class="btn btn-outline-primary" @onclick="RefreshData">
                 <i class="fas fa-refresh me-1"></i>
                 Actualizar
@@ -137,6 +204,7 @@
                               TotalPages="@TotalPages"
                               OnPageChanged="@OnPageChanged"
                               OnViewTicket="@OnViewTicket"
+                              OnTicketSelected="@OnTicketSelected"
                               OnStatusChange="@OnTicketStatusChange" />
                 }
                 else
@@ -201,6 +269,36 @@
         height: 1rem;
     }
 
+    .file-upload-container {
+        position: relative;
+        display: inline-block;
+    }
+
+    .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .file-input {
+        position: absolute;
+        left: -9999px;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .file-input-wrapper label {
+        cursor: pointer;
+        margin: 0;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    .btn-group .btn:not(.file-input-wrapper label) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
     @@media (max-width: 768px) {
         .dashboard-container {
             padding: 10px;
@@ -214,6 +312,18 @@
         
         .dashboard-actions .btn {
             width: 100%;
+        }
+
+        .file-upload-container {
+            width: 100%;
+        }
+
+        .btn-group {
+            width: 100%;
+        }
+
+        .btn-group .btn {
+            border-radius: 4px !important;
         }
     }
 </style>
@@ -245,6 +355,16 @@
     // Alertas
     private string AlertMessage { get; set; } = "";
     private string AlertType { get; set; } = "info";
+
+    // Propiedades para importación de archivos
+    private string SelectedFileName { get; set; } = "";
+    private IBrowserFile? SelectedFile { get; set; }
+    private bool IsImportingFile { get; set; } = false;
+    
+    // RawData import properties
+    private string SelectedRawDataFileName { get; set; } = "";
+    private IBrowserFile? SelectedRawDataFile { get; set; }
+    private bool IsImportingRawData { get; set; } = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -301,6 +421,154 @@
         finally
         {
             IsImporting = false;
+        }
+    }
+
+    // File import methods
+    private void OnFileSelected(InputFileChangeEventArgs e)
+    {
+        if (e.FileCount > 0)
+        {
+            SelectedFile = e.File;
+            SelectedFileName = SelectedFile.Name;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ImportFile()
+    {
+        if (SelectedFile == null)
+        {
+            ShowAlert("Por favor, selecciona un archivo primero", "warning");
+            return;
+        }
+
+        IsImportingFile = true;
+        StateHasChanged();
+
+        try
+        {
+            var tempDir = Path.GetTempPath();
+            var tempFilePath = Path.Combine(tempDir, $"{Guid.NewGuid()}_{SelectedFile.Name}");
+
+            await using var fileStream = new FileStream(tempFilePath, FileMode.Create);
+            try
+            {
+                await SelectedFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024).CopyToAsync(fileStream); // Max 10MB
+            }
+            catch (Exception ex)
+            {
+                ShowAlert($"Error al leer el archivo: {ex.Message}", "danger");
+                return;
+            }
+
+            // Import using FileImportService
+            var importedCount = await FileImportService.ImportTicketsFromFileAsync(tempFilePath);
+
+            // Delete temp file
+            if (File.Exists(tempFilePath))
+            {
+                File.Delete(tempFilePath);
+            }
+
+            if (importedCount > 0)
+            {
+                ShowAlert($"Se importaron {importedCount} tickets correctamente desde {SelectedFile.Name}", "success");
+            }
+            else
+            {
+                ShowAlert("No se encontraron tickets válidos para importar", "warning");
+            }
+
+            // Reset file selection
+            SelectedFile = null;
+            SelectedFileName = "";
+            
+            // Refresh data
+            await RefreshData();
+        }
+        catch (Exception ex)
+        {
+            ShowAlert($"Error durante la importación: {ex.Message}", "danger");
+        }
+        finally
+        {
+            IsImportingFile = false;
+            StateHasChanged();
+        }
+    }
+
+    // RawData file selection and import methods
+    private void OnRawDataFileSelected(InputFileChangeEventArgs e)
+    {
+        if (e.FileCount > 0)
+        {
+            SelectedRawDataFile = e.File;
+            SelectedRawDataFileName = SelectedRawDataFile.Name;
+            StateHasChanged();
+        }
+    }
+
+    private async Task ImportRawDataFile()
+    {
+        if (SelectedRawDataFile == null)
+        {
+            ShowAlert("Por favor, selecciona un archivo RawData primero", "warning");
+            return;
+        }
+
+        IsImportingRawData = true;
+        StateHasChanged();
+
+        try
+        {
+            var tempDir = Path.GetTempPath();
+            var tempFilePath = Path.Combine(tempDir, $"{Guid.NewGuid()}_{SelectedRawDataFile.Name}");
+
+            await using var fileStream = new FileStream(tempFilePath, FileMode.Create);
+            try
+            {
+                await SelectedRawDataFile.OpenReadStream(maxAllowedSize: 10 * 1024 * 1024).CopyToAsync(fileStream); // Max 10MB
+            }
+            catch (Exception ex)
+            {
+                ShowAlert($"Error al leer el archivo: {ex.Message}", "danger");
+                return;
+            }
+
+            // Import RawData using the specialized method
+            var importedCount = await FileImportService.ImportRawDataAsync(tempFilePath);
+
+            // Delete temp file
+            if (File.Exists(tempFilePath))
+            {
+                File.Delete(tempFilePath);
+            }
+
+            if (importedCount > 0)
+            {
+                ShowAlert($"Se importaron {importedCount} tickets correctamente desde {SelectedRawDataFile.Name}", "success");
+            }
+            else
+            {
+                ShowAlert("No se encontraron tickets válidos para importar", "warning");
+            }
+
+            // Reset file selection
+            SelectedRawDataFile = null;
+            SelectedRawDataFileName = "";
+            
+            // Refresh data
+            await RefreshData();
+        }
+        catch (Exception ex)
+        {
+            ShowAlert($"Error durante la importación: {ex.Message}", "danger");
+        }
+        finally
+        {
+            IsImportingRawData = false;
+            StateHasChanged();
         }
     }
 
@@ -381,6 +649,12 @@
         {
             IsLoadingTicketDetail = false;
         }
+    }
+
+    private void OnTicketSelected(Ticket ticket)
+    {
+        SelectedTicket = ticket;
+        ShowTicketDetail = true;
     }
 
     private async Task OnTicketUpdated(Ticket updatedTicket)

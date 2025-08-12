@@ -1,0 +1,264 @@
+@using OutlookTicketManager.Models
+@using OutlookTicketManager.Services
+@inject TicketManagerService TicketService
+
+<div class="modal fade @(ShowModal ? "show" : "")" style="@(ShowModal ? "display:block;" : "display:none;")" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="oi oi-plus me-2"></i>
+                    Crear Nuevo Ticket
+                </h5>
+                <button type="button" class="btn-close" @onclick="CloseModal"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <!-- Información Básica -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Información Básica</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="subject" class="form-label">Asunto *</label>
+                                        <input type="text" class="form-control" id="subject" @bind="NewTicket.Subject" required />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Descripción *</label>
+                                        <textarea class="form-control" id="description" rows="3" @bind="NewTicket.Description" required></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="idPeticion" class="form-label">ID de Petición</label>
+                                        <input type="text" class="form-control" id="idPeticion" @bind="NewTicket.IdPeticion" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Clasificación -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Clasificación</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="priority" class="form-label">Prioridad</label>
+                                        <select class="form-select" id="priority" @bind="NewTicket.Priority">
+                                            <option value="0">Baja</option>
+                                            <option value="1">Media</option>
+                                            <option value="2">Alta</option>
+                                            <option value="3">Crítica</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="criticidad" class="form-label">Criticidad</label>
+                                        <select class="form-select" id="criticidad" @bind="NewTicket.Criticidad">
+                                            <option value="">Seleccionar...</option>
+                                            <option value="0">Muy Baja</option>
+                                            <option value="1">Baja</option>
+                                            <option value="2">Media</option>
+                                            <option value="3">Alta</option>
+                                            <option value="4">Muy Alta</option>
+                                            <option value="5">Crítica</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label">Categoría</label>
+                                        <input type="text" class="form-control" id="category" @bind="NewTicket.Category" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="tipoQueja" class="form-label">Tipo de Queja</label>
+                                        <input type="text" class="form-control" id="tipoQueja" @bind="NewTicket.TipoQueja" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="origen" class="form-label">Origen</label>
+                                        <input type="text" class="form-control" id="origen" @bind="NewTicket.Origen" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <!-- Información del Solicitante -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Información del Solicitante</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" @bind="NewTicket.Nombre" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="apellidos" class="form-label">Apellidos</label>
+                                        <input type="text" class="form-control" id="apellidos" @bind="NewTicket.Apellidos" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="fromEmail" class="form-label">Email *</label>
+                                        <input type="email" class="form-control" id="fromEmail" @bind="NewTicket.FromEmail" required />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Asignación -->
+                        <div class="col-md-6">
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    <h6 class="mb-0">Asignación</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="mb-3">
+                                        <label for="grupoAsignado" class="form-label">Grupo Asignado</label>
+                                        <input type="text" class="form-control" id="grupoAsignado" @bind="NewTicket.GrupoAsignado" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="quienAtiende" class="form-label">Quién Atiende</label>
+                                        <input type="text" class="form-control" id="quienAtiende" @bind="NewTicket.QuienAtiende" />
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="visorAfectado" class="form-label">Visor/Aplicativo Afectado</label>
+                                        <input type="text" class="form-control" id="visorAfectado" @bind="NewTicket.VisorAplicativoAfectado" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detalles del Problema -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h6 class="mb-0">Detalles del Problema</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="problema" class="form-label">Problema</label>
+                                        <input type="text" class="form-control" id="problema" @bind="NewTicket.Problema" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="estimatedHours" class="form-label">Horas Estimadas</label>
+                                        <input type="number" step="0.5" class="form-control" id="estimatedHours" @bind="NewTicket.EstimatedHours" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="detalleProblema" class="form-label">Detalle del Problema</label>
+                                <textarea class="form-control" id="detalleProblema" rows="4" @bind="NewTicket.DetalleProblema"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="CloseModal">Cancelar</button>
+                <button type="button" class="btn btn-primary" @onclick="SaveTicket" disabled="@IsSaving">
+                    @if (IsSaving)
+                    {
+                        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                    }
+                    <i class="oi oi-check me-1"></i>
+                    Crear Ticket
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (ShowModal)
+{
+    <div class="modal-backdrop fade show"></div>
+}
+
+@code {
+    [Parameter] public bool ShowModal { get; set; }
+    [Parameter] public EventCallback<bool> ShowModalChanged { get; set; }
+    [Parameter] public EventCallback<Ticket> OnTicketCreated { get; set; }
+    
+    private Ticket NewTicket = new();
+    private bool IsSaving = false;
+
+    protected override void OnParametersSet()
+    {
+        if (ShowModal)
+        {
+            ResetForm();
+        }
+    }
+
+    private void ResetForm()
+    {
+        NewTicket = new Ticket
+        {
+            EmailId = Guid.NewGuid().ToString(),
+            Status = TicketStatus.Backlog,
+            Priority = Priority.Medium,
+            CreatedDate = DateTime.UtcNow,
+            UpdatedDate = DateTime.UtcNow
+        };
+    }
+
+    private async Task SaveTicket()
+    {
+        if (string.IsNullOrWhiteSpace(NewTicket.Subject) || string.IsNullOrWhiteSpace(NewTicket.FromEmail))
+        {
+            return; // Validación básica
+        }
+
+        IsSaving = true;
+        try
+        {
+            // Configurar campos automáticos
+            NewTicket.FromName = !string.IsNullOrEmpty(NewTicket.Nombre) && !string.IsNullOrEmpty(NewTicket.Apellidos) 
+                ? $"{NewTicket.Nombre} {NewTicket.Apellidos}" 
+                : NewTicket.FromEmail;
+            
+            NewTicket.FechaAsignacion = !string.IsNullOrEmpty(NewTicket.GrupoAsignado) ? DateTime.UtcNow : null;
+
+            // Crear el ticket usando el servicio
+            var createdTicket = await TicketService.CreateTicketAsync(NewTicket);
+            
+            // Notificar al componente padre
+            await OnTicketCreated.InvokeAsync(createdTicket);
+            
+            // Cerrar modal
+            await CloseModal();
+        }
+        catch (Exception ex)
+        {
+            // En una aplicación real, mostrarías un mensaje de error
+            Console.WriteLine($"Error creating ticket: {ex.Message}");
+        }
+        finally
+        {
+            IsSaving = false;
+        }
+    }
+
+    private async Task CloseModal()
+    {
+        ShowModal = false;
+        await ShowModalChanged.InvokeAsync(ShowModal);
+        ResetForm();
+    }
+}

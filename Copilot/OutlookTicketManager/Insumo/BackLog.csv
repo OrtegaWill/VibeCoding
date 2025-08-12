@@ -1,0 +1,9 @@
+﻿ID de la incidencia*+,ID de petición de servicio,Descripción Detallada,Grupo asignado*+,Prioridad*,Estado*,Fecha de notificación+,Fecha de solucion,Apellidos+,Nombre+,Solución,Usuario asignado+,Nombre del producto+
+INCS00003636034,REQS00002145713,"Folio caso SaC: AC202572184670
+RMA Masivo:  No aplica
+RFC: GSA120702SV2
+Descripción: Se advierte que el contribuyente obtuvo coeficiente de utilidad en 2021, sin embargo, en su pago provisional de 2022 no se refleja de manera correcta.",SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,15/05/25 18:32,,ROMERO LOZANO,ALAIN FERNANDO,,ILENIA AURA GONZALEZ SALDIVAR,PRECARGA- DYP - PAGOS PROVISIONALES
+INCS00003653522,REQS00002180536,Usuario Frida Junet Medina solita apoyo al Caso AC202571910643 del RFCIMA961024GP8 PAGOS PROVISIONALES PM PRECARGA DE CFDI,SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,08/07/25 9:03,,MONROY SANCHEZ,MARIA,,JOSE M RAMIREZ MARQUEZ,PRECARGA- DYP - PAGOS PROVISIONALES
+INCS00003654643,REQS00002183437,"No se muestra en el visor la factura recibida de tipo pago con UUID e230be49-bb13-48ab-bbda-23de073e94cc, misma que se encuentra vigente y con fecha de pago del mes de febrero 2025.
+El visor para el mes de febrero solo muestra una factura vigente, cuando deberían ser dos.",SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,11/07/25 12:12,,BUGARIN PATIÑO,MAURICIO,,ILENIA AURA GONZALEZ SALDIVAR,PRECARGA-VISORES PRECARGAS
+INCS00003660775,REQS00002194935,Diversos contribuyentes pf refieren que la precarga de la anual de los pagos provisionales no es correcta.,SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,31/07/25 17:19,,CERDA CHAVEZ,ANGEL GIBRAN,,ILENIA AURA GONZALEZ SALDIVAR,PRECARGA- DYP - PAGOS PROVISIONALES

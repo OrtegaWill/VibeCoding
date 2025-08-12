@@ -11,6 +11,7 @@ main[b-i5jtvihwwk] {
 
 .sidebar[b-i5jtvihwwk] {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    transition: width 0.3s ease;
 }
 
 .top-row[b-i5jtvihwwk] {
@@ -56,6 +57,13 @@ main[b-i5jtvihwwk] {
         height: 100vh;
         position: sticky;
         top: 0;
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
+
+    .sidebar.collapsed[b-i5jtvihwwk] {
+        width: 70px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
     .top-row[b-i5jtvihwwk] {
@@ -74,6 +82,32 @@ main[b-i5jtvihwwk] {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
+.sidebar-toggle[b-egxpv5hv3y] {
+    background: none;
+    border: none;
+    color: #d7d7d7;
+    font-size: 1.2rem;
+    padding: 0.5rem;
+    margin-left: auto;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    min-width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-toggle:hover[b-egxpv5hv3y] {
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: scale(1.05);
+}
+
+.sidebar-toggle:active[b-egxpv5hv3y] {
+    transform: scale(0.95);
+}
+
 .top-row[b-egxpv5hv3y] {
     height: 3.5rem;
     background-color: rgba(0,0,0,0.4);
@@ -81,6 +115,7 @@ main[b-i5jtvihwwk] {
 
 .navbar-brand[b-egxpv5hv3y] {
     font-size: 1.1rem;
+    transition: opacity 0.3s ease;
 }
 
 .oi[b-egxpv5hv3y] {
@@ -110,7 +145,25 @@ main[b-i5jtvihwwk] {
         display: flex;
         align-items: center;
         line-height: 3rem;
+        transition: all 0.3s ease;
+        position: relative;
     }
+
+.nav-text[b-egxpv5hv3y] {
+    margin-left: 0.5rem;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar-collapsed .nav-item[b-egxpv5hv3y]  a {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sidebar-collapsed .nav-item[b-egxpv5hv3y] {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
 
 .nav-item[b-egxpv5hv3y]  a.active {
     background-color: rgba(255,255,255,0.25);
@@ -120,6 +173,50 @@ main[b-i5jtvihwwk] {
 .nav-item[b-egxpv5hv3y]  a:hover {
     background-color: rgba(255,255,255,0.1);
     color: white;
+}
+
+/* Tooltip para iconos cuando está colapsado */
+.sidebar-collapsed .nav-item[b-egxpv5hv3y]  a::after {
+    content: attr(title);
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 0.5rem 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 1000;
+    pointer-events: none;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.sidebar-collapsed .nav-item[b-egxpv5hv3y]  a::before {
+    content: '';
+    position: absolute;
+    left: calc(100% + 5px);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 5px 5px 0;
+    border-color: transparent rgba(0, 0, 0, 0.9) transparent transparent;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 999;
+}
+
+.sidebar-collapsed .nav-item[b-egxpv5hv3y]  a:hover::after,
+.sidebar-collapsed .nav-item[b-egxpv5hv3y]  a:hover::before {
+    opacity: 1;
+    visibility: visible;
 }
 
 @media (min-width: 641px) {
@@ -136,5 +233,10 @@ main[b-i5jtvihwwk] {
         /* Allow sidebar to scroll for tall menus */
         height: calc(100vh - 3.5rem);
         overflow-y: auto;
+        transition: width 0.3s ease;
+    }
+
+    .sidebar-collapsed .nav-text[b-egxpv5hv3y] {
+        display: none !important;
     }
 }

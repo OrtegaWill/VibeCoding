@@ -75,7 +75,7 @@ namespace OutlookTicketManager.Migrations
                             Id = 1,
                             AutoCategory = "Consulta Interna",
                             AutoPriority = 1,
-                            CreatedDate = new DateTime(2025, 8, 6, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(940),
+                            CreatedDate = new DateTime(2025, 8, 11, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2310),
                             FromDomain = "@cognizant.com",
                             IsActive = true,
                             Name = "Filtro Cognizant"
@@ -85,7 +85,7 @@ namespace OutlookTicketManager.Migrations
                             Id = 2,
                             AutoCategory = "Bug",
                             AutoPriority = 2,
-                            CreatedDate = new DateTime(2025, 8, 6, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(940),
+                            CreatedDate = new DateTime(2025, 8, 11, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2310),
                             IsActive = true,
                             Name = "Bugs Críticos",
                             SubjectKeywords = "bug,error,critical,urgente"
@@ -95,7 +95,7 @@ namespace OutlookTicketManager.Migrations
                             Id = 3,
                             AutoCategory = "Soporte",
                             AutoPriority = 1,
-                            CreatedDate = new DateTime(2025, 8, 6, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(940),
+                            CreatedDate = new DateTime(2025, 8, 11, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2320),
                             IsActive = true,
                             Name = "Solicitudes de Soporte",
                             SubjectKeywords = "soporte,ayuda,problema,issue"
@@ -111,9 +111,16 @@ namespace OutlookTicketManager.Migrations
                     b.Property<decimal?>("ActualHours")
                         .HasColumnType("decimal(5,2)");
 
+                    b.Property<string>("Apellidos")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("AssignedTo")
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
+
+                    b.Property<decimal?>("Avance")
+                        .HasColumnType("decimal(5,2)");
 
                     b.Property<string>("Body")
                         .HasColumnType("TEXT");
@@ -123,6 +130,9 @@ namespace OutlookTicketManager.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("CausaRaiz")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ConversationId")
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
@@ -130,8 +140,14 @@ namespace OutlookTicketManager.Migrations
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("Criticidad")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Description")
                         .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DetalleProblema")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmailId")
@@ -140,6 +156,12 @@ namespace OutlookTicketManager.Migrations
 
                     b.Property<decimal?>("EstimatedHours")
                         .HasColumnType("decimal(5,2)");
+
+                    b.Property<DateTime?>("FechaAckPrecargas")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime?>("FechaAsignacion")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("FromEmail")
                         .IsRequired()
@@ -151,13 +173,55 @@ namespace OutlookTicketManager.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("GrupoAsignado")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("GrupoResolutor")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Historial")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("IdPeticion")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("LastUpdated")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Origen")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Precarga")
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Priority")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Problema")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("QuienAtiende")
+                        .HasMaxLength(200)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime?>("ResolvedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RfcSolicitudCambio")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("SolucionRemedy")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("Status")
@@ -172,17 +236,34 @@ namespace OutlookTicketManager.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("TEXT");
 
+                    b.Property<decimal?>("TiempoResolucionHoras")
+                        .HasColumnType("decimal(8,2)");
+
+                    b.Property<string>("TipoQueja")
+                        .HasMaxLength(100)
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("VisorAplicativoAfectado")
+                        .HasMaxLength(200)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CreatedDate");
 
+                    b.HasIndex("Criticidad");
+
                     b.HasIndex("EmailId")
                         .IsUnique();
 
                     b.HasIndex("FromEmail");
+
+                    b.HasIndex("GrupoAsignado");
+
+                    b.HasIndex("IdPeticion");
 
                     b.HasIndex("Priority");
 
@@ -197,35 +278,35 @@ namespace OutlookTicketManager.Migrations
                             ActualHours = 4.0m,
                             AssignedTo = "admin@company.com",
                             Category = "Bug",
-                            CreatedDate = new DateTime(2025, 8, 3, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1040),
+                            CreatedDate = new DateTime(2025, 8, 8, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2420),
                             Description = "El sistema de facturación presenta errores al generar reportes mensuales. Los usuarios reportan que no pueden acceder a los documentos.",
                             EmailId = "sample-email-001",
                             EstimatedHours = 8.5m,
                             FromEmail = "juan.perez@cognizant.com",
                             FromName = "Juan Pérez",
-                            LastUpdated = new DateTime(2025, 8, 5, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1050),
+                            LastUpdated = new DateTime(2025, 8, 10, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2420),
                             Priority = 2,
                             Status = 1,
                             Subject = "Error en sistema de facturación",
                             Tags = "facturación,bug,urgente",
-                            UpdatedDate = new DateTime(2025, 8, 5, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1050)
+                            UpdatedDate = new DateTime(2025, 8, 10, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2420)
                         },
                         new
                         {
                             Id = 2,
                             Category = "Solicitud",
-                            CreatedDate = new DateTime(2025, 8, 4, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1060),
+                            CreatedDate = new DateTime(2025, 8, 9, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2430),
                             Description = "Se requiere crear una nueva cuenta de usuario para María González del departamento de ventas.",
                             EmailId = "sample-email-002",
                             EstimatedHours = 2.0m,
                             FromEmail = "hr@company.com",
                             FromName = "Recursos Humanos",
-                            LastUpdated = new DateTime(2025, 8, 4, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1060),
+                            LastUpdated = new DateTime(2025, 8, 9, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2430),
                             Priority = 1,
                             Status = 0,
                             Subject = "Solicitud de nuevo usuario",
                             Tags = "usuario,acceso",
-                            UpdatedDate = new DateTime(2025, 8, 4, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1060)
+                            UpdatedDate = new DateTime(2025, 8, 9, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2430)
                         },
                         new
                         {
@@ -233,18 +314,18 @@ namespace OutlookTicketManager.Migrations
                             ActualHours = 14.5m,
                             AssignedTo = "admin@company.com",
                             Category = "Mejora",
-                            CreatedDate = new DateTime(2025, 7, 30, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1060),
+                            CreatedDate = new DateTime(2025, 8, 4, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2440),
                             Description = "Implementar nuevas políticas de seguridad según las directrices corporativas actualizadas.",
                             EmailId = "sample-email-003",
                             EstimatedHours = 16.0m,
                             FromEmail = "security@company.com",
                             FromName = "Equipo de Seguridad",
-                            LastUpdated = new DateTime(2025, 8, 5, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1060),
+                            LastUpdated = new DateTime(2025, 8, 10, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2440),
                             Priority = 0,
                             Status = 3,
                             Subject = "Actualización de políticas de seguridad",
                             Tags = "seguridad,políticas,mejora",
-                            UpdatedDate = new DateTime(2025, 8, 5, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1060)
+                            UpdatedDate = new DateTime(2025, 8, 10, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2440)
                         },
                         new
                         {
@@ -252,18 +333,18 @@ namespace OutlookTicketManager.Migrations
                             ActualHours = 2.0m,
                             AssignedTo = "techsupport@company.com",
                             Category = "Soporte",
-                            CreatedDate = new DateTime(2025, 8, 6, 17, 50, 21, 651, DateTimeKind.Utc).AddTicks(1070),
+                            CreatedDate = new DateTime(2025, 8, 11, 16, 33, 28, 295, DateTimeKind.Utc).AddTicks(2450),
                             Description = "Varios usuarios reportan problemas intermitentes de conectividad a internet en el tercer piso.",
                             EmailId = "sample-email-004",
                             EstimatedHours = 4.0m,
                             FromEmail = "soporte@company.com",
                             FromName = "Mesa de Ayuda",
-                            LastUpdated = new DateTime(2025, 8, 6, 21, 50, 21, 651, DateTimeKind.Utc).AddTicks(1070),
+                            LastUpdated = new DateTime(2025, 8, 11, 20, 33, 28, 295, DateTimeKind.Utc).AddTicks(2450),
                             Priority = 2,
                             Status = 2,
                             Subject = "Problema de conectividad en red",
                             Tags = "red,conectividad,infraestructura",
-                            UpdatedDate = new DateTime(2025, 8, 6, 21, 50, 21, 651, DateTimeKind.Utc).AddTicks(1070)
+                            UpdatedDate = new DateTime(2025, 8, 11, 20, 33, 28, 295, DateTimeKind.Utc).AddTicks(2450)
                         });
                 });
 
@@ -320,7 +401,7 @@ namespace OutlookTicketManager.Migrations
                             AuthorName = "Sistema",
                             Comment = "Ticket asignado al equipo de desarrollo para investigación.",
                             Content = "Ticket asignado al equipo de desarrollo para investigación.",
-                            CreatedDate = new DateTime(2025, 8, 3, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1090),
+                            CreatedDate = new DateTime(2025, 8, 8, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2470),
                             IsSystemComment = true,
                             TicketId = 1
                         },
@@ -332,7 +413,7 @@ namespace OutlookTicketManager.Migrations
                             AuthorName = "Admin Usuario",
                             Comment = "He identificado el problema. Está relacionado con la actualización reciente de la base de datos. Trabajando en la solución.",
                             Content = "He identificado el problema. Está relacionado con la actualización reciente de la base de datos. Trabajando en la solución.",
-                            CreatedDate = new DateTime(2025, 8, 5, 23, 50, 21, 651, DateTimeKind.Utc).AddTicks(1090),
+                            CreatedDate = new DateTime(2025, 8, 10, 22, 33, 28, 295, DateTimeKind.Utc).AddTicks(2470),
                             IsSystemComment = false,
                             TicketId = 1
                         },
@@ -344,7 +425,7 @@ namespace OutlookTicketManager.Migrations
                             AuthorName = "Tech Support",
                             Comment = "El problema ha sido escalado al equipo de infraestructura de red.",
                             Content = "El problema ha sido escalado al equipo de infraestructura de red.",
-                            CreatedDate = new DateTime(2025, 8, 6, 21, 50, 21, 651, DateTimeKind.Utc).AddTicks(1090),
+                            CreatedDate = new DateTime(2025, 8, 11, 20, 33, 28, 295, DateTimeKind.Utc).AddTicks(2470),
                             IsSystemComment = false,
                             TicketId = 4
                         });

@@ -1,0 +1,89 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/obj/Release/net7.0/scopedcss/projectbundle/OutlookTicketManager.bundle.scp.css",
+      "PackagePath": "staticwebassets/OutlookTicketManager.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/.DS_Store",
+      "PackagePath": "staticwebassets/.DS_Store"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/.DS_Store",
+      "PackagePath": "staticwebassets/css/.DS_Store"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/bootstrap/bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/bootstrap/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/css/bootstrap/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/FONT-LICENSE",
+      "PackagePath": "staticwebassets/css/open-iconic"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/ICON-LICENSE",
+      "PackagePath": "staticwebassets/css/open-iconic"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/README.md",
+      "PackagePath": "staticwebassets/css/open-iconic/README.md"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/font/css/open-iconic-bootstrap.min.css",
+      "PackagePath": "staticwebassets/css/open-iconic/font/css/open-iconic-bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/font/fonts/open-iconic.eot",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.eot"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/font/fonts/open-iconic.otf",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.otf"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/font/fonts/open-iconic.svg",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.svg"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/font/fonts/open-iconic.ttf",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.ttf"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/open-iconic/font/fonts/open-iconic.woff",
+      "PackagePath": "staticwebassets/css/open-iconic/font/fonts/open-iconic.woff"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/favicon.png",
+      "PackagePath": "staticwebassets/favicon.png"
+    },
+    {
+      "Id": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/wwwroot/js/signalr-connection.js",
+      "PackagePath": "staticwebassets/js/signalr-connection.js"
+    },
+    {
+      "Id": "obj/Release/net7.0/staticwebassets/msbuild.OutlookTicketManager.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Release/net7.0/staticwebassets/msbuild.build.OutlookTicketManager.props",
+      "PackagePath": "build\\OutlookTicketManager.props"
+    },
+    {
+      "Id": "obj/Release/net7.0/staticwebassets/msbuild.buildMultiTargeting.OutlookTicketManager.props",
+      "PackagePath": "buildMultiTargeting\\OutlookTicketManager.props"
+    },
+    {
+      "Id": "obj/Release/net7.0/staticwebassets/msbuild.buildTransitive.OutlookTicketManager.props",
+      "PackagePath": "buildTransitive\\OutlookTicketManager.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

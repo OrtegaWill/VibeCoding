@@ -24,22 +24,116 @@
             <table class="table table-hover">
                 <thead class="table-dark">
                     <tr>
-                        <th>ID</th>
-                        <th>Asunto</th>
-                        <th>Estado</th>
-                        <th>Prioridad</th>
-                        <th>Categoría</th>
-                        <th>De</th>
-                        <th>Asignado a</th>
-                        <th>Fecha</th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.Id))">
+                            ID
+                            @if (SortColumn == nameof(Ticket.Id))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.EmailId))">
+                            ID Incidente
+                            @if (SortColumn == nameof(Ticket.EmailId))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.Subject))">
+                            Asunto
+                            @if (SortColumn == nameof(Ticket.Subject))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.Status))">
+                            Estado
+                            @if (SortColumn == nameof(Ticket.Status))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.Priority))">
+                            Prioridad
+                            @if (SortColumn == nameof(Ticket.Priority))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.Category))">
+                            Categoría
+                            @if (SortColumn == nameof(Ticket.Category))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.FromName))">
+                            De
+                            @if (SortColumn == nameof(Ticket.FromName))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.AssignedTo))">
+                            Asignado a
+                            @if (SortColumn == nameof(Ticket.AssignedTo))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
+                        <th class="sortable-header" @onclick="() => SortBy(nameof(Ticket.CreatedDate))">
+                            Fecha
+                            @if (SortColumn == nameof(Ticket.CreatedDate))
+                            {
+                                <i class="fas @(SortAscending ? "fa-sort-up" : "fa-sort-down") ms-1"></i>
+                            }
+                            else
+                            {
+                                <i class="fas fa-sort ms-1 text-muted"></i>
+                            }
+                        </th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var ticket in Tickets)
+                    @foreach (var ticket in SortedTickets)
                     {
                         <tr class="ticket-row @GetRowClass(ticket)">
                             <td><strong>#@ticket.Id</strong></td>
+                            <td>
+                                <span class="incident-id" title="ID del Incidente">@ticket.EmailId</span>
+                            </td>
                             <td>
                                 <div class="ticket-subject" title="@ticket.Subject">
                                     @(ticket.Subject.Length > 50 ? ticket.Subject.Substring(0, 50) + "..." : ticket.Subject)
@@ -194,9 +288,47 @@
     .btn-group .btn i {
         width: 12px;
     }
+
+    .incident-id {
+        font-family: 'Courier New', monospace;
+        font-weight: 600;
+        color: #495057;
+        background-color: #f8f9fa;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        border: 1px solid #dee2e6;
+    }
+
+    .sortable-header {
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s ease;
+        color: white !important;
+    }
+
+    .sortable-header:hover {
+        background-color: rgba(255,255,255,0.2) !important;
+        color: white !important;
+    }
+
+    .sortable-header i {
+        font-size: 0.8em;
+        color: white !important;
+    }
+
+    .sortable-header:hover i {
+        color: white !important;
+    }
 </style>
 
 @code {
+    public enum SortDirection
+    {
+        Ascending,
+        Descending
+    }
+
     [Parameter] public List<Ticket> Tickets { get; set; } = new();
     [Parameter] public bool IsLoading { get; set; } = false;
     [Parameter] public int CurrentPage { get; set; } = 1;
@@ -205,6 +337,78 @@
     [Parameter] public EventCallback<int> OnViewTicket { get; set; }
     [Parameter] public EventCallback<Ticket> OnTicketSelected { get; set; }
     [Parameter] public EventCallback<Ticket> OnStatusChange { get; set; }
+
+    private string SortColumn { get; set; } = "";
+    private bool SortAscending { get; set; } = true;
+    private List<Ticket> SortedTickets { get; set; } = new();
+
+    protected override void OnParametersSet()
+    {
+        SortTickets();
+    }
+
+    private void SortBy(string columnName)
+    {
+        if (SortColumn == columnName)
+        {
+            // Cambiar dirección si es la misma columna
+            SortAscending = !SortAscending;
+        }
+        else
+        {
+            // Nueva columna, ordenar ascendente
+            SortColumn = columnName;
+            SortAscending = true;
+        }
+        
+        SortTickets();
+    }
+
+    private void SortTickets()
+    {
+        if (Tickets == null || !Tickets.Any() || string.IsNullOrEmpty(SortColumn))
+        {
+            SortedTickets = Tickets?.ToList() ?? new List<Ticket>();
+            return;
+        }
+
+        var query = Tickets.AsEnumerable();
+
+        // Aplicar ordenamiento según la columna seleccionada
+        query = SortColumn switch
+        {
+            nameof(Ticket.Id) => SortAscending ? 
+                query.OrderBy(t => t.Id) : query.OrderByDescending(t => t.Id),
+            
+            nameof(Ticket.EmailId) => SortAscending ? 
+                query.OrderBy(t => t.EmailId) : query.OrderByDescending(t => t.EmailId),
+            
+            nameof(Ticket.Subject) => SortAscending ? 
+                query.OrderBy(t => t.Subject) : query.OrderByDescending(t => t.Subject),
+            
+            nameof(Ticket.Status) => SortAscending ? 
+                query.OrderBy(t => t.Status) : query.OrderByDescending(t => t.Status),
+            
+            nameof(Ticket.Priority) => SortAscending ? 
+                query.OrderBy(t => t.Priority) : query.OrderByDescending(t => t.Priority),
+            
+            nameof(Ticket.Category) => SortAscending ? 
+                query.OrderBy(t => t.Category) : query.OrderByDescending(t => t.Category),
+            
+            nameof(Ticket.FromName) => SortAscending ? 
+                query.OrderBy(t => t.FromName) : query.OrderByDescending(t => t.FromName),
+            
+            nameof(Ticket.AssignedTo) => SortAscending ? 
+                query.OrderBy(t => t.AssignedTo ?? "") : query.OrderByDescending(t => t.AssignedTo ?? ""),
+            
+            nameof(Ticket.CreatedDate) => SortAscending ? 
+                query.OrderBy(t => t.CreatedDate) : query.OrderByDescending(t => t.CreatedDate),
+            
+            _ => query.OrderByDescending(t => t.CreatedDate) // Por defecto, ordenar por fecha descendente
+        };
+
+        SortedTickets = query.ToList();
+    }
 
     private void ChangePage(int newPage)
     {

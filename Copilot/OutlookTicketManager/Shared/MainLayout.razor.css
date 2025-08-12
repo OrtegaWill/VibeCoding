@@ -10,6 +10,7 @@ main {
 
 .sidebar {
     background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    transition: width 0.3s ease;
 }
 
 .top-row {
@@ -55,6 +56,13 @@ main {
         height: 100vh;
         position: sticky;
         top: 0;
+        transition: width 0.3s ease;
+        overflow: hidden;
+    }
+
+    .sidebar.collapsed {
+        width: 70px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     }
 
     .top-row {

@@ -1,37 +1,48 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using OutlookTicketManager.Services
+@inject SidebarStateService SidebarState
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">OutlookTicketManager</a>
+        <a class="navbar-brand @((SidebarState?.IsCollapsed == true) ? "d-none" : "")" href="">OutlookTicketManager</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
+        </button>
+        <button title="@((SidebarState?.IsCollapsed == true) ? "Expandir menú" : "Colapsar menú")" class="sidebar-toggle d-none d-md-block" @onclick="ToggleSidebar">
+            <span class="oi @((SidebarState?.IsCollapsed == true) ? "oi-chevron-right" : "oi-chevron-left")" aria-hidden="true"></span>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable @((SidebarState?.IsCollapsed == true) ? "sidebar-collapsed" : "")" @onclick="@((MouseEventArgs e) => { if (collapseNavMenu) ToggleNavMenu(); })">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="dashboard">
-                <span class="oi oi-dashboard" aria-hidden="true"></span> Dashboard
+            <NavLink class="nav-link" href="dashboard" title="Dashboard">
+                <span class="oi oi-dashboard" aria-hidden="true"></span>
+                <span class="nav-text @((SidebarState?.IsCollapsed == true) ? "d-none d-md-none" : "")">Dashboard</span>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Inicio
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All" title="Inicio">
+                <span class="oi oi-home" aria-hidden="true"></span>
+                <span class="nav-text @((SidebarState?.IsCollapsed == true) ? "d-none d-md-none" : "")">Inicio</span>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="tickets">
-                <span class="oi oi-task" aria-hidden="true"></span> Tickets
+            <NavLink class="nav-link" href="tickets" title="Tickets">
+                <span class="oi oi-task" aria-hidden="true"></span>
+                <span class="nav-text @((SidebarState?.IsCollapsed == true) ? "d-none d-md-none" : "")">Tickets</span>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="email-import">
-                <span class="oi oi-inbox" aria-hidden="true"></span> Importar Emails
+            <NavLink class="nav-link" href="email-import" title="Importar Emails">
+                <span class="oi oi-inbox" aria-hidden="true"></span>
+                <span class="nav-text @((SidebarState?.IsCollapsed == true) ? "d-none d-md-none" : "")">Importar Emails</span>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="settings">
-                <span class="oi oi-cog" aria-hidden="true"></span> Configuración
+            <NavLink class="nav-link" href="settings" title="Configuración">
+                <span class="oi oi-cog" aria-hidden="true"></span>
+                <span class="nav-text @((SidebarState?.IsCollapsed == true) ? "d-none d-md-none" : "")">Configuración</span>
             </NavLink>
         </div>
     </nav>
@@ -45,5 +56,17 @@
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    private void ToggleSidebar()
+    {
+        try
+        {
+            SidebarState?.Toggle();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error toggling sidebar: {ex.Message}");
+        }
     }
 }

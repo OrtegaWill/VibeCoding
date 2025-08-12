@@ -1,5 +1,6 @@
 @using OutlookTicketManager.Models
 @using OutlookTicketManager.Services
+@inject TicketManagerService TicketService
 
 <div class="ticket-detail">
     @if (IsLoading)
@@ -356,9 +357,20 @@
     {
         if (Ticket?.Id != null)
         {
-            // Aquí cargarías los comentarios desde el servicio
-            // Comments = await TicketService.GetCommentsAsync(Ticket.Id);
-            // Por ahora, simulamos algunos comentarios
+            try
+            {
+                // Cargar comentarios desde la base de datos
+                Comments = await TicketService.GetCommentsAsync(Ticket.Id);
+            }
+            catch (Exception ex)
+            {
+                // Manejar error de carga de comentarios
+                Comments = new List<TicketComment>();
+                Console.WriteLine($"Error cargando comentarios: {ex.Message}");
+            }
+        }
+        else
+        {
             Comments = new List<TicketComment>();
         }
     }
@@ -442,38 +454,51 @@
     {
         if (!string.IsNullOrWhiteSpace(NewCommentText) && Ticket != null)
         {
-            var comment = new TicketComment
+            try
             {
-                TicketId = Ticket.Id,
-                Comment = NewCommentText.Trim(),
-                AuthorName = "Usuario Actual", // Aquí irías el usuario actual
-                CreatedDate = DateTime.Now,
-                IsSystemComment = false
-            };
+                // Guardar comentario en la base de datos
+                await TicketService.AddCommentAsync(
+                    Ticket.Id, 
+                    NewCommentText.Trim(), 
+                    "Usuario Actual", // Aquí irías el usuario actual
+                    false // isSystemComment = false
+                );
 
-            Comments.Add(comment);
-            CloseCommentModal();
-            
-            // Aquí guardarías el comentario en la base de datos
-            // await TicketService.AddCommentAsync(comment);
+                // Recargar comentarios para mostrar el nuevo comentario
+                await LoadComments();
+                CloseCommentModal();
+                StateHasChanged(); // Actualizar la UI
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error guardando comentario: {ex.Message}");
+            }
         }
     }
 
     private async Task AddSystemComment(string message)
     {
-        var systemComment = new TicketComment
+        if (Ticket != null)
         {
-            TicketId = Ticket?.Id ?? 0,
-            Comment = message,
-            AuthorName = "Sistema",
-            CreatedDate = DateTime.Now,
-            IsSystemComment = true
-        };
+            try
+            {
+                // Guardar comentario del sistema en la base de datos
+                await TicketService.AddCommentAsync(
+                    Ticket.Id, 
+                    message, 
+                    "Sistema", 
+                    true // isSystemComment = true
+                );
 
-        Comments.Add(systemComment);
-        
-        // Aquí guardarías el comentario del sistema
-        // await TicketService.AddCommentAsync(systemComment);
+                // Recargar comentarios para mostrar el nuevo comentario
+                await LoadComments();
+                StateHasChanged(); // Actualizar la UI
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error guardando comentario del sistema: {ex.Message}");
+            }
+        }
     }
 
     private void EditTicket()

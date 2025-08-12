@@ -1,0 +1,253 @@
+﻿ID de la Incidencia ,ID de la Petición,Detalle de la Descripción,Grupo Asignado,Prioridad,Estatus,Fecha Asignación,Fecha Solución,Apellidos,Nombre,Criticidad,Tipo Queja,Origen,Categoría,Grupo Resolutor,Historial,Avance,Visor / Aplicativo afectado,Problema,Detalle del Problema,Quien atiende?,Tiempo de resolución,Fecha ACK equipo de precargas,Solución Remedy,Precarga,RFC o Solicitud de Cambio,Causa Raíz
+INCS00003652987,REQS00002179596,"EL CONTRIBUYENTE JOSE RAMON GONZALEZ VILLA CON RFC GOVR510722BF4, AL MOMENTO DE QUERER PRESENTAR SU DECLARACIÓN DEL SEGUNDO TRIMESTRE DE 2025 (ABRIL-MAYO) DEL REGIMEN DE ARRENDAMIENTO, LE APARECE PRECARGADA UNA DEDUCCIÓN OPCIONAL DE $7,000.00 AUN Y CUANDO NO SE CAPTURE NINGUN INGRESO Y AL MOMENTO DE CAPTURAR EL INGRESO, SE SUMAN LOS $7,000.00 MAS EL 35% DE LA DEDUCCIÓN OPCIONAL CORRESPONDIENTE AL INGRESO.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,07/07/25 10:54,21/07/25 17:54,VARGAS OZUNA,JORGE,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_18 12:00 Se toma incidente para su diagnóstico.
+2025_07_18 12:00 Se revisa la declaración para del 2º trimestre 2025 (2° Abril-Junio) conceptos 0110, donde vemos que existen una declaración Complementaria vigente para el 1er y 2º trimestre, para las dos declaraciones los campos SAT_460001 (DeduccionOpcional) y SAT_460008 (TotalDeduccionesAutorizadas) muestran el valor $7000, lo cual correcto según lo esperado por el contribuyente. Hay una declaración anterior (no vigente) que mostraba los $14,000 que menciona el contribuyente en su evidencia. Sin embargo, el ultimo valor mostrado por la precarga en estos campos, es el valor esperado por el contribuyente. Por lo que la precarga funciona de forma correcta. Se cierra incidente",Atendido ,Serv. Provisionales DyP3,No se actualiza el JSON correctamente,"No  muestra el valor ""DeduccioOpcional"" correcto",CJLM,120 min,7/17/2025,"Estimada mesa, se revisa la declaración para del 2º trimestre 2025 (2° Abril-Junio) conceptos 0110, donde vemos que existen una declaración Complementaria vigente para el 1er y 2º trimestre, para las dos declaraciones los campos SAT_460001 (DeduccionOpcional) y SAT_460008 (TotalDeduccionesAutorizadas) muestran el valor $7000, lo cual correcto según lo esperado por el contribuyente. Hay una declaración anterior (no vigente) que mostraba los $14,000 que menciona el contribuyente en su evidencia. Sin embargo, el ultimo valor mostrado por la precarga en estos campos, es el valor esperado por el contribuyente. Por lo que la precarga funciona de forma correcta.
+
+
+RFC: GOVR510722BF4
+Ejercicio: 2025
+Periodo: 2º Trimestre
+Concepto: DyP3 – 0110
+
+Favor de solicitar el cierre del incidente.",Provisionales DyP3,,CR1
+INCS00003653339,REQS00002179901,"Caso AC202571781618 solicitado por Carlos Ignacio Dominguez para el contribuyente RFC LUPL730720KY9 PF Dec Anual complementarias, modificacion pagos provisionaeles",SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,07/07/25 14:17,11/07/25 14:07,MONROY SANCHEZ,MARIA,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_11 13:00 Se toma incidente para diagnóstico.
+2025_07_11 13:40 De lado de la Precarga se valida la información y el JSON está mostrando la información esperada para los meses reportados. Se solicita reasignar este incidente al equipo de DyP para su análisis correspondiente ya que de lado de la Precarga no se identifica error alguno.",Reasignado,Serv. Provisionales Legados,No aplica,La precarga es correcta,FBPN,40 min,07/11/25,,Provisionales Legados,,No aplica
+INCS00003653355,REQS00002180160,"Declaración presentada el 23 de mayo de 2025 de ISR personas físicas. Actividad empresarial y profesional, ISR personas físicas. Arrendamiento de inmuebles. (uso o goce), Impuesto al Valor Agregado. Personas físicas. Región Fronteriza, adjunto pantallas.",SOPORTE_MICROSOFT_PRECARGA,Baja,Falta informacion,7/16/25 12:00 AM,,VILLARREAL CARDONA,CLAUDIA,Medio,Ordinarios,Remedy,No aplica,PRECARGAS,"2025_07_16 12:00 Se toma incidente para su diagnóstico.
+2025_07_16 12:00 Se rechaza el actual incidente por falta de informacion que permita identificar el problema que presenta el contribuyente. En la descripcion y los documentos enviados, no se describe la falla puntual (por ejemplo: Estatus erroneo, no se observa declaracion vigente, multiples declaraciones, etc) falta mencionar el analisis hecho, motivo por el cual se envio a Precargas.",Rechazado,Serv. Provisionales Legados,No aplica,No presenta informacion para el periodo,CJLM,30 min,7/16/2025,,Provisionales Legados,,No aplica
+INCS00003653186,REQS00002180214,"EL CONTRIBUYENTE KARLA CARIDAD GOMEZ PEREZ CON RFC GOPK8401106X4 REALIZO LA DECLARACIONES ISR PERSONAS FISICAS ACTIVIDAD EMPRESARIAL Y PROFESIONAL E IMPUESTO AL VALOR AGREGADO DE LOS PERIODOS JUNIO, AGOSTO, OCTUBRE, NOVIEMBRE, DICIEMBRE DE 2024, LAS CUALES APARECEN PENDIENTES EN LA OPINION DE CUMPLIMIENTO DE OBLIGACIONES FISCALES (32-D), ADJUNTO PANTALLAS PARA SU COTEJO.",SOPORTE_MICROSOFT_PRECARGA,Baja,Falta informacion,7/17/25 12:00 AM,,VILLARREAL CARDONA,CLAUDIA,Medio,Ordinarios,Remedy,,,"2025_07_16 18:50 Se toma incidente para diagnóstico.
+2025_07_16 19:30 Favor de reasignar el incidente al área correspondiente ya que no es un aplicativo soportado por precargas",Atendido ,,Aplicativo no soportado por precargas,Aplicativo no soportado por precargas,WON,30 min,7/16/2025,,,,No aplica
+INCS00003653392,REQS00002180460, Usuario Alain Fernando Romero solicita apoyo al caso AC202572371640 del RFC CULJ6211184Y4 para dejar sin efecto por duplicidad se quede la primera y eliminen la segunda.,SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,18/07/2025 11:29:19 a.m,,MONROY SANCHEZ,MARIA,Medio,Ordinarios,Remedy,No aplica,PRECARGAS,"2025_07_18 12:00 Se toma incidente para su diagnóstico.
+2025_07_18 12:00 ",Reasignado,Serv. Provisionales DyP3,No reconoce las Pérdidas Fiscales de ejercicios anteriores,No permite hacer declaracion Complementaria.,CJLM,50 min,7/18/2025,,Provisionales DyP3,,No aplica
+INCS00003653567,REQS00002180811,"Usuario Frida Junet Medina solicita apoyo al caso AC202572441197 del RFC MSD240520BR2 El contribuyente al intentar presentar su declaración provisional de diciembre 2024, no le están precargando de manera correcta los Ingresos cobrados del mes, que en el visor de facturas precarga la cantidad de $334,723.",SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,10/07/2025 04:22:23 p.m,18/07/2025 05:06:22 p.m,MONROY SANCHEZ,MARIA,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_16 10:00 Se toma incidente para su diagnóstico.
+2025_07_17 18:00 Se ha identificado una diferencia en la precarga de datos para diciembre de 2024 entre el visor de facturas emitidas y la declaración provisional.
+* El visor de facturas emitidas precarga un total de $334,723 (53 facturas).
+* La declaración provisional precarga $329,866 (52 facturas).
+El análisis de la información revela que la diferencia de $4,857 corresponde a una única factura (UUID: 2E6C88CE-1746-484D-84AB-0CE55099EE01) que está siendo excluida de la declaración provisional.
+La exclusión se debe a la aplicación de la siguiente regla en la consulta a la fuente de datos cfdi_plata_40.platacomprobante:
+* Regla de Periodo: El sistema evalúa el período de emisión. Si idPeriodo de la tabla cat_periodicidad no es nulo, se utiliza ese valor. De lo contrario, se toma el mes de la p_fechaemision del CFDI y se verifica que sea igual a 12 (diciembre).
+Dado que la factura 2E6C88CE-1746-484D-84AB-0CE55099EE01 tiene una p_fechaemision del 2024-11-20, esta no cumple con el criterio de ""mes igual a 12"" y, por lo tanto, es excluida del conjunto de datos de la declaración provisional. Cabe mencionar que actualmente, todas las facturas v4 utilizan la fecha de emisión para determinar su periodo en este proceso.
+Basado en la regla de negocio implementada para la determinación del periodo, la precarga de la declaración provisional está funcionando de la manera esperada al excluir la factura de noviembre.
+Sin embargo, para resolver la discrepancia y asegurar que ambas vistas (visor y declaración provisional) reflejen la misma información, se sugiere revisar con el equipo de desarrollo las reglas de negocio que deben aplicar para la inclusión o exclusión de facturas. Esto determinará si la factura con fecha de emisión en noviembre debería ser considerada para la declaración provisional de diciembre, o si el visor necesita ajustar su lógica para alinearse con esta regla.
+2025_07_18 10:56 El análisis técnico confirmó que esta exclusión se debe a la regla de negocio actual para la determinación del periodo, que valida que la fecha de emisión (2024-11-20 en este caso) corresponda al mes 12 (diciembre). Dada esta lógica, la precarga está funcionando según lo esperado por la implementación actual.
+Regla de Periodo: El sistema evalúa el período de emisión. Si idPeriodo de la tabla cat_periodicidad no es nulo, se utiliza ese valor. De lo contrario, se toma el mes de la p_fechaemision del CFDI y se verifica que sea igual a 12 (diciembre).
+Para resolver la inconsistencia entre el visor de facturas y la declaración provisional, y definir si la factura de noviembre debe ser incluida o no en la precarga de diciembre, es fundamental validar la regla de negocio con el área funcional correspondiente.
+Por lo tanto, solicito reasignar este ticket al equipo de ACDMA para que se revise y defina la regla de negocio aplicable a la inclusión de facturas en estos escenarios.",Reasignado,Sumarizado CFDI Ingresos - Egresos,"Problema con el cálculo del periodo de emisión de la factura, posible error en el visor de facturas","Problema con el cálculo del periodo de emisión de la factura, posible error en el visor de facturas",WON,180 min,07/11/25,,Visor CFDI Ingresos - Egresos,,No aplica
+INCS00003653688,REQS00002181087,"Usuario Zuleym Galeana de Jesus solicita apoyo para la problematica del RFC NWF160412HTA, Se anexa escrito libre en el cual se solicita a esta autoridad que se agreguen los ingresos correspondientes al mes de marzo de 2021 que el sistema no reconoce. Esto de una forma manual para poder reflejar la totalidad de mis ingresos en mi declaración anual y realizar una determinación de impuestos eficiente y veraz.
+
+Adicional se adjunta: Comprobante de pago, acto administrativo, línea de captura y pantalla del portal en la que se logra visualizar la omisión del ingreso en el mes de marzo 2021
+",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,10/07/25 8:48,11/07/25 14:19,MONROY SANCHEZ,MARIA,Alta,Ordinarios,Remedy,No Aplica,PRECARGAS,"2025_07_10 12:00 Se toma incidente para diagnóstico.
+2025_07_11 12:00 Se revisa la información para el concepto 0101 Ejercicio 2021, para el periodo Marzo, donde vemos que existen 5 declaraciones, un de ellas es tipo “Dejar sin efecto” (#4), lo que inhabilita otra (#3), quedando 3 declaraciones validas: Normal(#1), Complementaria(#2) y otra Complementaria(#5). Se observa que la primera Normal (ID: 543480154), no esta pagada(ED02). La segunda (ID: 556325236), presenta un valor pendiente de pagar en el campo SAT_C20, lo cual genera un estatus ED05. La utima declaración (ID: 781007883), igual presenta el mismo valor pendiente de pagar en el campo SAT_C20. En conclusión, no se pago la línea de captura: 04211IGW570031190414 de la primera declaración Normal, por tal comportamiento la precarga muestra el estatus ED05 (Presentada sin pago monto pagado con anterioridad), la precarga funciona de la forma esperada. Se requiere asignar al equipo de Orientacion al contribuyente, para que le comunique que existe un monto pendiente por pagar perteneciente a la LC: 04211IGW570031190414, o en su defecto enviar la evidencia del pago de esta línea de captura. 
+
+RFC: NWF160412HTA
+Ejercicio: 2021
+Periodo: 003
+Concepto: Legados - 0101 - 
+
+Favor de asignar al equipo de Orientacion al Contribuyente para su atención.
+",Reasignado,Serv. Provisionales Legados,No aplica,Estatus Pago erroneo,CJLM,45 min,07/10/25,,Provisionales Legados,,No aplica
+INCS00003654532,REQS00002183015,"Se recibió queja PRODECON con expediente 6261348-GTO-QR-460-2025 del contribuyente AES050901TT5, en el formulario “ISR PERSONAS MORALES” en la declaración complementaria de “Modificación de obligaciones” del pago provisional del periodo de marzo de 2025 dentro de la ventana emergente “Pérdidas fiscales de ejercicios anteriores que se aplican en el periodo”, aunque es correcto que el campo “Pérdida de ejercicios anteriores aplicables” se muestre inhabilitado, dicho campo no se muestra prellenado con la información de la declaración anual 2024 complementaria de tipo “Modificación de Obligaciones” del formulario “ISR SIMPLIFICADO DE CONFIANZA. PERSONAS MORALES”, se anexa queja y evidencias.",SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,18/07/25 11:36,18/07/25 16:24,martinez,Marisol,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_18 15:00 Se toma incidente para diagnóstico.
+2025_07_18 15:40 Se solicita reasignar el incidente al equipo de DyP con el siguiente análisis y comentarios. Se revisa la precarga de Anuales Morales donde se corrobora que el contribuyente presentó pérdidas fiscales para el concepto 0167 (ISR PERSONAS MORALES RÉGIMEN SIMPLIFICADO DE CONFIANZA) De lado de la precarga de Provisionales se identifican las siguientes declaraciones vigentes para el periodo de Marzo ejercicio 2025. Se revisa el desdoble de la declaración con número de operación 250350271408 para corroborar el valor del campo SAT_0704002 (pérdidas fiscales de ejercicio ant), en donde se identifica un valor NULO, por lo que no se precarga dicho valor. Revisando la “fuente origen” de silver (información que viene de los JSON de NPSI) se identifica el mismo valor NULO, por lo que la salida de la Precarga es la esperada y no se identifica error alguno. Se solicita reasignar el incidente nuevamente al equipo de DyP para que se revise el XML de la declaración y que se corrobore que efectivamente exista el dato desde la información origen. Si el dato no viene en el origen se sugiere revisar con Negocio las reglas que aplican en este caso. Si la información si viene en el XML, favor de compartir la evidencia donde se muestre dicho valor.",Atendido ,Serv. Provisionales DyP3,No aplica,No se visualizan las pérdidas fiscales para la declaración de marzo 2025.,FBPN,40 min,7/18/2025,,Provisionales DyP3,,No aplica
+INCS00003653522,REQS00002180536,Usuario Frida Junet Medina solita apoyo al Caso AC202571910643 del RFCIMA961024GP8 PAGOS PROVISIONALES PM PRECARGA DE CFDI,SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,08/07/25 9:03,,MONROY SANCHEZ,MARIA,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_08_08 12:00 Se toma incidente para diagnóstico.
+2025_08_08 12:00 Se revisa la información del concepto 0164 periodo Diciembre 2024.  Vemos que las facturas reportadas por la Precarga de DyP3, no coinciden con las mostradas por el visor. Se requiere revisar el total de facturas para tratar de llegar al volumen mostrado en las evidencias del contribuyente. Seguramente es un tema de origen de datos, donde esas son las factuas que nos estan llegado. Solo resta cerrar si el campo ""Informacion general"" contiene alguna fecha provocando que la precaga filtre algunas facturas, disminuyendo el monto de facturacion esperado. Queda el lunes.",En atención ,Serv. Provisionales DyP3,Diferencia entre el origen de información y la precarga,Monto de faturacion distinto,CJLM,40 min,08/06/25,,Provisionales DyP3,,No aplica
+INCS00003654830,REQS00002183655,"Se recibió queja PRODECON con expediente 6250288-JAL-QR-700/2025 del contribuyente FGU200817LQ1, en el formulario “ISR PERSONAS MORALES” en la declaración complementaria de “Modificación de obligaciones” del pago provisional del periodo de marzo de 2025 dentro de la ventana emergente “Pérdidas fiscales de ejercicios anteriores que se aplican en el periodo”, aunque es correcto que el campo “Pérdida de ejercicios anteriores aplicables” se muestre inhabilitado, dicho campo no se muestra prellenado con la información de la declaración anual 2024 del formulario “ISR SIMPLIFICADO DE CONFIANZA. PERSONAS MORALES”, se anexa queja y evidencias.",SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,18/07/2025 11:37:51 a.m,18/07/2025 04:41:03 p.m,martinez,Marisol,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_18 16:00 Se toma incidente para su diagnóstico.
+2025_07_18 16:30 Se solicita reasignar el incidente al equipo de DyP con el siguiente análisis y comentarios. Se revisa la precarga de Anuales Morales donde se corrobora que el contribuyente presentó pérdidas fiscales para el concepto 0167 (ISR PERSONAS MORALES RÉGIMEN SIMPLIFICADO DE CONFIANZA) De lado de la precarga de Provisionales se identifican las siguientes declaraciones vigentes para el periodo de Marzo ejercicio 2025. Se revisa el desdoble de la declaración con número de operación 250730119467 para corroborar el valor del campo SAT_0704002 (pérdidas fiscales de ejercicio ant), en donde se identifica un valor NULO, por lo que no se precarga dicho valor. Revisando la “fuente origen” de silver (información que viene de los JSON de NPSI) se identifica el mismo valor NULO, por lo que la salida de la Precarga es la esperada y no se identifica error alguno. Se solicita reasignar el incidente nuevamente al equipo de DyP para que se revise el XML de la declaración y que se corrobore que efectivamente exista el dato desde la información origen. Si el dato no viene en el origen se sugiere revisar con Negocio las reglas que aplican en este caso. Si la información si viene en el XML, favor de compartir la evidencia donde se muestre dicho valor.",Reasignado,Serv. Provisionales DyP3,No aplica,La salida de la precarga es correcta.,FBPN,30 min,7/18/2025,,Provisionales DyP3,,No aplica
+INCS00003655500,REQS00002185507,"Usuario Frida Junet Medina, solicita apoyo al caso AC202572321000 RFC AME750415KV6, problematica, El contribuyente al intentar presentar su declaración anual del ejercicio 2024 de tipo complementaria, el periodo de diciembre aparece en estatus de Presentada No pagada, situación que es incorrecta toda vez que se visualiza presentada la declaración con fecha de presentación 07 de febrero 2025 y numero de operación 250810219376 y pagada 07/02/2025, por lo que debería de estar en estatus de presentada pagada.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,15/07/25 13:21,23/07/25 9:46,MONROY SANCHEZ,MARIA,Alta,SAC,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_18 10:30 Se toma incidente para su diagnóstico.
+2025_07_18 18:00 Se verifica la declaración presentada por el contribuyente para el periodo de diciembre ejercicio 2024, identificando que la única declaración vigente es la 2F40BA05-5921-4D44-8F4F-72E56738267C para el concepto 0164. Se procede a verificar el JSON y se observa que se encuentra de manera correcta presentando la declaración vigente con estatus ED01.
+Favor de solicitar validación y cierre del presente incidente.
+2025_07_23 10:00  Se revisa la información, la evidencia del pago enviada por el usuario corresponde al concepto 0164
+Concepto 0164 ISR PERSONAS MORALES
+Se verifica la declaración presentada por el contribuyente para el periodo de diciembre ejercicio 2024, identificando que la última declaración complementaria vigente es la 2F40BA05-5921-4D44-8F4F-72E56738267C con número de operacion 250810219376 para el concepto 0164.
+Se procede a verificar el JSON y se observa que se encuentra de manera correcta presentando la declaración vigente con estatus ED01.
+Se verifica la existencia del pago, el cual concuerda con la evidencia enviada
+El concepto 0164 se encuentra vigente con estatus ED01, por lo tanto el comportamiento de la precarga es el esperado.
+Concepto 0112 ISR RETENCIONES POR SALARIOS
+Se verifica la declaración presentada por el contribuyente para el periodo de diciembre ejercicio 2024, identificando que la única declaración vigente es la 08FD0576-EC40-4F1B-98C5-F7400CA51DB6 con número de operacion 250330098161 y linea de captura 04250EOF960044839441 para el concepto 0112.
+Análisis:
+El campo “SAT_C7” (Monto a cargo) presenta un pago pendiente.
+El campo SAT_C7BIS presenta un valor nulo, lo cual indica que no fue efectivamente pagada la linea de captura.
+Se consulta la fuente de operaciones pagadas para la linea de captura 04250EOF960044839441, correspondiente al concepto 0112 , tratando de obtener una linea de captura, la cual no fue localizada.
+Se revisa la evidencia del contribuyente, vemos que no viene la evidencia del pago de esta declaración.
+Por lo que se concluye que la precarga muestra de forma correcta el estatus ED02-Presentada no pagada, la precarga funciona de la forma esperada. 
+
+Favor de canalizar la incidencia con Orientación al Contribuyente.
+NOTA: En caso de que el contribuyente reitere el pago, requiere mostrar el comprobante de pago para el concepto 0112 del siguiente NumeroOperacion: 250330098161 y LC: 04250EOF960044839441",Atendido ,Serv. Provisionales DyP3,No se actualiza el JSON correctamente,"Se identificó que para algunos conceptos (0164) no se está actualizando el json generado cuando todas las declaraciones son ""dejadas sin efecto"".",WON,30 min,7/17/2025,"Se revisa información del contribuyente, donde se identifica que efectivamente, la LC esta errónea, para los periodos Enero, Marzo, Abril, Mayo, Junio, Julio, Agosto y Diciembre, concepto 0161. Se hace la corrección en las diferentes fuentes de LC. Se reprocesa para actualizar el Json del servicio de DyP3. Ahora vemos que la información mostrada es correcta, ya aparece el estatusPago ED01-Pagada. El funcionamiento de la precarga es el esperado.
+
+RFC: CEVL9805214M2
+Ejercicio: 2023
+Periodo: Enero, Marzo, Abril, Mayo, Junio, Julio, Agosto y Diciembre
+Concepto: Legados – 0161
+
+Favor de solicitar el cierre del incidente.
+
+Hola buen día nuevamente se revisa la información, la evidencia del pago enviada por el usuario corresponde al concepto 0164
+Concepto 0164 ISR PERSONAS MORALES
+Se verifica la declaración presentada por el contribuyente para el periodo de diciembre ejercicio 2024, identificando que la última declaración complementaria vigente es la 2F40BA05-5921-4D44-8F4F-72E56738267C con número de operacion 250810219376 para el concepto 0164.
+Se procede a verificar el JSON y se observa que se encuentra de manera correcta presentando la declaración vigente con estatus ED01.
+Se verifica la existencia del pago, el cual concuerda con la evidencia enviada
+El concepto 0164 se encuentra vigente con estatus ED01, por lo tanto el comportamiento de la precarga es el esperado.
+
+
+ 
+Registro de linea de captura pagada
+ 
+
+
+Concepto 0112 ISR RETENCIONES POR SALARIOS
+Se verifica la declaración presentada por el contribuyente para el periodo de diciembre ejercicio 2024, identificando que la única declaración vigente es la 08FD0576-EC40-4F1B-98C5-F7400CA51DB6 con número de operacion 250330098161 y linea de captura 04250EOF960044839441 para el concepto 0112.
+Análisis:
+El campo “SAT_C7” (Monto a cargo) presenta un pago pendiente.
+El campo SAT_C7BIS presenta un valor nulo, lo cual indica que no fue efectivamente pagada la linea de captura.
+Se consulta la fuente de operaciones pagadas para la linea de captura 04250EOF960044839441, correspondiente al concepto 0112 , tratando de obtener una linea de captura, la cual no fue localizada.
+Se revisa la evidencia del contribuyente, vemos que no viene la evidencia del pago de esta declaración.
+
+Por lo que se concluye que la precarga muestra de forma correcta el estatus ED02-Presentada no pagada, la precarga funciona de la forma esperada. 
+
+Favor de canalizar la incidencia con Orientación al Contribuyente.
+NOTA: En caso de que el contribuyente reitere el pago, requiere mostrar el comprobante de pago para el concepto 0112 del siguiente NumeroOperacion: 250330098161 y LC: 04250EOF960044839441",Provisionales DyP3,,No aplica
+INCS00003655658,REQS00002185602,"SE COMUNICA VÍA TELEFÓNICA MONROY SANCHEZ MARIA DE JESUS A NOMBRE DE FRIDA JUNET MEDINA GONZÁLEZ REPORTANDO LO SIGUIENTE: 
+
+EL CONTRIBUYNTE AL INTENTAR PRESENTAR SU DECLARACION ANUAL 2024, PERIODO DE MAYO APARECE DE ESTATUS NO PRESENTADO, SITUACIÓN QUE ES INCORRECTA , TODA VEZ QUE SE VISUALIZA PRESENTADA CON FECHA 17/06/2024, NÚMERO DE OPERACIÓN 588355048.
+
+RFC: BELE590604A85
+NOMBRE: EUGENIO BEZANILLA LOMELIN",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,15/07/25 17:35,18/07/25 17:17,MEDINA GONZÁLEZ,FRIDA JUNET,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_16 12:00 Se toma incidente para su diagnóstico.
+2025_07_16 12:00 Se revisa la declaracoin para el mes de mayo 2024 conceptos 0110 y 0161 donde vemos que aparece ""no vigente"". Se corrige el estatus y se marca para reproceso. Queda mañana jueves",Atendido ,Serv. Provisionales Legados,Vigencia Erronea,No esta la declaracoin en la Precarga,CJLM,30 min,7/16/2025,,Provisionales Legados,,CR33
+INCS00003656063,REQS00002186755,"Estamos recibiendo casos SAC donde los contribuyentes manifiestan que al tratar de presentar su pago del 1er semestre del 2025 de ISR retenciones por salarios o ISR retenciones por asimilados a salarios, no se les está precargando la información de nómina. Se documenta el escenario de ISR retenciones por salarios. Así mismo, se documenta que en enero de 2025 que se presentó el 2do semestre e 2024, sí realizaba la precarga. Por lo anterior se solicita el apoyo para revisar la causa por la cual no se está realizando la precarga de la información.",SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,"
+17/07/2025 08:15:38 a.m.",,hernandez,maria,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_18 18:00 Se toma incidente para su diagnóstico. 
+2025_07_18 20:00 Se revisó en conjunto con el equipo de de DyP3 quienes darán continuidad a dicho incidente. ",Reasignado,Serv. Provisionales DyP3,No aplica,La información de la precarga es la esperada de acuerdo a la información origen.,FBPN,120 min,7/17/2025,,Provisionales DyP3,,No aplica
+INCS00003656232,REQS00002186819,"No se visualiza el detalle de la INFORMACIÓN DEL PAGO RECIBIDO EN LA INSTITUCIÓN DE CRÉDITO AUTORIZADA, correspondiente a la declaración complementaria del periodo de noviembre 2024, del siguiente contribuyente:
+• PEROXIKA, con RFC PER040616I91
+
+Cabe mencionar que el pago si se visualiza en la CUWEB, se anexa evidencia.
+Favor de asignar al grupo de soporte CTT_ASI_3",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,16/07/25 19:25,21/07/25 15:51,BECERRIL VILLASECA,BARBARA,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_18 12:00 Se toma incidente para su diagnóstico.
+2025_07_18 12:00 Se revisa la declaración para el mes de Noviembre 2024 conceptos 0161ç4 donde vemos que aparece "" vigente"" en la BD de Precargas; sin embargo, al revisar el servicio de DyP3 no vemos dicha declaración, se marca para reproceso. Se revisa nuevamente el servicio, donde vemos que ya está vigente el de noviembre con estatus ED01-Pagada. El servicio funciona de la forma esperada. 
+2025_07_28 12:00 Se revisa nuevamente la declaración para el mes de Noviembre 2024 conceptos 0164 donde nos mencionan que estatus pago es erroneo. Vemos que la línea de Captura es errónea, nos envían la línea de captura correcta. Se hace la corrección en las distintas fuentes de LC: SATPagos, Databricks, Postgres y DWSTGP2. Se hace el reproceso de este RFC para actualizar el Json del servicio. El servicio funciona de la forma esperada. ",Atendido ,Serv. Provisionales DyP3,No se actualiza el JSON correctamente,No aparece vigente la ultima declaracion,CJLM,40 min,7/18/2025,"Estimada mesa, se revisa la declaración para el mes de Noviembre 2024 conceptos 0164 donde vemos que aparece "" vigente"" en la BD de Precargas; sin embargo, al revisar el servicio de DyP3 no vemos dicha declaración, se marca para reproceso. Se revisa nuevamente el servicio, donde vemos que ya está vigente el de noviembre con estatus ED01-Pagada. El servicio funciona de la forma esperada. 
+                                                                                                                                        
+RFC: PER040616I91
+Ejercicio: 2024
+Periodo: Noviembre
+Concepto: DyP3 – 0164
+
+Favor de solicitar el cierre del incidente.",Provisionales DyP3,,CR2
+INCS00003656300,REQS00002187186,"No se visualiza el detalle de la INFORMACIÓN DEL PAGO RECIBIDO EN LA INSTITUCIÓN DE CRÉDITO AUTORIZADA, correspondiente a la declaración normal del periodo de mayo 2025, del siguiente contribuyente:
+•PRODUCCIONES DIGITALES DEL NORTE, con RFC PDN060310BV8
+
+Cabe mencionar que el pago si se visualiza en la CUWEB, se anexa evidencia.
+Favor de asignar al grupo de soporte ACTT_ASI_3.
+",,,,,,,,,,,Defecto de Desarrollo,PRECARGAS,"2025_08_05 12:00 Se toma incidente para su diagnóstico.
+2025_08_05 12:00 Se revisa la informacion en la BD de DyP3 donde vemos que la LC enviada por el banco es incorrecta. Se aplica la correcion en las distintas fuentes y se marca para reproceso. Queda mañana.
+2025_08_06 12:00 Se revisa la información del contribuyente para el concepto 0164, donde vemos que la LC esta errónea. Se aplican los cambios en las fuentes correspondientes y se marca para reproceso. Se revisa nuevamente y vemos que se ha corregido el EstatusPago = ED01 – Pagada. El funcionamiento de la precarga es el esperado.",Atendido ,Serv. Provisionales DyP3,Línea de Captura errónea,No se observa el estatusPago correcto,CJLM,80 min,08/05/25,,Provisionales DyP3,,CR10
+INCS00003656942,REQS00002188053,"No se visualiza el detalle de la INFORMACIÓN DEL PAGO RECIBIDO EN LA INSTITUCIÓN DE CRÉDITO AUTORIZADA, correspondiente a la declaración normal del periodo de DICIEMBRE 2024, del siguiente contribuyente:
+•RECICLAVER, SA DE CV, con RFC REC180504MK4
+
+Cabe mencionar que el pago si se visualiza en la CUWEB, se anexa evidencia.
+Favor de asignar al grupo de soporte ACTT_ASI_3.",SOPORTE_ACTT_ASI_3,Baja,Resuelto,18/07/25 13:14,18/07/25 15:53,BECERRIL VILLASECA,BARBARA,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_30 14:00 Se toma incidente para su diagnóstico
+2025_07_30 12:00 Se revisa la informacion del contribuyente para el concepto 0164, donde vemos que la LC esta erronea. Se aplican los cambios en las fuentes correspondientes y se marca para reproceso.
+2025_07_31 12:00 INCS00003656942
+RFC: REC180504MK4 => Se identificó que la LC relacionada a la declaración de diciembre ejercicio 2024 con número de operación 250240098288 fue capturada de forma errónea, por lo anterior, se procedió con su actualización en las bases de datos correspondientes y se marcó el RFC para su reproceso. Finalmente se revisa que la declaración ya se muestre con estatus “ED01 – Presentada Pagada”.
+Favor de solicitar validación y cierre del presente incidente.
+--LINEA ERRONEA: 04250590044851494
+--LINEA CORRECTA: 04250EOF590044851494
+--LLAVE DE PAGO: D9A6327710",Atendido ,Serv. Provisionales DyP3,Línea de Captura errónea,,WON,120 min,7/30/2025,"Por parte de ACSI la declaración se encuentra integrada en la NPSI, si se requiere realizar la explotación del detalle se tendría que solicitar por medio de un SIS.",Provisionales DyP3,,CR10
+INCS00003656704,REQS00002188137,"No se visualiza el detalle de la INFORMACIÓN DEL PAGO RECIBIDO EN LA INSTITUCIÓN DE CRÉDITO AUTORIZADA, correspondiente a la declaración normal del periodo de ENERO 2025, del siguiente contribuyente:
+•DESARROLLOS INDUSTRIALES NORTHBAJA, S DE RL DE CV, con RFC DIN1608125I9
+
+Cabe mencionar que el pago si se visualiza en la CUWEB, se anexa evidencia.
+Favor de asignar al grupo de soporte ACTT_ASI_3.
+",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,18/07/25 12:50,31/07/25 18:03,BECERRIL VILLASECA,BARBARA,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_30 12:00 Se toma incidente para su diagnóstico.
+2025_07_30 12:00 Se revisa la informacion del contribuyente para el concepto 0164, donde vemos que la LC esta erronea. Se aplican los cambios en las fuentes correspondientes y se marca para reproceso. 
+2025_07_31 12:00 Se revisa nuevamente y vemos que se ha corregido el EstatusPago = ED01 – Pagada. El funcionamiento de la precarga es el esperado.",Atendido ,Serv. Provisionales DyP3,Línea de Captura errónea,,CJLM,90 min,7/30/2025,"Se revisa la información del contribuyente para el concepto 0164, donde vemos que la LC esta errónea. Se aplican los cambios en las fuentes correspondientes y se marca para reproceso. Se revisa nuevamente y vemos que se ha corregido el EstatusPago = ED01 – Pagada. El funcionamiento de la precarga es el esperado.
+
+
+RFC: DIN1608125I9
+Ejercicio: 2025
+Periodo: Enero
+Concepto: DyP3 – 0164
+
+Favor de solicitar el cierre del incidente.",Provisionales DyP3,,CR10
+INCS00003657111,REQS00002188336,"No se visualiza el detalle de la INFORMACIÓN DEL PAGO RECIBIDO EN LA INSTITUCIÓN DE CRÉDITO AUTORIZADA, correspondiente a la declaración normal del periodo de FEBRERO 2024, del siguiente contribuyente:
+•	UNIBRAND 22ALLI S DE RL DE CV, con RFC UAL220310Q76
+
+Cabe mencionar que el pago si se visualiza en la CUWEB, se anexa evidencia.
+Favor de asignar al grupo de soporte ACTT_ASI_3.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,08/07/25 14:56,22/07/25 17:36,BECERRIL VILLASECA,BARBARA,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_22 12:00 Se toma incidente para su diagnóstico.
+2025_07_22 12:00 Se revisa informacion del contribuyente, donde se indentifica que efectivamente, la LC esta erronea. Se hace la correcion en las diferentes fuentes de LC.
+2025_07_23 12:00 Se reprocesa para actualizar el Json del servicio de DyP3. Ahora vemos que la información mostrada es correcta, ya aparece el estatusPago ED01-Pagada. El funcionamiento de la precarga es el esperado. se cierra incidente",Atendido ,Serv. Provisionales DyP3,Línea de Captura errónea,,CJLM,60 min,07/21/2025,"Se revisa información del contribuyente, donde se identifica que la LC esta errónea. Se hace la corrección en las diferentes fuentes de LC. Se reprocesa para actualizar el Json del servicio de DyP3. Ahora vemos que la información mostrada es correcta, ya aparece el estatusPago ED01-Pagada. El funcionamiento de la precarga es el esperado.
+
+RFC: UAL220310Q76
+Ejercicio: 2024
+Periodo: Febrero 
+Concepto: DyP3 – 0164 y 0112
+
+Favor de solicitar el cierre del incidente.",Provisionales DyP3,,CR10
+INCS00003657906,REQS00002189168,"Usuario Nayeli Cazares, solicita apoyo al caso AC202572324916, RFC CIN161128966. Problemática, SE HICIERON PAGOS PROV COMPLEMENTARIOS EL 25 DE ABRIL DEL 2025 PARA PRESENTAR LA DECLARACION ANUAL DEL 2021 Y AUN NO SE REFLEJAN LOS INGRESOS PARA HACER LA DECLARACION ANUAL DEL 2021.
+SE ADJUNTA FOLIOS DE COMPLEMENTARIAS E IMAGEN DE ANUAL.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,21/07/25 13:00,28/07/25 22:57,MONROY SANCHEZ,MARIA,Alta,SAC,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_24 16:00 Se toma incidente para su diagnóstico.
+2025_07_24 16:30 RFC CIN161128966: Se revisa el JSON del contribuyente correspondiente al concepto 0101 para el periodo enero 2021, identificando que el servicio estaba enviando información de una declaración no vigente para dicho periodo.
+Al verificar la fuente de datos, se confirma que existe una declaración vigente con número de operación 626004334 y estatus ED04.
+Se procede a marcar el RFC para reproceso, con el fin de actualizar el JSON.
+2025_07_24 17:30 Finalmente, se valida que la precarga muestre correctamente la declaración vigente para el periodo de enero.
+
+Favor de solicitar validación y cierre del presente incidente.",Atendido ,Serv. Provisionales Legados,No se actualiza el JSON correctamente,"El JSON generado no muestra correctamente las declaraciones a pesar de que fueron presentadas y pagadas. [Conceptos 0161,0111, 0101]",WON,30 min,07/24/2028,"Estimada mesa de servicio.
+RFC CIN161128966: Se revisa el JSON del contribuyente correspondiente al concepto 0101 para el periodo enero 2021, identificando que el servicio estaba enviando información de una declaración no vigente para dicho periodo.
+Al verificar la fuente de datos, se confirma que existe una declaración vigente con número de operación 626004334 y estatus ED04.
+Se procede a marcar el RFC para reproceso, con el fin de actualizar el JSON.
+Finalmente, se valida que la precarga muestre correctamente la declaración vigente para el periodo de enero.
+
+Favor de solicitar validación y cierre del presente incidente.
+
+
+Json",Provisionales Legados,,CR2
+INCS00003657848,REQS00002189571,"La Administración Central de Verificación y Evaluación de Entidades Federativas en Materia de Coordinación Fiscal, nos está reportando que el Lic. Jacinto Ortiz Limón, Jefe de Departamento de Control y Seguimiento de Revisiones, de la Dirección General de Fiscalización del Estado de Veracruz expone la problemática que está presentando el contribuyente Luis Antonio Clemente Vaquier con clave de RFC: CEVL9805214M2, a quién dicha EF está ejerciendo facultades de comprobación al amparo de la orden GIF3000009/24 por el ejercicio 2023, indicando que los pagos provisionales de los meses de enero, marzo, abril, mayo, junio, julio, agosto y diciembre, en la declaración complementaria que debe presentar del ejercicio 2023, se los está considerando con el estatus de Presentada No Pagada, siendo que los pagos sí fueron realizados el 27/06/2025 el del mes de enero y el 04/07/2025 el resto de los meses. Por lo anterior, se solicita el apoyo para que se le reconozcan dichos pagos.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,21/07/25 19:35,23/07/25 9:46,HERNANDEZ RAMIREZ,MARIA GUADALUPE,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_22 12:00 Se toma incidente para su diagnóstico.
+2025_07_21 12:00 Se revisa informacion del contribuyente, donde se indentifica que efectivamente, la LC esta erronea, para los periodos Enero, Marzo, Abril, Mayo, Junio, Julio, Agosto y Diciembre, concepto 0161. Se hace la correcion en las diferentes fuentes de LC. Se reprocesa para actualizar el Json del servicio de DyP3. 
+2025_07_22 12:00 Ahora vemos que la información mostrada es correcta, ya aparece el estatusPago ED01-Pagada. El funcionamiento de la precarga es el esperado. Se cierra incidente",Atendido ,Serv. Provisionales DyP3,Línea de Captura errónea,,CJLM,150 min,07/22/2026,"Estimada mesa de servicio.
+
+Se revisa información del contribuyente, donde se identifica que efectivamente, la LC esta errónea, para los periodos Enero, Marzo, Abril, Mayo, Junio, Julio, Agosto y Diciembre, concepto 0161. Se hace la corrección en las diferentes fuentes de LC. Se reprocesa para actualizar el Json del servicio de DyP3. Ahora vemos que la información mostrada es correcta, ya aparece el estatusPago ED01-Pagada. El funcionamiento de la precarga es el esperado.
+
+RFC: CEVL9805214M2
+Ejercicio: 2023
+Periodo: Enero, Marzo, Abril, Mayo, Junio, Julio, Agosto y Diciembre
+Concepto: Legados – 0161
+
+Favor de solicitar el cierre del incidente.",Provisionales DyP3,,CR10
+INCS00003658881,REQS00002191658,"Usuario Nayeli Cazares, solicita apoyo a los casos AC202572684640, AC202572684037, RFC FVA210823PP3, Problemática. Por este medio solicitamos que la declaracion de retenciones de IVA del mes de diciembre 2024, sea considerada dentro de la declaración anual, ya que al día de hoy aparece como presentada no pagada, misma que se pago el día que se presento. Se anexa declaración del mes de diciembre con datos de pago emitida por el SAT y captura de la declaración anual donde aparece como no pagada.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,25/07/25 10:42,31/07/25 17:57,MONROY SANCHEZ,MARIA,Alta,SAC,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_30 17:10 Se toma incidente para su diagnóstico
+2025_07_30 17:20 Se corroboró el pago exitoso de la declaración presentada por el contribuyente para el periodo de Diciembre ejercicio 2024 con número de operación 630454082 y LC 04254M9W030046588441. Debido a que el JSON de la precarga está mostrando un estatus erróneo se procede a marcar el registro para su reproceso y actualización.
+2025_07_31 16:08 Se revisa que la declaración ya se muestre con estatus “ED01 – Presentada Pagada”.
+",Atendido ,Serv. Provisionales Legados,Asignación incorrecta de estatus de pago,El JSON generado no muestra correctamente las el estatus de pago a pesar de que la declaración reportada ya fue pagada.,FBPN,35 min,07/29/2031,"INCS00003658881-REQS00002191658
+RFC: FVA210823PP3 => Se corroboró el pago exitoso de la declaración presentada por el contribuyente para el periodo de Diciembre ejercicio 2024 con número de operación 630454082 y LC 04254M9W030046588441. Debido a que el JSON de la precarga está mostrando un estatus erróneo se procede a marcar el registro para su reproceso y actualización. Finalmente se revisa que la declaración ya se muestre con estatus “ED01 – Presentada Pagada”. Favor de solicitar validación y cierre del presente incidente.",Provisionales Legados,,No aplica
+INCS00003658983,REQS00002192065,"Usuario Alain Fernando Romero, solicita apoyo al caso AC202572575314, RFC SEP210719PS8, Problemática, ACLARACIÓN PARA DESVIRTUAR EL ERROR QUE SE ARROJA EN LA DECLARACIÓN ANUAL EJERCICIO 2022 Y ASÍ, REGULARIZAR SITUACIÓN FISCAL.",SOPORTE_MICROSOFT_PRECARGA,Baja,Resuelto,25/07/25 14:41,31/07/25 17:57,MONROY SANCHEZ,MARIA,Alta,SAC,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_29 12:00 Se toma incidente para su diagnóstico.
+2025_07_29 12:00 Se revisa la informacion del concepto 0101 ejercicio 2021. Donde vemos que existen dos declaraciones una Normal y otra Complementaria, esta ùltima tipo ""Dejar sin efecto"", quedando las dos declaraciones ""no vigentes"". Sin embargo, al revisar el servicio de Precargas, vemos que la declaracion Normal continua viendose vigente. Se marca para reproceso. Queda mañana miercoles.",Atendido ,Serv. Anuales Morales,No se actualiza el JSON correctamente,,CJLM,30 min,07/28/2029,"Estimada mesa, se revisa la información del concepto 0101 ejercicio 2021. Donde vemos que existen dos declaraciones una Normal y otra Complementaria, esta última tipo ""Dejar sin efecto"", quedando las dos declaraciones ""no vigentes"". Sin embargo, al revisar el servicio de Precargas, vemos que la declaración Normal continúa viéndose vigente. Se marca para reproceso. 
+
+RFC: SEP210719PS8
+Ejercicio: 2021
+Periodo: Anual
+Concepto: AM – 0101
+
+
+Favor de solicitar el cierre del incidente.",Anuales Morales,,CR2
+INCS00003660545,REQS00002194095,OR202572607491 TST140911RT8. Mayo 2025 no precarga pérdidas,SOPORTE_MICROSOFT_PRECARGA,Baja,Reasignado,30/07/25 17:31,,GARCIA SANCHEZ,VERONICA ALIN,Alta,Ordinarios,Remedy,No aplica,PRECARGAS,"2025_08_01 12:00 Se toma incidente para diagnóstico.
+2025_08_04 12:00 Se revisa la información del concepto 0164 periodo Mayo 2025. Donde vemos que el campo correspondiente a “Perdidas Fiscales Anteriores Pendientes de Aplicar” está llegando con valor nulo desde el origen de Precarga en la fuente de Silver. La precarga muestra lo que lee del origen, un valor “null” equivale a mostrar un valor cero (0) en el Json del servicio de la Precarga de DyP3, (TrashIn – TrashOut), la Precarga funciona de la forma esperada. Se requiere la atención del equipo de DyP para que evalué este campo en el XML origen.
+
+Se adjunta Json del origen de Silver para su análisis.
+",Reasignado,Serv. Provisionales DyP3,No reconoce las Pérdidas Fiscales de ejercicios anteriores,,CJLM,180 min,7/31/2025,,Provisionales DyP3,,No aplica
+INCS00003660775,REQS00002194935,Diversos contribuyentes pf refieren que la precarga de la anual de los pagos provisionales no es correcta.,SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,04/08/25 12:27,,CERDA CHAVEZ,ANGEL GIBRAN,Alta,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_08_05 14:50 Se toma incidente para su diagnóstico.
+2025_08_05 15:20 
+RFC: GOSA830727CP8 => Se revisan las declaraciones presentadas por el contribuyente para el periodo de septiembre ejercicio 2024 donde se identifica una Normal con la LC 04254IEQ550046581296 corroborando su pago correspondiente; sin embargo, se identifica la asignación incorrecta del estatus de pago en el JSON de la precarga por lo que se procede a marcar el RFC para su reproceso y actualización.
+RFC: AEVL6711165V9 => Se revisan las declaraciones presentadas por el contribuyente para el periodo de enero ejercicio 2024 donde se corrobora el pago correspondiente de todas sus declaraciones; sin embargo, se identifica la asignación incorrecta del estatus de pago en el JSON de la precarga por lo que se procede a marcar el RFC para su reproceso y actualización.
+RFC: JIHA830810AJ1 => Se revisan las declaraciones presentadas por el contribuyente para el periodo de agosto ejercicio 2022 donde se identifican dos declaraciones, una Normal y una Complementaria. Ambas declaraciones generaron un monto a cargo. La declaración Complementaria generó la LC 04254HXC940046449255 (monto $977) la cual se encuentra pagada, sin embargo, la declaración Normal generó la LC 04224B1T960036210272 (monto $839)  de la cual no se logra rastrear su pago y tampoco se comparte la evidencia del mismo. Por lo anterior, es esperado que la precarga muestre el estatus de “ED02 - Presentada no pagada”. Favor de canalizar el incidente mediante una orientación al contribuyente.
+2025_08_08 10:28 Se revisa que las declaraciones se muestren con el estatus “ED01 – Pagada”.",Atendido ,Provisionales Legados,Asignación incorrecta de estatus de pago,Asignación incorrecta de estatus de pago,FBPN,40 min,04/08/25,,Serv. Provisionales Legados,,CR1
+INCS00003654643,REQS00002183437,"No se muestra en el visor la factura recibida de tipo pago con UUID e230be49-bb13-48ab-bbda-23de073e94cc, misma que se encuentra vigente y con fecha de pago del mes de febrero 2025.
+El visor para el mes de febrero solo muestra una factura vigente, cuando deberían ser dos.",SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,11/07/25 12:12,,BUGARIN PATIÑO,MAURICIO,Medio,Ordinarios,Remedy,Defecto de Desarrollo,PRECARGAS,"2025_07_14 10:00 Se toma incidente para su diagnóstico.
+2025_07_14 17:20 Se revisan las declaraciones presentadas por el contribuyente en el mes de febrero ejercicio 2025 y la precarga retorna 2 uuid que se encuentran vigentes.
+El json que se encuentra en la siguiente ruta https://eu2vscprostaieresultados.blob.core.windows.net/ingresosegresos/JsoIE_F4/receptor/CAVA740412EP3.json no contiene la información de febrero 2024 para el uuid E230BE49-BB13-48AB-BBDA-23DE073E94CC. De acuerdo a la revision, para ese mes se tienen dos facturas vigentes, en las evidencias del usuario se observa la factura faltante por la cantidad de $49,500 monto total.
+Se revisan las facturas emitidas en la tabla de ""staging_ingresos_egresos.consolidado_pagos"" y se observa que se tienen dos facturas vigentes en el mes de febrero 2025. Se identifica que a diferencia de las demás facturas, el campo usoCFDI se encuentra nulo, con fecha de carga 2025-04-10
+Se revisa el json descargado de la ruta mencionada anteriormente, se busca por Ejercicio: 2025, TipoDeComprobante = P, Periodo = 2, el cual muestra en el campo cfdiVigentes = 1 indicando que solo tiene una factura vigente.
+",En atención ,Sumarizado CFDI Ingresos - Egresos,El JSON generado no muestra correctamente todas las facturas vigentes,"En el visor de facturas, no se estan visualizando todas las facturas que se encuentran vigentes para el mes de febrero 2025",WON,120 min,07/11/25,,Visor CFDI Ingresos - Egresos,,No aplica
+INCS00003662840,REQS00002199350,"El contribuyente SEC040405DM3, el 01/07/2025 presentó declaración complementaria del mes de diciembre de 2020, la cual quedó registrada con el número de operación 630251738, con la Línea de Captura 0425 4JI7 9900 4658 3449, la cual pagó el 02/07/2025 mediante la Institución BBVA Bancomer, sin embargo, al tratar de presentar la declaración complementaria del ejercicio 2020, el contribuyente se percata que del importe de los ingresos no está considerando los del mes de diciembre porque su estatus es No Pagada, lo cual es incorrecto.",SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,,11/08/25 12:29,,,,,,Defecto de Desarrollo,PRECARGAS,"2025_08_08 17:50 Se toma incidente para su diagnóstico.
+2025_08_09 12:00 Se revisa la información correspondiente al concepto 0159 ISR PERSONAS MORALES REGIÓN FRONTERIZA (RF) para el Ejercicio 2020 periodo de diciembre. Donde vemos que existen 2 declaraciones vigentes, la declaracion complementaria muestra estaus ED02 y la declaración normal muestra el estatus ED01.
+Dado que nos proporcionan el recibo de pago, vemos que la declaración que debe encontrarse como unica vigente es la complementaria con número de operacion 630251738. Se ejecutó script (WA) para corregir el estatus del periodo reportado y se realizó el reproceso del RFC correspondiente.
+2025_08_11 11:20 Como resultado, queda una única declaración vigente con número de operación 630251738.
+Finalmente, se verificó que la precarga muestra correctamente una sola declaración vigente para el periodo, y que dicha información ya se refleja en el JSON.",Atendido ,Serv. Provisionales Legados,Múltiples Vigentes,"Se identifican múltiples declaraciones con estatus ""Vigente"" para la misma obligación, ejercicio y periodo.",WON,30 min,,,Provisionales Legados,,CR1
+INCS00003664377,REQS00002201677,"No se visualiza el detalle de la INFORMACIÓN DEL PAGO RECIBIDO EN LA INSTITUCIÓN DE CRÉDITO AUTORIZADA, correspondiente a la declaración normal del periodo de marzo 2024, del siguiente contribuyente:
+• IDEAC MAYOREO SA DE CV, con RFC IMA201209646
+
+Cabe mencionar que el pago si se visualiza en la CUWEB, se anexa evidencia.
+Favor de asignar al grupo de soporte ACTT_ASI_3.
+",,,,,,,,,,,,,,Nuevo,,,,FBPN,,,,,,
+INCS00003662917,REQS00002199490,"Se recibió queja PRODECON con expediente 6221889-BCS-QR-84-2025 del contribuyente LOSM800104JN0, los ingresos y las retenciones de ISR manifestadas por la contribuyente en los pagos provisionales, no se precargan de forma correcta en la declaración anual 2024 dentro del Régimen Simplificado de Confianza, se anexa queja y evidencias.",SOPORTE_MICROSOFT_PRECARGA,Baja,En curso,11/08/25 18:42,,martinez zavala,marisol,,,,,,,Nuevo,,,,CJLM,,08/11/25,,,,
