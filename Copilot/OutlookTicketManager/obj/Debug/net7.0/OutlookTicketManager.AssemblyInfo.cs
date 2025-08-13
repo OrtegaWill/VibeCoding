@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("OutlookTicketManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d10a2e389101a7902fe4efade4ecead4b017ab25")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6438ea3953fd7b6c4b5c08caaa2a139999ae934b")]
 [assembly: System.Reflection.AssemblyProductAttribute("OutlookTicketManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("OutlookTicketManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
