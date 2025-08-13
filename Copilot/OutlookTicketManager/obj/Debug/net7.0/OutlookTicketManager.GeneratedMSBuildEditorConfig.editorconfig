@@ -9,81 +9,83 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = OutlookTicketManager
 build_property.RootNamespace = OutlookTicketManager
-build_property.ProjectDir = /Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/
+build_property.ProjectDir = /home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = /Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager
+build_property.MSBuildProjectDirectory = /home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager
 build_property._RazorSourceGeneratorDebug = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/App.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Components/Tickets/CreateTicketModal.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Components/Tickets/CreateTicketModal.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9UaWNrZXRzL0NyZWF0ZVRpY2tldE1vZGFsLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Components/Tickets/DashboardStats.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Components/Tickets/DashboardStats.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9UaWNrZXRzL0Rhc2hib2FyZFN0YXRzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Components/Tickets/TicketDetail.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Components/Tickets/TicketDetail.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9UaWNrZXRzL1RpY2tldERldGFpbC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Components/Tickets/TicketList.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Components/Tickets/TicketList.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50cy9UaWNrZXRzL1RpY2tldExpc3QucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/Counter.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/Counter.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/Dashboard.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/Dashboard.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRGFzaGJvYXJkLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/EmailImport.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/EmailImport.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRW1haWxJbXBvcnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/FetchData.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRmV0Y2hEYXRhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/Index.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/Settings.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/Settings.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvU2V0dGluZ3MucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/Tickets.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/Tickets.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvVGlja2V0cy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Shared/SurveyPrompt.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL1N1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/_Imports.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Shared/MainLayout.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL01haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-i5jtvihwwk
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Shared/NavMenu.razor]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkL05hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-egxpv5hv3y
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/Error.cshtml]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/Pages/_Host.cshtml]
+[/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/Pages/_Host.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXMvX0hvc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

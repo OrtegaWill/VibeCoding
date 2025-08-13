@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {}
+    "/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {}
   },
   "projects": {
-    "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {
+    "/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
+        "projectUniqueName": "/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
         "projectName": "OutlookTicketManager",
-        "projectPath": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
-        "packagesPath": "/Users/won/.nuget/packages/",
-        "outputPath": "/Users/won/Documents/Cognizant/Vibecoding/Copilot/OutlookTicketManager/obj/",
+        "projectPath": "/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/OutlookTicketManager.csproj",
+        "packagesPath": "/home/runner/.nuget/packages/",
+        "outputPath": "/home/runner/work/VibeCoding/VibeCoding/Copilot/OutlookTicketManager/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/won/.nuget/NuGet/NuGet.Config"
+          "/home/runner/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "/usr/local/share/dotnet/sdk/7.0.317/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -81,6 +80,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.linux-x64",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -89,7 +102,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/7.0.317/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.118/RuntimeIdentifierGraph.json"
         }
       }
     }
